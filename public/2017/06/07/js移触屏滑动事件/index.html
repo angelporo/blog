@@ -1,0 +1,750 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="h5," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="主要说一下移动端中算是经常用到的几个事件, 手机端写了好多, 一直都懒得去写滑动的一些功能组件, 今天有时间研究一下touch事件  介绍 touchstart: 手指放到屏幕上时触发 touchmove: 手指在屏幕上滑动式触发 touchend: 手指离开屏幕时触发 touchcancel: 系统取消touch事件的时候粗发   如果有偏差请到 这里查看详细javascritp mdn">
+<meta name="keywords" content="h5">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js移触屏滑动事件">
+<meta property="og:url" content="https://angelporo.github.io/blog/2017/06/07/js移触屏滑动事件/index.html">
+<meta property="og:site_name" content="angely">
+<meta property="og:description" content="主要说一下移动端中算是经常用到的几个事件, 手机端写了好多, 一直都懒得去写滑动的一些功能组件, 今天有时间研究一下touch事件  介绍 touchstart: 手指放到屏幕上时触发 touchmove: 手指在屏幕上滑动式触发 touchend: 手指离开屏幕时触发 touchcancel: 系统取消touch事件的时候粗发   如果有偏差请到 这里查看详细javascritp mdn">
+<meta property="og:updated_time" content="2017-06-10T11:40:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="js移触屏滑动事件">
+<meta name="twitter:description" content="主要说一下移动端中算是经常用到的几个事件, 手机端写了好多, 一直都懒得去写滑动的一些功能组件, 今天有时间研究一下touch事件  介绍 touchstart: 手指放到屏幕上时触发 touchmove: 手指在屏幕上滑动式触发 touchend: 手指离开屏幕时触发 touchcancel: 系统取消touch事件的时候粗发   如果有偏差请到 这里查看详细javascritp mdn">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://angelporo.github.io/blog/2017/06/07/js移触屏滑动事件/"/>
+
+
+
+
+
+  <title>js移触屏滑动事件 | angely</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">angely</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">angely</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-categories " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://angelporo.github.io/blog/blog/2017/06/07/js移触屏滑动事件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="li yuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/angelp_avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="angely">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">js移触屏滑动事件</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-07T09:22:00+08:00">
+                2017-06-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/web前端/" itemprop="url" rel="index">
+                    <span itemprop="name">web前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>主要说一下移动端中算是经常用到的几个事件, 手机端写了好多, 一直都懒得去写滑动的一些功能组件, 今天有时间研究一下touch事件</p>
+</blockquote>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><ul>
+<li>touchstart: 手指放到屏幕上时触发</li>
+<li>touchmove: 手指在屏幕上滑动式触发</li>
+<li>touchend: 手指离开屏幕时触发</li>
+<li>touchcancel: 系统取消touch事件的时候粗发</li>
+</ul>
+<blockquote>
+<p>如果有偏差请到 这里查看详细<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/TouchEvent/touches" target="_blank" rel="external">javascritp mdn</a></p>
+</blockquote>
+<a id="more"></a>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">someElement.addEventListener(<span class="string">'touchstart'</span>, e =&gt; &#123;</div><div class="line">  <span class="comment">// Invoke the appropriate handler depending on thew</span></div><div class="line">  <span class="comment">// number of touch points.</span></div><div class="line">  <span class="keyword">switch</span> (e.touches.length) &#123;</div><div class="line">    <span class="keyword">case</span> <span class="number">1</span>: handle_one_touch(e); <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">case</span> <span class="number">2</span>: handle_two_touches(e); <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">case</span> <span class="number">3</span>: handle_three_touches(e); <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">default</span>: <span class="built_in">console</span>.log(<span class="string">"Not supported"</span>); <span class="keyword">break</span>;</div><div class="line">  &#125;</div><div class="line">&#125;,</div><div class="line"><span class="literal">false</span>);</div></pre></td></tr></table></figure>
+<h3 id="具体说一下触发后生成的event事件-通过回调传递过去"><a href="#具体说一下触发后生成的event事件-通过回调传递过去" class="headerlink" title="具体说一下触发后生成的event事件 通过回调传递过去"></a>具体说一下触发后生成的event事件 通过回调传递过去</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">someElement.addEventListener(<span class="string">'touchstart'</span>, e =&gt; &#123;</div><div class="line">  <span class="comment">// e.touches 当前屏幕上所有手指的列表</span></div><div class="line">  <span class="comment">// e.targetTouches 当前dom元素上手指的列表，尽量使用这个代替touches</span></div><div class="line">  <span class="comment">// e.changedTouches 涉及当前事件的手指的列表，尽量使用这个代替touches</span></div><div class="line">  <span class="comment">// 这些列表里的每次触摸由touch对象组成，touch对象里包含着触摸信息，主要属性如下：</span></div><div class="line">  <span class="comment">// clientX / clientY:      触摸点相对浏览器窗口的位置</span></div><div class="line">  <span class="comment">// pageX / pageY:       触摸点相对于页面的位置</span></div><div class="line">  <span class="comment">// screenX  /  screenY:    触摸点相对于屏幕的位置</span></div><div class="line">  <span class="comment">// identifier:        touch对象的ID</span></div><div class="line">&#125;</div><div class="line"> &#125;, <span class="literal">false</span>);</div></pre></td></tr></table></figure>
+<blockquote>
+<p>具体事件看来下, 接下来就做一个小小的demo来加深下理解</p>
+</blockquote>
+<h3 id="html结构"><a href="#html结构" class="headerlink" title="html结构"></a>html结构</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"common_wrap"</span> <span class="attr">class</span>=<span class="string">"common-wrap"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">h4</span> <span class="attr">class</span>=<span class="string">"common-kit__h4"</span>&gt;</span>在区域内向左右滑动<span class="tag">&lt;/<span class="name">h4</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!-- 这里让li左浮动, 然后ul定位设置为absolute 这样就可以改变ul中的left值来移动ul的位置 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"common-kit__list"</span> <span class="attr">id</span>=<span class="string">"mask"</span> <span class="attr">style</span>=<span class="string">"left:0px"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"javascript:;"</span>&gt;</span>111<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"javascript:;"</span>&gt;</span>222<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"javascript:;"</span>&gt;</span>333<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"javascript:;"</span>&gt;</span>444<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"javascript:;"</span>&gt;</span>555<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"javascript:;"</span>&gt;</span>666<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="具体样式实现代码"><a href="#具体样式实现代码" class="headerlink" title="具体样式实现代码"></a>具体样式实现代码</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.common-wrap</span>&#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">105px</span>;</div><div class="line">    <span class="attribute">border-bottom</span>: <span class="number">8px</span> solid <span class="number">#eee</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.common-kit__h4</span>&#123;</div><div class="line">    <span class="attribute">font-size</span>: <span class="number">14px</span>;</div><div class="line">    <span class="attribute">margin-top</span>: <span class="number">17px</span>;</div><div class="line">    <span class="attribute">margin-left</span>: <span class="number">8px</span>;</div><div class="line">    <span class="attribute">letter-spacing</span>: <span class="number">0.2px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.common-kit</span>&#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">    <span class="attribute">position</span>: relative;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.common-kit__list</span>&#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">558px</span>;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">margin-top</span>: <span class="number">10px</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">80px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.common-kit__list</span> <span class="selector-tag">li</span>&#123;</div><div class="line">    <span class="attribute">position</span>: relative;</div><div class="line">    <span class="attribute">list-style</span>: none;</div><div class="line">    <span class="attribute">width</span>: <span class="number">80px</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">80px</span>;</div><div class="line">    <span class="attribute">background-color</span>: <span class="number">#eee</span>;</div><div class="line">    <span class="attribute">float</span>: left;</div><div class="line">    <span class="attribute">margin-left</span>: <span class="number">13px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.common-kit__list</span> <span class="selector-tag">li</span> <span class="selector-tag">a</span>&#123;</div><div class="line">    <span class="attribute">text-decoration</span>: none;</div><div class="line">    <span class="attribute">font-size</span>: <span class="number">12px</span>;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">top</span>:<span class="number">50%</span>;</div><div class="line">    <span class="attribute">transform</span>:<span class="built_in">translateY</span>(-50%);</div><div class="line">    <span class="attribute">text-align</span>: center;</div><div class="line">    <span class="attribute">padding</span>: <span class="number">0px</span> <span class="number">12px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.common-kit__list</span> <span class="selector-tag">li</span><span class="selector-pseudo">:first-child</span>&#123;</div><div class="line">    <span class="attribute">margin-left</span>: <span class="number">8px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="js代码实现以及注释原理"><a href="#js代码实现以及注释原理" class="headerlink" title="js代码实现以及注释原理"></a>js代码实现以及注释原理</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">slidecommonkit</span>(<span class="params"></span>)</span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">const</span> mask = <span class="built_in">document</span>.getElementById(<span class="string">'mask'</span>);</div><div class="line">    <span class="keyword">const</span> common_kit__list=<span class="built_in">document</span>.querySelector(<span class="string">'.common-kit__list'</span>);</div><div class="line">    <span class="keyword">const</span> startPosition, endPosition, deltaX, deltaY, moveLength;</div><div class="line">    <span class="keyword">let</span> commonkitLeft;</div><div class="line"></div><div class="line">    <span class="comment">/*手指按下瞬间触发touchstart事件*/</span></div><div class="line">    mask.addEventListener(<span class="string">'touchstart'</span>, e =&gt; &#123;</div><div class="line">        commonkitLeft=<span class="built_in">parseInt</span>(common_kit__list.style.left);</div><div class="line">        <span class="keyword">const</span> touch = e.targetTouches[<span class="number">0</span>];  <span class="comment">//targetTouches位于当前DOM元素上的手指动作的列表</span></div><div class="line">        startPosition = &#123;   <span class="comment">//取屏幕上第一个手指相对于页面的坐标</span></div><div class="line">            x: touch.pageX,</div><div class="line">            <span class="attr">y</span>: touch.pageY</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="comment">/*手指移动触发touchmove事件*/</span></div><div class="line">    mask.addEventListener(<span class="string">'touchmove'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> touch = e.targetTouches[<span class="number">0</span>];</div><div class="line">        endPosition = &#123;</div><div class="line">            <span class="attr">x</span>: touch.pageX,</div><div class="line">            <span class="attr">y</span>: touch.pageY</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        deltaX = endPosition.x - startPosition.x;   <span class="comment">//移动到最后的坐标x - 开始时的坐标x</span></div><div class="line">        moveLength = <span class="built_in">Math</span>.abs(deltaX);   <span class="comment">//获得移动的x方向的距离</span></div><div class="line"></div><div class="line">        <span class="comment">/*向左移动的函数*/</span></div><div class="line">        <span class="keyword">var</span> swipeLeft=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">if</span>( deltaX&lt;(<span class="number">-30</span>) )&#123;   <span class="comment">//这里以30作为判断是否触发、如果deltaX小于-30，说明向左移动</span></div><div class="line"></div><div class="line">                <span class="keyword">if</span>(<span class="built_in">Math</span>.abs(commonkitLeft)+moveLength &gt; ( common_kit__list.offsetWidth-<span class="built_in">window</span>.innerWidth ) )&#123;   <span class="comment">//判断临界值</span></div><div class="line">                    common_kit__list.style.left=<span class="built_in">window</span>.innerWidth-common_kit__list.offsetWidth+<span class="string">'px'</span>;</div><div class="line">                &#125;<span class="keyword">else</span>&#123;</div><div class="line">                    common_kit__list.style.left=commonkitLeft-moveLength+<span class="string">'px'</span>;  <span class="comment">//上一次的left值-移动的距离（由于距离是正数，而向左移动left值是负数，所以用-）</span></div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        swipeLeft();   <span class="comment">//执行该函数</span></div><div class="line"></div><div class="line">        <span class="comment">/*向右移动的函数*/</span></div><div class="line">        <span class="keyword">var</span> swipeRight=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">if</span>( deltaX&gt;<span class="number">30</span> )&#123;</div><div class="line">                <span class="comment">/*主要是逻辑*/</span></div><div class="line">                <span class="keyword">if</span>( commonkitLeft + moveLength &gt; <span class="number">0</span>  )&#123;</div><div class="line">                    common_kit__list.style.left=<span class="number">0</span>+<span class="string">'px'</span>;</div><div class="line">                &#125;<span class="keyword">else</span>&#123;</div><div class="line">                    common_kit__list.style.left=commonkitLeft+moveLength+<span class="string">'px'</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        swipeRight();</div><div class="line"></div><div class="line">    &#125;);</div><div class="line"></div><div class="line">&#125;;</div><div class="line"></div><div class="line">slidecommonkit();</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/h5/" rel="tag"># h5</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2017/06/06/react-redux小型项目感受/" rel="next" title="react-redux小型项目感受">
+                <i class="fa fa-chevron-left"></i> react-redux小型项目感受
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2017/06/09/react-native构建踩坑/" rel="prev" title="react-native构建踩坑">
+                react-native构建踩坑 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/blog/images/angelp_avatar.jpeg"
+               alt="li yuan" />
+          <p class="site-author-name" itemprop="name">li yuan</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/blog/archives/">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/blog/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/blog/tags/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#具体说一下触发后生成的event事件-通过回调传递过去"><span class="nav-number">1.1.</span> <span class="nav-text">具体说一下触发后生成的event事件 通过回调传递过去</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#html结构"><span class="nav-number">1.2.</span> <span class="nav-text">html结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体样式实现代码"><span class="nav-number">1.3.</span> <span class="nav-text">具体样式实现代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#js代码实现以及注释原理"><span class="nav-number">1.4.</span> <span class="nav-text">js代码实现以及注释原理</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">li yuan</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
