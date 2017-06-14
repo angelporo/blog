@@ -51,8 +51,10 @@ Print: Entry, ":CFBundleIdentifier", Does Not Exist
 > 把node-modules rm之后 把package.json改成下面版本就可以了
 
 ```json
-"react": "16.0.0-alpha.6",
-"react-native": "0.44.3"
+ "dependencies": {
+     "react": "16.0.0-alpha.6",
+     "react-native": "0.44.3"
+ }
 ```
 
 之后再`yarn install`
