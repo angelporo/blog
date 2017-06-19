@@ -98,7 +98,7 @@
 <meta property="og:url" content="http://angely.me/2017/06/10/react使用感受/index.html">
 <meta property="og:site_name" content="angely">
 <meta property="og:image" content="http://angely.me/2017/06/10/react使用感受/react.png">
-<meta property="og:updated_time" content="2017-06-10T11:40:38.000Z">
+<meta property="og:updated_time" content="2017-06-14T01:30:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="react使用感受">
 <meta name="twitter:image" content="http://angely.me/2017/06/10/react使用感受/react.png">
@@ -110,7 +110,7 @@
   var CONFIG = {
     root: '/',
     scheme: 'Pisces',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    sidebar: {"position":"right","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -161,7 +161,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-right page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -367,8 +367,7 @@
 <p>react刚开始写的时候会觉得component中的state不能在其他component中使用, 如果使用同一个state还需要同能回调函数传递它们两个组件的功能父组件, 因为react数据流设计初衷(单项数据流)只能<br>父元素向子元素 所以就出现了这种回调地域的写法,  自从使用redux才解决了这个回调地域的困境</p>
 <h2 id="redux"><a href="#redux" class="headerlink" title="redux"></a>redux</h2><p>附上<a href="http://cn.redux.js.org/index.html" target="_blank" rel="external">中文文档</a></p>
 <blockquote>
-<p>Redux 是 JavaScript 状态容器，提供可预测化的状态管理。</p>
-<p>之前刚开始看redux的时候, 我脑子里面想的就是这东西怎么这样子,  第一次看的时候感觉只明白了counter demo<br>好吧, 最终 ! 我看了不下5遍才看的明白, 源码相当精剪, 其中有中间件这个概念, 看过node express的应该对中间件比较了解</p>
+<p>Redux 是 JavaScript 状态容器，提供可预测化的状态管理。<br>之前刚开始看redux的时候, 我脑子里面想的就是这东西怎么这样子,  第一次看的时候感觉只明白了counter demo<br>好吧, 最终 ! 我看了不下5遍才看的明白, 源码相当精剪, 其中有中间件这个概念, 看过node express的应该对中间件比较了解</p>
 </blockquote>
 <h3 id="附上官网counter案例"><a href="#附上官网counter案例" class="headerlink" title="附上官网counter案例"></a>附上官网counter案例</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; createStore &#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 这是一个 reducer，形式为 (state, action) =&gt; state 的纯函数。</div><div class="line"> * 描述了 action 如何把 state 转变成下一个 state。</div><div class="line"> *</div><div class="line"> * state 的形式取决于你，可以是基本类型、数组、对象、</div><div class="line"> * 甚至是 Immutable.js 生成的数据结构。惟一的要点是</div><div class="line"> * 当 state 变化时需要返回全新的对象，而不是修改传入的参数。</div><div class="line"> *</div><div class="line"> * 下面例子使用 `switch` 语句和字符串来做判断，但你可以写帮助类(helper)</div><div class="line"> * 根据不同的约定（如方法映射）来判断，只要适用你的项目即可。</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">counter</span>(<span class="params">state = <span class="number">0</span>, action</span>) </span>&#123;</div><div class="line">  <span class="keyword">switch</span> (action.type) &#123;</div><div class="line">  <span class="keyword">case</span> <span class="string">'INCREMENT'</span>:</div><div class="line">    <span class="keyword">return</span> state + <span class="number">1</span>;</div><div class="line">  <span class="keyword">case</span> <span class="string">'DECREMENT'</span>:</div><div class="line">    <span class="keyword">return</span> state - <span class="number">1</span>;</div><div class="line">  <span class="keyword">default</span>:</div><div class="line">    <span class="keyword">return</span> state;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 创建 Redux store 来存放应用的状态。</span></div><div class="line"><span class="comment">// API 是 &#123; subscribe, dispatch, getState &#125;。</span></div><div class="line"><span class="keyword">let</span> store = createStore(counter);</div><div class="line"></div><div class="line"><span class="comment">// 可以手动订阅更新，也可以事件绑定到视图层。</span></div><div class="line">store.subscribe(<span class="function"><span class="params">()</span> =&gt;</span></div><div class="line">  <span class="built_in">console</span>.log(store.getState())</div><div class="line">);</div><div class="line"></div><div class="line"><span class="comment">// 改变内部 state 惟一方法是 dispatch 一个 action。</span></div><div class="line"><span class="comment">// action 可以被序列化，用日记记录和储存下来，后期还可以以回放的方式执行</span></div><div class="line">store.dispatch(&#123; <span class="attr">type</span>: <span class="string">'INCREMENT'</span> &#125;);</div><div class="line"><span class="comment">// 1</span></div><div class="line">store.dispatch(&#123; <span class="attr">type</span>: <span class="string">'INCREMENT'</span> &#125;);</div><div class="line"><span class="comment">// 2</span></div><div class="line">store.dispatch(&#123; <span class="attr">type</span>: <span class="string">'DECREMENT'</span> &#125;);</div><div class="line"><span class="comment">// 1</span></div></pre></td></tr></table></figure>
 <blockquote>
@@ -482,7 +481,7 @@
                alt="li yuan" />
           <p class="site-author-name" itemprop="name">li yuan</p>
            
-              <p class="site-description motion-element" itemprop="description">Code | Emacs | React | React-native | Jquery</p>
+              <p class="site-description motion-element" itemprop="description">Code | Emacs | React | React-native | Mac</p>
           
         </div>
         <nav class="site-state motion-element">
@@ -490,7 +489,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -501,7 +500,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -512,7 +511,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -577,17 +576,6 @@
   <span class="author" itemprop="copyrightHolder">li yuan</span>
 </div>
 
-
-<div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
-</div>
-
-<div class="theme-info">
-  Theme -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Pisces
-  </a>
-</div>
 
 
         
