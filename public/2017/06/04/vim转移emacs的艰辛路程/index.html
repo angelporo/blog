@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="vim emacs," />
+  <meta name="keywords" content="emacs,vim," />
 
 
 
@@ -93,17 +93,19 @@
 
 
 
-<meta name="description" content="Code | Emacs | React | React-native | Mac">
-<meta name="keywords" content="vim emacs">
+<meta name="description" content="工欲善其事, 必先利其器 大道理不用多讲">
+<meta name="keywords" content="emacs,vim">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vim转移emacs的艰辛路程">
 <meta property="og:url" content="http://angely.me/2017/06/04/vim转移emacs的艰辛路程/index.html">
 <meta property="og:site_name" content="angely">
-<meta property="og:description" content="Code | Emacs | React | React-native | Mac">
-<meta property="og:updated_time" content="2017-06-10T11:40:38.000Z">
+<meta property="og:description" content="工欲善其事, 必先利其器 大道理不用多讲">
+<meta property="og:image" content="http://angely.me/2017/06/04/vim转移emacs的艰辛路程/vim_key_help.png">
+<meta property="og:updated_time" content="2017-07-07T09:20:11.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vim转移emacs的艰辛路程">
-<meta name="twitter:description" content="Code | Emacs | React | React-native | Mac">
+<meta name="twitter:description" content="工欲善其事, 必先利其器 大道理不用多讲">
+<meta name="twitter:image" content="http://angely.me/2017/06/04/vim转移emacs的艰辛路程/vim_key_help.png">
 
 
 
@@ -353,7 +355,75 @@
       
 
       
-        
+        <h1 id="工欲善其事-必先利其器"><a href="#工欲善其事-必先利其器" class="headerlink" title="工欲善其事, 必先利其器"></a>工欲善其事, 必先利其器</h1><blockquote>
+<p>大道理不用多讲<br><a id="more"></a></p>
+</blockquote>
+<h2 id="vim和emacs相比ide优点缺点-想对而论"><a href="#vim和emacs相比ide优点缺点-想对而论" class="headerlink" title="vim和emacs相比ide优点缺点(想对而论)"></a>vim和emacs相比ide优点缺点(想对而论)</h2><blockquote>
+<p>使用之前建议把<code>Caps Lock</code>和<code>control</code>替换</p>
+</blockquote>
+<ul>
+<li>100%linux装机率,没有GUI的服务器编辑器首选</li>
+<li>学习曲线高</li>
+<li>速度快</li>
+<li>效率高</li>
+<li>vimscript太蹩脚,</li>
+<li>使用python写插件,</li>
+<li>可以帮助乌干达贫困儿童</li>
+<li>长时间编写, 来回模式切换(个人不喜欢)</li>
+</ul>
+<p>而emacs是用LISP和c混合编程的，c编写内核(30%)，LISP接口(70%)</p>
+<p>因为vim底层使用c写的, vimscript占到了30%, 所以发挥的作用也只有30%</p>
+<h2 id="vim简单介绍"><a href="#vim简单介绍" class="headerlink" title="vim简单介绍"></a>vim简单介绍</h2><blockquote>
+<p>Vim是一个类似于Vi的文本编辑器，不过在Vi的基础上增加了很多新的特性，Vim普遍被推崇为类Vi编辑器中最好的一个，事实上真正的劲敌来自Emacs的不同变体。1999年Emacs被选为Linuxworld文本编辑分类的优胜者，Vim屈居第二。但在2000年2月Vim赢得了Slashdot Beanie的最佳开放源代码文本编辑器大奖，又将Emacs推至二线， 总的来看， Vim和Emacs同样都是非常优秀的文本编辑器。Vim(和Vi)一个最大的优势在于它最常用的命令都是简单的字符，这比起使用复杂的控制组合键要快得多，而且也解放了手指的大量工作，学习使用这些命令的时间很快。</p>
+</blockquote>
+<h2 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h2><p><a href="https://github.com/SpaceVim/SpaceVim" target="_blank" rel="external">推荐配置</a></p>
+<p>vim有3中模式,</p>
+<ul>
+<li><code>normal</code>所有快捷键发出指令需要在normal模式下, 除非自己添加<code>insert</code>模式配置</li>
+<li><code>inster</code>插入模式, 编写代码</li>
+<li><code>visual</code> 模式, 文本的选择</li>
+</ul>
+<p><a href="http://www.cnblogs.com/Zjmainstay/articles/vim_quickkey.html" target="_blank" rel="external">懒人,别人写的快捷键博客</a>;<br><img src="/2017/06/04/vim转移emacs的艰辛路程/vim_key_help.png" alt="vim键位查询" title="vim键位查询"></p>
+<h3 id="vim使用python来写你的vim插件"><a href="#vim使用python来写你的vim插件" class="headerlink" title="vim使用python来写你的vim插件"></a>vim使用<code>python</code>来写你的vim插件</h3><blockquote>
+<p>注意!!! python电脑版本一定要和vim支持的版本相同<code>:h python</code> 查看vim支持版本 <code>:!command</code> 用来执行base命令</p>
+</blockquote>
+<p>vim执行python命令直接<code>:python print &quot;这里是输入内容&quot;</code></p>
+<p>如果在<code>vimrc</code>里面使用python来扩展功能.下面是格式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">py[thon] &lt;&lt; &#123;endmarker&#125;</div><div class="line">&#123;script&#125;</div><div class="line">&#123;endmarker&#125;</div></pre></td></tr></table></figure>
+<p>demo:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function! Foo()</div><div class="line">python &lt;&lt; EOF</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo_demo</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">print</span> <span class="string">'Foo_demo init'</span></div><div class="line">Foo_demo()</div><div class="line">EOF</div><div class="line">endfunction</div></pre></td></tr></table></figure>
+<p>想要在vim内部使用上面的函数, 需要在在vim内把需要执行的文件导入, 然后才能使用<code>:source path_to_script/script_demo.vim</code> 然后<code>:call Foo()</code>来执行</p>
+<p><a href="https://segmentfault.com/a/1190000000756107" target="_blank" rel="external">python扩展vim插件原文</a></p>
+<h2 id="emacs简单介绍"><a href="#emacs简单介绍" class="headerlink" title="emacs简单介绍"></a>emacs简单介绍</h2><blockquote>
+<p>Emacs，著名的集成开发环境和文本编辑器。Emacs被公认为是最受专业程序员喜爱的代码编辑器之一，另外一个vim。<br>EMACS，即Editor MACroS（编辑器宏）的缩写，最初由Richard Stallman(理查德·马修·斯托曼)于1975年在MIT协同Guy Steele共同完成。这一创意的灵感来源于TECMAC和TMACS，它们是由Guy Steele、Dave Moon、Richard Greenblatt、Charles Frankston等人编写的宏文本编辑器。<br>自诞生以来，Emacs演化出了众多分支，其中使用最广泛的两种是：1984年由Richard Stallman发起并由他维护至今的GNU Emacs，以及1991年发起的XEmacs。XEmacs是GNU Emacs的分支，至今仍保持着相当的兼容性。</p>
+</blockquote>
+<p>Emac使用Emacs Lisp，这种有着极强扩展性的编程语言，从而实现了包括编程、编译乃至网络浏览等等功能的扩展</p>
+<h2 id="emacs-使用"><a href="#emacs-使用" class="headerlink" title="emacs 使用"></a>emacs 使用</h2><h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><ul>
+<li>效率高</li>
+<li>社区牛人多</li>
+<li>速度快</li>
+<li>学习曲线高</li>
+<li>lisp强大的语言支持</li>
+<li>不能资助乌干达贫困儿童</li>
+<li>相比vim不需要切换模式</li>
+<li>每个buffer可以选用单个mode, 互相不冲突</li>
+</ul>
+<p><a href="https://github.com/syl20bnr/spacemacs" target="_blank" rel="external">推荐使用配置(容易上手些)</a></p>
+<p><a href="https://github.com/angelporo/emacs.d" target="_blank" rel="external">个人使用配置</a></p>
+<p>emacs使用介绍就比vim简单多了,<br>如果你折腾过vim, 使用meacs来说前期会很好受, 但是, emacs的学习曲线越来越难,</p>
+<p>emacs只有一种inster模式,相比vim来说, 所以, emacs所有的快捷键只能在插入下来完成, 那么, 快捷键数量就多了要比vim多一点,</p>
+<p>具体使用查看手册<code>C-h k f b</code></p>
+<p><a href="http://blog.csdn.net/CherylNatsu/article/details/6536959" target="_blank" rel="external">常用快捷键,</a></p>
+<p>内置帮助手册</p>
+<p><code>Ctrl-h i m emacs</code>就可以调出详细的Emacs使用手册;<br><code>Ctrl-h i m emacs lisp intro</code> 可以调出Emacs Lisp入门教程；<br><code>Ctrl-h i m elisp</code> 可以调出完整的elisp编程手册。</p>
+<h2 id="vim和emacs使用上感受以及不同"><a href="#vim和emacs使用上感受以及不同" class="headerlink" title="vim和emacs使用上感受以及不同"></a>vim和emacs使用上感受以及不同</h2><p>在使用vim和emacs之前一直用的<code>sublime text</code> 这里说下感受,<br>相率确实高了不少, 因为sublime底层使用python写的,当时对python也不是很了解,更没有时间来学习另一种语言 而且对自己<code>sublime</code>配置不满意, 自己设置了一些快捷键还是没有达到预期的效果, 之后一气之下就卸载了.</p>
+<p>最终逼着自己使用vim,最终自己写过一套配置, 可是在看了<code>github</code>大神开源的配置后, 想也没想<code>fork</code>过来做二次修改, 果断把自己配置删除掉, (看了大神的配置自己的就是一坨<code>油煎粑粑</code>)</p>
+<p>前车之鉴: 最好使用大神开源配置, 少走弯路</p>
+<blockquote>
+<p>vim更适合修改网管, emacs才是更适合长时间的编码</p>
+</blockquote>
+<p>所有操作使用快捷键, 可以更好的使自己专注一件事情,而不会被一些繁琐的操作分心</p>
+
       
     </div>
 
@@ -382,7 +452,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/vim-emacs/" rel="tag"># vim emacs</a>
+            <a href="/tags/emacs/" rel="tag"># emacs</a>
+          
+            <a href="/tags/vim/" rel="tag"># vim</a>
           
         </div>
       
@@ -450,8 +522,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/angelp_avatar.jpeg"
@@ -466,7 +547,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -477,7 +558,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -488,7 +569,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -513,6 +594,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#工欲善其事-必先利其器"><span class="nav-number">1.</span> <span class="nav-text">工欲善其事, 必先利其器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#vim和emacs相比ide优点缺点-想对而论"><span class="nav-number">1.1.</span> <span class="nav-text">vim和emacs相比ide优点缺点(想对而论)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vim简单介绍"><span class="nav-number">1.2.</span> <span class="nav-text">vim简单介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单使用"><span class="nav-number">1.3.</span> <span class="nav-text">简单使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#vim使用python来写你的vim插件"><span class="nav-number">1.3.1.</span> <span class="nav-text">vim使用python来写你的vim插件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#emacs简单介绍"><span class="nav-number">1.4.</span> <span class="nav-text">emacs简单介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#emacs-使用"><span class="nav-number">1.5.</span> <span class="nav-text">emacs 使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优缺点"><span class="nav-number">1.5.1.</span> <span class="nav-text">优缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vim和emacs使用上感受以及不同"><span class="nav-number">1.6.</span> <span class="nav-text">vim和emacs使用上感受以及不同</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
