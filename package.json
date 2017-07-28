@@ -17,6 +17,7 @@
     "hexo-renderer-ejs": "^0.2.0",
     "hexo-renderer-marked": "^0.2.11",
     "hexo-renderer-stylus": "^0.3.3",
+    "hexo-search": "^1.0.4",
     "hexo-server": "^0.2.1"
   }
 }

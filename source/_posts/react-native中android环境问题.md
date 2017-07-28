@@ -10,8 +10,11 @@ comments: false
 
 ### react-native 中android环境总是报错
 
-> 记得之前使用linux的时候搭建android环境就不太好弄, PATH里面总是会有版本差别问题, 这次使用mac也没有避免, 只是这次问题貌似比上次复制
-> 具体问题之后解释
+记得之前使用linux的时候搭建android环境就不太好弄, PATH里面总是会有版本差别问题, 这次使用mac也没有避免, 只是这次问题貌似比上次复制
+
+<!-- more -->
+
+具体问题之后解释
 
 ```base
 * What went wrong:
@@ -29,8 +32,6 @@ Make sure you have an Android emulator running or a device connected and have
 set up your Android development environment:
 https://facebook.github.io/react-native/docs/android-setup.html
 ```
-
-<!-- more -->
 
 ### 解决办法
 

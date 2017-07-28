@@ -11,15 +11,16 @@ comments: false
 
 ## 如何优雅的设计redux的store中的state树
 
->使用redux几个月的时间, 估计最大的问题就是怎么设计store才是合理的?
->是这个问题估计让我思考了好就才想到问题的关键处.
-> state树按页面规划 还是按照数据库中的表划分
+使用redux几个月的时间, 估计最大的问题就是怎么设计store才是合理的?
+是这个问题估计让我思考了好就才想到问题的关键处.
+state树按页面规划 还是按照数据库中的表划分
 
 <!-- more -->
 
 ### 按照页面划分
 
-> 是吧每个页面当成一个业务模块, 实际上这也是非常流行的一种做法, 很多公司就是这样子做的, 可以像下面这样初始化你的store, 适合多页面开发使用.
+是把每个页面当成一个业务模块, 实际上这也是非常流行的一种做法, 很多公司就是这样子做的, 可以像下面这样初始化你的store, 适合多页面开发使用.
+
 
 ```javascript
 module.exports = function() {
@@ -40,13 +41,13 @@ module.exports = function() {
 ```
 - 优点
 
-	> 模块之间互相独立,  不会互相影响, 每个页面维护自己的reducer, 由于模块中需要展示的东西不多所以数据量不是很大,使用起来很方便, 不太需要其他数据的缓存数据, 比较符合redux的设计(并不是用来做一个前端数据库)
+模块之间互相独立,  不会互相影响, 每个页面维护自己的reducer, 由于模块中需要展示的东西不多所以数据量不是很大,使用起来很方便, 不太需要其他数据的缓存数据, 比较符合redux的设计(并不是用来做一个前端数据库)
 
 - 缺点
 
 		但这种方法有个致命的缺点，就是store中数据的同步问题和冗余问题。
-> 假如一个列表页面的数据依赖于另一个编辑页面的操作，在编辑页面，改变了数据.
->这时候数据库里面的数据已经被改变了，但这时候列表页面和编辑页面的state是独立的，列表页面state节点下的数据并没有改变，退回到列表展示页，数据并不会发生变化，这就有问题了，而且同一份数据出现在多个节点下，也会有数据冗余的问题。
+假如一个列表页面的数据依赖于另一个编辑页面的操作，在编辑页面，改变了数据.
+这时候数据库里面的数据已经被改变了，但这时候列表页面和编辑页面的state是独立的，列表页面state节点下的数据并没有改变，退回到列表展示页，数据并不会发生变化，这就有问题了，而且同一份数据出现在多个节点下，也会有数据冗余的问题。
 
 	解决方法:
 
@@ -98,8 +99,8 @@ redux作者的意思大概就是，对于store中的state树，躺着用，站�
 
 参考:
 
-[http://www.jianshu.com/p/f3911358ebcb](http://www.jianshu.com/p/f3911358ebcb)
+> [http://www.jianshu.com/p/f3911358ebcb](http://www.jianshu.com/p/f3911358ebcb)
 
-[https://www.zhihu.com/question/47995437?sort=created](https://www.zhihu.com/question/47995437?sort=created)
+> [https://www.zhihu.com/question/47995437?sort=created](https://www.zhihu.com/question/47995437?sort=created)
 
-[https://www.zhihu.com/question/50888321](https://www.zhihu.com/question/50888321)
+> [https://www.zhihu.com/question/50888321](https://www.zhihu.com/question/50888321)

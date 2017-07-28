@@ -9,7 +9,7 @@ tags:
 
 ### [学习资料地址](https://juejin.im/post/5948985ea0bb9f006bed7472)
 
-> Immutable Data 就是一旦创建，就不能再被更改的数据,对 Immutable 对象的任何修改或添加删除操作都会返回一个新的 Immutable 对象,
+    Immutable Data 就是一旦创建，就不能再被更改的数据,对 Immutable 对象的任何修改或添加删除操作都会返回一个新的 Immutable 对象,
 
 <!-- more -->
 
@@ -38,6 +38,7 @@ console.log(foo === bar);  //  打印 false
 上面的例子中已经看出来了, , , 着不是react设计初衷,
 
 ## Immutable 优点
+
 1. Immutable 降低了 Mutable 带来的复杂度
 
 	> 可变（Mutable）数据耦合了 Time 和 Value 的概念，造成了数据很难被回溯
@@ -62,7 +63,7 @@ a.get('filter') === b.get('filter'); // true
 
 3. Undo/Redo，Copy/Paste，甚至时间旅行这些功能做起来小菜一碟
 
-    > 因为每次数据都是不一样的，只要把这些数据放到一个数组里储存起来，想回退到哪里就拿出对应数据即可，很容易开发出撤销重做这种功能。后面我会提供 Flux 做 Undo 的示例。
+    因为每次数据都是不一样的，只要把这些数据放到一个数组里储存起来，想回退到哪里就拿出对应数据即可，很容易开发出撤销重做这种功能。后面我会提供 Flux 做 Undo 的示例。
 
 4. 并发安全传统的并发非常难做，因为要处理各种数据不一致问题，因此『聪明人』发明了各种锁来解决。但使用了 Immutable 之后，数据天生是不可变的，并发锁就不需要了。
 
@@ -112,6 +113,7 @@ var data5 = immutableData.update('a',function(x){return x+4})   //data5中的 a 
 var data6 = immutableData.updateIn(['c', 'd'],function(x){return x+4})   //data6中的 d = 7
 var data7 = immutableData.delete('a')   //data7中的 a 不存在
 var data8 = immutableData.deleteIn(['c', 'd'])   //data8中的 d 不存在
+
 ```
 ### 我认为最大的缺点就是容易和原生对象混淆
 
@@ -239,6 +241,7 @@ getInitialState() {
     // 这时的 times 并不会改变
     console.log(this.state.data.get('times'));
   }
+
 ```
 上面的 `handleAdd` 可以简写成：
 
@@ -251,9 +254,11 @@ handleAdd() {
 ```
 
 ### 与`Redux`配合使用遇到的坑
-> 先说下`redux`中的单向数据流（View -> Action -> Middleware -> Reducer）, 项目中使用的redux,
->由于redux中内置的`combineReducers`和reducer中的`initialState`都会返回一个原生的Object对象, 所以配合`Imuutable`之后就会和原生Object搭配使用,  开发起来很不爽.
->幸运的是,  redux中并不排斥使用Immutable, 可以自己重写`combineReducers`或使用[ redux-immutablejs](https://github.com/indexiatech/redux-immutablejs)来提供支持
+先说下`redux`中的单向数据流（View -> Action -> Middleware -> Reducer）, 项目中使用的redux,
+
+由于redux中内置的`combineReducers`和reducer中的`initialState`都会返回一个原生的Object对象, 所以配合`Imuutable`之后就会和原生Object搭配使用,  开发起来很不爽.
+
+幸运的是,  redux中并不排斥使用Immutable, 可以自己重写`combineReducers`或使用[ redux-immutablejs](https://github.com/indexiatech/redux-immutablejs)来提供支持
 
 上面我们提到 Cursor 可以方便检索和 update 层级比较深的数据，但因为 Redux 中已经有了 select 来做检索，Action 来更新数据，因此 Cursor 在这里就没有用武之地了。
 

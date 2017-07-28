@@ -3,11 +3,12 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: angely
-subtitle: angely
+title: 李渊
+subtitle: 做自己喜欢的事
 description: Code | Emacs | React | React-native | Mac
 author: li yuan
-language: en
+language:
+  - zh-Hans
 timezone:
 
 # URL
@@ -63,7 +64,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: next
+theme: fexo
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html

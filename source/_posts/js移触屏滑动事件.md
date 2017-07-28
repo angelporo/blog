@@ -7,7 +7,7 @@ tags:
 type: "categories"
 ---
 
-> 主要说一下移动端中算是经常用到的几个事件, 手机端写了好多, 一直都懒得去写滑动的一些功能组件, 今天有时间研究一下touch事件
+主要说一下移动端中算是经常用到的几个事件, 手机端写了好多, 一直都懒得去写滑动的一些功能组件, 今天有时间研究一下touch事件
 
 ## 介绍
 
@@ -16,7 +16,7 @@ type: "categories"
 - touchend: 手指离开屏幕时触发
 - touchcancel: 系统取消touch事件的时候粗发
 
-> 如果有偏差请到 这里查看详细[javascritp mdn](https://developer.mozilla.org/zh-CN/docs/Web/API/TouchEvent/touches)
+如果有偏差请到 这里查看详细[javascritp mdn](https://developer.mozilla.org/zh-CN/docs/Web/API/TouchEvent/touches)
 
 <!-- more -->
 
@@ -50,7 +50,7 @@ someElement.addEventListener('touchstart', e => {
  }, false);
 ```
 
-> 具体事件看来下, 接下来就做一个小小的demo来加深下理解
+具体事件看来下, 接下来就做一个小小的demo来加深下理解
 
 ### html结构
 
