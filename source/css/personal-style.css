@@ -233,6 +233,10 @@ _page-header.scss:56
     color: #bb2222;
 }
 .article-content a:hover {
+    text-decoration: underline;
+}
+
+.article-content a:hover {
     color: #bb2222;
 }
 .box-blog-info{

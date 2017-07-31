@@ -16,6 +16,7 @@ A: 好的，记得叫我啊~ 你（C）也等着吧，完了叫你~
 C: 嗯！
 ...
 ```
+<!-- more -->
 
 由于 `javascript` 的执行环境是单线程,  所以只能一次执行一个task, 所以后面的任务只能干等着.
 好处是实现起来想对比较简单, 执行环境想对单纯; 坏处就是如果任务繁重, 那么后面会等候很长时间, 整个程序执行时间就会想对长 这样就会导致浏览器处于假死状态, 为了解决这个问题,  `javascirpt`执行模式分为两种: 同步 or 异步
@@ -88,13 +89,126 @@ let f1 = () => {
 　　}
 ```
 
-### 4. Promise 对象
+## 4. Promise
+`Promise`在js里面很重要,在promise之前需要看看异步的操作流程控制,
+也就是异步操作多了,  我们应该怎么去处理他的流程;
+
+## 异步操作的流程控制
+如果很多个异步操作的时候, 就会存在一个流程控制的问题, 先执行那个, 后执行那个, 这个是需要我们在写的时候就必须规定好的, 也就是异步操作的同步化
+
+```javascript
+function async(arg, callback) {
+    console.log(`参数为${arg}, 2秒后反悔结果`);
+    setTimeout(() => { callback(arg * 2); }, 2000);
+}
+```
+
+`async`函数是个异步函数, 每次2秒后才能执行完毕.
+
+```javascript
+function final (value) {
+    console.log(`完成: ${value}`);
+}
+// async函数全部执行完毕才能执行final
+```
+如果有好多个异步函数, 需要全部完成后, 才能执行之后的task.现在 就比如前面需要执行6次async才能执行final函数
+```javascript
+async(1, function(value){
+  async(value, function(value){
+    async(value, function(value){
+      async(value, function(value){
+          async(value, function(value){
+          // 全部执行完了.
+          async(value, final);
+        });
+      });
+    });
+  });
+});
+```
+全部在回调中执行....是不是狠难看明白, 之后会很难维护
+
+### 1. 异步中的串行执行
+我们可以编写一个流程控制函数，让它来控制异步任务，一个任务完成以后，再执行另一个。这就叫串行执行。
+```
+let items = [ 1, 2, 3, 4, 5, 6 ];
+let results = [];
+function series(item) {
+  if(item) {
+    async( item, function(result) {
+      results.push(result);
+      // 返回调用自身
+      return series(items.shift());
+    });
+  } else {
+    return final(results);
+  }
+}
+// Array.prototype.shift() 方法从数组中删除第一个元素，并返回该元素的值。此方法更改数组的长度。
+series(items.shift());
+```
+上面代码中，函数series就是串行函数，它会依次执行异步任务，所有任务都完成后，才会执行final函数。items数组保存每一个异步任务的参数，results数组保存每一个异步任务的运行结果。
+
+### 2. 并行执行
+流程控制函数也可以是并行执行，即所有异步任务同时执行，等到全部完成以后，才执行final函数。
+```javascript
+let items = [ 1, 2, 3, 4, 5, 6 ];
+let results = [];
+items.forEach(function(item) {
+  async(item, function(result){
+    results.push(result);
+    if(results.length == items.length) {
+      // 全部执行完毕
+      final(results);
+    }
+  })
+});
+```
+上面代码中，forEach方法会同时发起6个异步任务，等到它们全部完成以后，才会执行final函数。
+
+并行执行的好处是效率较高，比起串行执行一次只能执行一个任务，较为节约时间。但是问题在于如果并行的任务较多，很容易耗尽系统资源，拖慢运行速度。因此有了第三种流程控制方式。
+
+### 3. 并行余串行的结合
+所谓并行与串行的结合，就是设置一个门槛，每次最多只能并行执行n个异步任务。这样就避免了过分占用系统资源。
+
+```javascript
+let items = [ 1, 2, 3, 4, 5, 6 ];
+let results = [];
+let running = 0;
+let limit = 2;
+
+function launcher() {
+  while(running < limit && items.length > 0) {
+    let item = items.shift();
+    async(item, function(result) {
+      results.push(result);
+      running--;
+      if(items.length > 0) {
+        launcher();
+      } else if(running == 0) {
+        final(results);
+      }
+    });
+    running++;
+  }
+}
+
+launcher();
+```
+上面代码中，最多只能同时运行两个异步任务。变量running记录当前正在运行的任务数，只要低于门槛值，就再启动一个新的任务，如果等于0，就表示所有任务都执行完了，这时就执行final函数。
+
+并行和串行执行代码总汇
+
+<a class="jsbin-embed" href="http://jsbin.com/fofopob/embed?js,console">JS Bin on jsbin.com</a><script src="http://static.jsbin.com/js/embed.min.js?4.0.4"></script>
+
+## 4. Promise 对象
 
 这个比较复杂[先付上mdn地址](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise)
 
 {% asset_img promise.png 官方的这个图我认识很容易看懂 %}
 
 想了好久也不知道怎么描述它.(简单点说就是处理异步请求。。我们经常会做些承诺，如果我赢了你就嫁给我，如果输了我就嫁给你之类的诺言。这就是promise的中文含义。一个诺言，一个成功，一个失败。)
+
 
 不难看出, `promise` 类似一个协议.通过这个协议来操作你的业务逻辑代码,
 promise 本质上是分离了异步数据获取和业务逻辑，从而让开发人员能专注于一个事物，而不必同时考虑业务和数据
@@ -105,7 +219,9 @@ f1().then(f2)
     .catch(f3)
 // 这样写异步代码是不是觉得很优雅, 同样也很容易修改业务逻辑
 ```
+
 修改f1代码
+
 ```javascript
 　　let f1 = () => {
 　　　　var dfd = $.Deferred();
@@ -116,8 +232,8 @@ f1().then(f2)
 　　　　return dfd.promise;
 　　}
 ```
-最终在`javascript`中异步函数使用`Async/Await` [请移驾到这篇](http://angely.me/2017/06/14/%E4%BD%93%E9%AA%8Ces7%E4%B8%AD%E7%9A%84Async-Await%E6%9D%A5%E5%A4%84%E7%90%86%E5%BC%82%E6%AD%A5/)
 
+最终在`javascript`中异步函数使用`Async/Await` [请移驾到这篇](http://angely.me/2017/06/14/%E4%BD%93%E9%AA%8Ces7%E4%B8%AD%E7%9A%84Async-Await%E6%9D%A5%E5%A4%84%E7%90%86%E5%BC%82%E6%AD%A5/)
 
 ## 今天介绍3种`javascript`异步开源库
 
@@ -125,4 +241,48 @@ f1().then(f2)
 - Q.js
 - Koajs
 
-> 先占坑, 有时间完善文章
+### jQuery中的`Deferred`对象
+
+因为现在很少使用jQuery, 所以不怎么使用这个, [阮老师写的文章](http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html)
+
+`jQuery`版本在1.5.0以上就可以使用这个对象了
+
+### Q.js
+
+[附上文档](http://documentup.com/kriskowal/q/)
+同样支持遵循 [Promises/A+](https://promisesaplus.com/#point-1)
+`q.js`比其他两个相对要成熟一点, 因为他出现的时间较早, 代码也很稳健
+
+```javascript
+// 看看这个回调地狱
+step1(function (value1) {
+    step2(value1, function(value2) {
+        step3(value2, function(value3) {
+            step4(value3, function(value4) {
+                // Do something with value4
+            });
+        });
+    });
+});
+```
+
+使用`Qjs`之后的代码
+
+```javascript
+Q.fcall(promisedStep1)
+.then(promisedStep2)
+.then(promisedStep3)
+.then(promisedStep4)
+.then(function (value4) {
+    // Do something with value4
+})
+.catch(function (error) {
+    // Handle any error from all above steps
+})
+.done();
+```
+
+### `Koajs`
+
+[github](https://github.com/koajs/koa)
+[中文官网](http://koa.bootcss.com/)
