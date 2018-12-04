@@ -32,3 +32,5 @@ tags:
 > 主要用法是配合alfred(小帽子)来使用,那叫一个酸爽
 
 {% asset_img dash-seach.png dash search API %}
+
+> [前人记载](https://github.com/Louiszhai/tool)
