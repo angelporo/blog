@@ -19,7 +19,7 @@ tag:
 
 至于它是做什么的,  这个不难知道,  百度下就可以了,  我常用他来做api接口的调试
 
-这里安装使用`python`的包管理器
+这里安装使用`python`的包管理器deploy_git
 
 `pip install httpie`
 

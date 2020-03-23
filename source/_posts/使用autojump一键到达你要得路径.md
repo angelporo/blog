@@ -15,6 +15,7 @@ categories: "mac工具"
 因为使用的是`zsh`和`term2` 所以需要在`~/.zshrc`内添加`autojump` 作为插件来使用.
 
 看起来是这样子:
+
 ```base
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -22,9 +23,9 @@ categories: "mac工具"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git bundler osx)
 plugins=(autojump)
+
 ```
 还需要添加`[[ -s ~/.autojump/etc/profile.d/autojump.zsh ]] && . ~/.autojump/etc/profile.d/autojump.zsh`同样到`~/.zshrc`
-
 
 ## 使用
 

@@ -34,13 +34,13 @@ redux 出现是时间并不长, 是有flux发展而来
 1. Single source of truth
 
  单一数据来源, 整个应用的state，存储在唯一一个object中，同时也只有一个store用于存储这个object.
- 
+
 2. State is read-only
- 
- 状态是只读的, 唯一能改变state的方法, 就是触发action操作, action是用来描述正在发生的事件的一个对象. (action是一个对象, 其中不可或缺的是type属性). 
+
+ 状态是只读的, 唯一能改变state的方法, 就是触发action操作, action是用来描述正在发生的事件的一个对象. (action是一个对象, 其中不可或缺的是type属性).
 
 3. Changes are made with pure functions
- 
+
  在改变state tree 用到action，同时也需要编写对应的reducers才能完成state改变操作。
 
 > 附上官网经典案例 counter
@@ -91,7 +91,6 @@ store.dispatch({ type: 'DECREMENT' });
 
 在上面的三原则中，我们看到了store, action, reducer这些词，那就先说说redux是怎么进行应用状态(state)维护管理的呢。
 
-
 ## redux 状态管理的流程
 
 - action是用户触发或程序触发的一个普通对象
@@ -111,3 +110,7 @@ store.dispatch({ type: 'DECREMENT' });
 store用于维护状态的容器，包括了应用的多个状态，比如说用户是否登录、用户信息、用户任务等等。action是一个普通对象，用于指明是哪种操作，这样才能在reducers中进行识别。而众多reducer是负责返回新的state的函数。在实际应用中，你需要将store或store的某个值绑定到界面，这样更新store的时候，该页面可以监听到值的更新，然后进行一些页面更新操作/跳转操作等。
 
 > [原文地址](http://www.jianshu.com/p/2c43860b0532)
+
+### 推荐两个react和redux的调试小工具
+    [React Developer Tools Chrome](http://www.cnplugins.com/devtool/react-developer-tools/)
+    [Redux Dev Tools Chrome](http://www.cnplugins.com/devtool/redux-devtools/)
