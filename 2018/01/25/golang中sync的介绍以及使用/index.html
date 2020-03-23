@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>golang中sync的介绍以及使用 | 会上树的猪</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="golang,sync,linux内核中自带锁,golang异步锁," />
+  
+
+  <meta name="description" content="前言有些不是科班出身的有时候学习的时候就会看不懂一些问题的本质,  今天就说说golang中也是很多程序设计的锁的作用, 具体参考golang来介绍锁的作用, 当然这个锁和数据库的锁是类似的. 先来个例子 12345678910111213141516171819202122232425a := 0// goroutine 1go func () &amp;#123;    for i := 0; i&amp;l">
+<meta name="keywords" content="golang,sync,linux内核中自带锁,golang异步锁">
+<meta property="og:type" content="article">
+<meta property="og:title" content="golang中sync的介绍以及使用">
+<meta property="og:url" content="http://angely.me/2018/01/25/golang中sync的介绍以及使用/index.html">
+<meta property="og:site_name" content="会上树的猪">
+<meta property="og:description" content="前言有些不是科班出身的有时候学习的时候就会看不懂一些问题的本质,  今天就说说golang中也是很多程序设计的锁的作用, 具体参考golang来介绍锁的作用, 当然这个锁和数据库的锁是类似的. 先来个例子 12345678910111213141516171819202122232425a := 0// goroutine 1go func () &amp;#123;    for i := 0; i&amp;l">
+<meta property="og:updated_time" content="2020-03-23T02:21:44.089Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="golang中sync的介绍以及使用">
+<meta name="twitter:description" content="前言有些不是科班出身的有时候学习的时候就会看不懂一些问题的本质,  今天就说说golang中也是很多程序设计的锁的作用, 具体参考golang来介绍锁的作用, 当然这个锁和数据库的锁是类似的. 先来个例子 12345678910111213141516171819202122232425a := 0// goroutine 1go func () &amp;#123;    for i := 0; i&amp;l">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-38189205-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用场景"><span class="toc-text">使用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#锁介绍"><span class="toc-text">锁介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#互斥锁sync-Mutex"><span class="toc-text">互斥锁sync.Mutex</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#读写锁sync-RWMutex"><span class="toc-text">读写锁sync.RWMutex</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-golang中sync的介绍以及使用" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">golang中sync的介绍以及使用</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.01.25</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>li yuan</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/算法/">算法</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>有些不是科班出身的有时候学习的时候就会看不懂一些问题的本质,  今天就说说golang中也是很多程序设计的锁的作用, 具体参考<code>golang</code>来介绍锁的作用, 当然这个锁和数据库的锁是类似的.</p>
+<p>先来个例子</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">a := <span class="number">0</span></div><div class="line"><span class="comment">// goroutine 1</span></div><div class="line"><span class="keyword">go</span> <span class="function"><span class="keyword">func</span> <span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i&lt; <span class="number">10000</span>; i++ &#123;</div><div class="line">        a += <span class="number">1</span></div><div class="line">    &#125;</div><div class="line">&#125;()</div><div class="line"></div><div class="line"><span class="comment">// goroutine 2</span></div><div class="line"><span class="keyword">go</span> <span class="function"><span class="keyword">func</span> <span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i&lt; <span class="number">10000</span>; i++ &#123;</div><div class="line">        a += <span class="number">1</span></div><div class="line">    &#125;</div><div class="line">&#125;()</div><div class="line"></div><div class="line"><span class="comment">// goroutine 1 和goroutine 2 并发执行</span></div><div class="line">time.Sleep(time.Second) <span class="comment">// 等待goroutine执行完成</span></div><div class="line">fmt.Println(a)</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">// 执行结果</span></div><div class="line"><span class="comment">/*</span></div><div class="line">➜  src go run test.go</div><div class="line">102629</div><div class="line">*/</div></pre></td></tr></table></figure>
+<p>上面代码可以很简单的看出, 正确的应该输出<code>200000</code>, 但是实际情况是小于<code>200000</code>的.<br>问题在于<code>goroutine 1</code>不知道<code>goroutine 2</code>中a的变化, 导致最终结果错误, 这时候就需要使用锁.</p>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>上面代码中可以看出</p>
+<p>在进行并发编程的时候, 通过共享内存的方式进行通信, 这时候可能会导致资源的竞争, 最终导致出现数据报错.</p>
+<h2 id="锁介绍"><a href="#锁介绍" class="headerlink" title="锁介绍"></a>锁介绍</h2><blockquote>
+<p><code>sync</code>包提供了基本的同步基元，如互斥锁。除了Once和WaitGroup类型，大部分都是适用于低水平程序线程，高水平的同步使用channel通信更好一些。</p>
+</blockquote>
+<p><code>golang</code>的<code>sync</code>实现了两种类型的锁:</p>
+<blockquote>
+<ul>
+<li>sync.Mutex</li>
+<li>sync.RWMutex</li>
+</ul>
+</blockquote>
+<p>通过代码字面量信息就可以知道<code>sync.RWMutex</code>是基于<code>sync.Mutex</code>实现的.其中的只读锁的实现使用了类似引用计数的方式</p>
+<h3 id="互斥锁sync-Mutex"><a href="#互斥锁sync-Mutex" class="headerlink" title="互斥锁sync.Mutex"></a>互斥锁<code>sync.Mutex</code></h3><p>api<br><figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> mutex sync.Mutex</div><div class="line">mutex.Lock() <span class="comment">// 加锁</span></div><div class="line"><span class="comment">// ...</span></div><div class="line">mutex.UnLock() <span class="comment">// 解锁</span></div></pre></td></tr></table></figure></p>
+<p>接着我们通过<code>symc</code>这个包, 来解决上面并发执行的问题</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> mutex sync.Mutex</div><div class="line">a := <span class="number">0</span></div><div class="line"><span class="comment">// goroutine1</span></div><div class="line"><span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</div><div class="line">   <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">100000</span>; i++ &#123;</div><div class="line">      mutex.Lock() <span class="comment">// 上互斥锁</span></div><div class="line">      a += <span class="number">1</span></div><div class="line">      mutex.Unlock() <span class="comment">// 解互斥锁</span></div><div class="line">   &#125;</div><div class="line">&#125;()</div><div class="line"><span class="comment">// goroutine2</span></div><div class="line"><span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</div><div class="line">   <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">100000</span>; i++ &#123;</div><div class="line">      mutex.Lock()</div><div class="line">      a += <span class="number">1</span></div><div class="line">      mutex.Unlock()</div><div class="line">   &#125;</div><div class="line">&#125;()</div><div class="line">time.Sleep(time.Second)</div><div class="line">fmt.Println(a)</div></pre></td></tr></table></figure>
+<p>这下执行结果就是<code>200000</code></p>
+<p>接下来我们使用例子的方式在看看</p>
+<h3 id="读写锁sync-RWMutex"><a href="#读写锁sync-RWMutex" class="headerlink" title="读写锁sync.RWMutex"></a>读写锁<code>sync.RWMutex</code></h3><p>通常情况下互斥锁已经能满足很多的应用场景了, 不过, 互斥锁比较耗费资源, 会拖慢执行效率. 在一些<code>读取操作谢雨写入操作</code>的场景下, 互斥锁就不大适应了,  这个时候我们就需要读写锁, 顾名思义, 这个就是为了避免并发执行读写发生冲突设计的锁.</p>
+<p>api<br><figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> rwmutex sync.RWMutex</div><div class="line">rwmutex.Lock() <span class="comment">// 加写锁</span></div><div class="line">rwmutex.Unlock() <span class="comment">// 解写锁</span></div><div class="line">rwmutex.RLock() <span class="comment">// 加读锁</span></div><div class="line">rwmutex.RUnlock() <span class="comment">// 解读锁</span></div></pre></td></tr></table></figure></p>
+<p>让我们看看两种锁的执行时间差异<br><figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">	<span class="string">"fmt"</span></div><div class="line">	<span class="string">"sync"</span></div><div class="line">	<span class="string">"time"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	mutex()</div><div class="line">	rwmutex()</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 使用互斥锁</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">mutex</span><span class="params">()</span></span> &#123;</div><div class="line">	<span class="keyword">var</span> mutex sync.Mutex</div><div class="line">	<span class="keyword">var</span> wg sync.WaitGroup</div><div class="line"></div><div class="line">	bt := time.Now()</div><div class="line">	a := <span class="number">0</span></div><div class="line">	b := <span class="number">0</span></div><div class="line">	wg.Add(<span class="number">9</span>) <span class="comment">// Add方法向内部计数加上delta，delta可以是负数；如果内部计数器变为0，Wait方法阻塞等待的所有线程都会释放，如果计数器小于0，方法panic。注意Add加上正数的调用应在Wait之前，否则Wait可能只会等待很少的线程。一般来说本方法应在创建新的线程或者其他应等待的事件之前调用。</span></div><div class="line">	<span class="comment">// 读操作</span></div><div class="line">	<span class="keyword">for</span> i := <span class="number">1</span>; i &lt; <span class="number">10</span>; i++ &#123;</div><div class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</div><div class="line">			<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">100000</span>; i++ &#123;</div><div class="line">				mutex.Lock()</div><div class="line">				b = a</div><div class="line">				mutex.Unlock()</div><div class="line">			&#125;</div><div class="line">			wg.Done() <span class="comment">// Done方法减少WaitGroup计数器的值，应在线程的最后执行</span></div><div class="line">		&#125;()</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	wg.Add(<span class="number">1</span>)</div><div class="line">	<span class="comment">// 写操作</span></div><div class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</div><div class="line">		<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">100</span>; i++ &#123;</div><div class="line">			mutex.Lock()</div><div class="line">			a += <span class="number">1</span></div><div class="line">			mutex.Unlock()</div><div class="line">		&#125;</div><div class="line">		wg.Done()</div><div class="line">	&#125;()</div><div class="line"></div><div class="line">	wg.Wait()</div><div class="line">	et := time.Now().Sub(bt)</div><div class="line">	fmt.Println(<span class="string">"mutex time:"</span>, et.String())</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 使用读写锁</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">rwmutex</span><span class="params">()</span></span> &#123;</div><div class="line">	<span class="keyword">var</span> rwmutex sync.RWMutex</div><div class="line">	<span class="keyword">var</span> wg sync.WaitGroup</div><div class="line"></div><div class="line">	bt := time.Now()</div><div class="line">	a := <span class="number">0</span></div><div class="line">	b := <span class="number">0</span></div><div class="line">	wg.Add(<span class="number">9</span>)</div><div class="line">	<span class="comment">// 读操作</span></div><div class="line">	<span class="keyword">for</span> i := <span class="number">1</span>; i &lt; <span class="number">10</span>; i++ &#123;</div><div class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</div><div class="line">			<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">100000</span>; i++ &#123;</div><div class="line">				<span class="comment">// 上读锁，多个goroutine可同时获取读锁，这里不会阻塞</span></div><div class="line">				<span class="comment">// 但读锁会阻塞其他写锁，直到读锁释放</span></div><div class="line">				rwmutex.RLock()</div><div class="line">				b = a</div><div class="line">				rwmutex.RUnlock()</div><div class="line">			&#125;</div><div class="line">			wg.Done()</div><div class="line">		&#125;()</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	wg.Add(<span class="number">1</span>)</div><div class="line">	<span class="comment">// 写操作</span></div><div class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</div><div class="line">		<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">100</span>; i++ &#123;</div><div class="line">			<span class="comment">// 上写锁，会阻塞其他的读锁和写锁，直到写锁释放</span></div><div class="line">			rwmutex.Lock()</div><div class="line">			a += <span class="number">1</span></div><div class="line">			rwmutex.Unlock()</div><div class="line">		&#125;</div><div class="line">		wg.Done()</div><div class="line">	&#125;()</div><div class="line"></div><div class="line">	wg.Wait()</div><div class="line">	et := time.Now().Sub(bt)</div><div class="line">	fmt.Println(<span class="string">"rwmutex time:"</span>, et.String())</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>执行结构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">➜  src go run test.go</div><div class="line">mutex time: 109.218727ms</div><div class="line">rwmutex time: 38.589895ms</div></pre></td></tr></table></figure></p>
+<p>可以看出差距还是很大的</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/11/27/golang中并发执行和通道传参以及并发中错误处理/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/02/01/使用Uglifyjs来压缩你的js/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+<!-- Gitalk评论插件通用代码 -->
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: '277317290454635afa73',
+  clientSecret: '78223c859304da5e8d71bfce136d436c6ff95c37',
+  repo: 'blog-comment',
+  owner: 'forsigner',
+  // 在这里设置一下截取前50个字符串, 这是因为 github 对 label 的长度有了要求, 如果超过
+  // 50个字符串则会报错.
+  // id: location.pathname.split('/').pop().substring(0, 49),
+  id: md5(location.pathname),
+  admin: ['forsigner'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('gitalk-container')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

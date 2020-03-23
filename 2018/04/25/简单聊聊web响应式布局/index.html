@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>简单聊聊web响应式布局 | 会上树的猪</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="web前端,css," />
+  
+
+  <meta name="description" content="前几天在’全球蛙’面试的时候面试官问到了兼容分辨率的知识 个人认为回答的不是很好, 虽然拿到了offer(暗喜)平时写js的比较多, 布局相对来说不是很多.倒是没有时间总结这些, 导致谈论起来还需要想想, 于是就有了这篇短文 理解响应式设计响应式网页设计就是一个网站能够兼容多个终端-而不是为每个终端做一个特定的版本直白的说就是同一个网页在平板, 手机, pc上面显示的效果不同, 但是还同样美观,">
+<meta name="keywords" content="web前端,css">
+<meta property="og:type" content="article">
+<meta property="og:title" content="简单聊聊web响应式布局">
+<meta property="og:url" content="http://angely.me/2018/04/25/简单聊聊web响应式布局/index.html">
+<meta property="og:site_name" content="会上树的猪">
+<meta property="og:description" content="前几天在’全球蛙’面试的时候面试官问到了兼容分辨率的知识 个人认为回答的不是很好, 虽然拿到了offer(暗喜)平时写js的比较多, 布局相对来说不是很多.倒是没有时间总结这些, 导致谈论起来还需要想想, 于是就有了这篇短文 理解响应式设计响应式网页设计就是一个网站能够兼容多个终端-而不是为每个终端做一个特定的版本直白的说就是同一个网页在平板, 手机, pc上面显示的效果不同, 但是还同样美观,">
+<meta property="og:image" content="http://angely.me/2018/04/25/简单聊聊web响应式布局/hei.gif">
+<meta property="og:image" content="http://angely.me/2018/04/25/简单聊聊web响应式布局/2222.jpg">
+<meta property="og:image" content="http://angely.me/2018/04/25/简单聊聊web响应式布局/333.jpg">
+<meta property="og:image" content="http://angely.me/2018/04/25/简单聊聊web响应式布局/444.jpg">
+<meta property="og:image" content="http://angely.me/2018/04/25/简单聊聊web响应式布局/111.png">
+<meta property="og:updated_time" content="2020-03-23T02:21:44.154Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="简单聊聊web响应式布局">
+<meta name="twitter:description" content="前几天在’全球蛙’面试的时候面试官问到了兼容分辨率的知识 个人认为回答的不是很好, 虽然拿到了offer(暗喜)平时写js的比较多, 布局相对来说不是很多.倒是没有时间总结这些, 导致谈论起来还需要想想, 于是就有了这篇短文 理解响应式设计响应式网页设计就是一个网站能够兼容多个终端-而不是为每个终端做一个特定的版本直白的说就是同一个网页在平板, 手机, pc上面显示的效果不同, 但是还同样美观,">
+<meta name="twitter:image" content="http://angely.me/2018/04/25/简单聊聊web响应式布局/hei.gif">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-38189205-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#理解响应式设计"><span class="toc-text">理解响应式设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#响应式设计的步骤"><span class="toc-text">响应式设计的步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图片万能处理方法"><span class="toc-text">图片万能处理方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#图片响应式属性"><span class="toc-text">图片响应式属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#手机端布局-只考虑手机端布局-那就用手指头想也是用flex简单好用"><span class="toc-text">手机端布局(只考虑手机端布局, 那就用手指头想也是用flex简单好用)</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-简单聊聊web响应式布局" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">简单聊聊web响应式布局</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.04.25</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>li yuan</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/布局/">布局</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>前几天在’全球蛙’面试的时候面试官问到了兼容分辨率的知识</p>
+<p>个人认为回答的不是很好, 虽然拿到了offer(暗喜)<br><img src="/2018/04/25/简单聊聊web响应式布局/hei.gif" alt="hei.gif" title=""><br>平时写js的比较多, 布局相对来说不是很多.倒是没有时间总结这些, 导致谈论起来还需要想想, 于是就有了这篇短文</p>
+<h2 id="理解响应式设计"><a href="#理解响应式设计" class="headerlink" title="理解响应式设计"></a>理解响应式设计</h2><p>响应式网页设计就是一个网站能够兼容多个终端-而不是为每个终端做一个特定的版本<br>直白的说就是同一个网页在平板, 手机, pc上面显示的效果不同, 但是还同样美观, 让人看着舒服, 用户体验更好</p>
+<p>看起来是这样的:<br><img src="/2018/04/25/简单聊聊web响应式布局/2222.jpg" alt="2222.jpg" title=""><br><img src="/2018/04/25/简单聊聊web响应式布局/333.jpg" alt="333.jpg" title=""><br><img src="/2018/04/25/简单聊聊web响应式布局/444.jpg" alt="444.jpg" title=""></p>
+<h2 id="响应式设计的步骤"><a href="#响应式设计的步骤" class="headerlink" title="响应式设计的步骤"></a>响应式设计的步骤</h2><blockquote>
+<p>了解了什么是响应式，那么接下来我们就要说说响应式设计的步骤，有人这时候会说“博主，你傻啊，响应式设计的步骤不就是1.编写非响应式代码、2.加工成响应式代码、3.响应式细节处理、4.完成响应式开发吗？”博主菊花一震 原来高手在民间啊，微微一硬表示敬重，我去 ，说错了 是微微一笑，大家不要误会啊。</p>
+</blockquote>
+<p>因为都是文档流的渲染方式, 所以高度不需要管.</p>
+<ol>
+<li><p>前端程序员当拿到设计图之后,切记不能框框框的就写,  首先要打量下相关元素的布局,</p>
+</li>
+<li><p>对布局有具体方案之后接下来就是写非响应式的部分, 按照常理应该是写pc的,这里就需要考虑使用html中<code>meta</code>标签来告诉浏览器一些具体设置, 比如ios手机上面可以放大缩小的功能, 如果不需要就把他禁止:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no&quot;&gt;</div><div class="line">&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge,chrome=1&quot;&gt;</div><div class="line">&lt;meta name=&quot;HandheldFriendly&quot; content=&quot;true&quot;&gt;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>user-scalable属性能够解决ipad切换横屏之后触摸才能回到具体尺寸的问题。</p>
+<ol>
+<li>使用<code>媒体查询</code>来设置不同浏览器页面大小的样式, 这样html结构不变得情况就可以达到页面不同的style </li>
+</ol>
+<p>假如浏览器客户端分辨率小于980px<br>写法:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">@media screen and (max-width:980px)&#123;</div><div class="line">     #head &#123; … &#125;</div><div class="line">     #content &#123; … &#125;</div><div class="line">     #footer &#123; … &#125;</div><div class="line">&#125; /*这里面的样式会覆盖掉之前所定义的样式。*/</div></pre></td></tr></table></figure></p>
+<ol>
+<li><p>其他浏览器宽度规定</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">/**ipad**/</div><div class="line">@media only screen and (min-width:768px)and(max-width:1024px)&#123;&#125;</div><div class="line">/**iphone**/</div><div class="line"> @media only screen and (width:320px)and (width:768px)&#123;&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>上面只是块的宽度设置,  页面中很重要的字体大小也很关键.</p>
+<ul>
+<li>rem</li>
+<li>em<br>很好理解,  rem相对html的字体大小设置, em相对父元素字体大小设置, 这样就脱离了px这个绝对单位. 这两个属性都是css3才有的<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">html&#123;font-size:16px;&#125;</div><div class="line">完成后，你可以定义响应式字体：</div><div class="line">@media (min-width:640px)&#123;body&#123;font-size:1rem;&#125;&#125;</div><div class="line">@media (min-width:960px)&#123;body&#123;font-size:1.2rem;&#125;&#125;</div><div class="line">@media (min-width:1200px)&#123;body&#123;font-size:1.5rem;&#125;&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="图片万能处理方法"><a href="#图片万能处理方法" class="headerlink" title="图片万能处理方法"></a>图片万能处理方法</h2><p>想法来源于css3的flex布局,  俗称流式布局, 个人理解, 流及是液态的, 液态可以充满整个容器, 不管容器款到<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.container</span> <span class="selector-tag">img</span>&#123;</div><div class="line">    <span class="attribute">max-width</span>: <span class="number">100%</span>;</div><div class="line">    <span class="attribute">height</span>: auto;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上面代码可以看出图片会根据<code>.container</code>的容器的改变来达到填充满<code>container</code>这个容器, 高度自动, 可以保证图片比例不扭曲</p>
+<h3 id="图片响应式属性"><a href="#图片响应式属性" class="headerlink" title="图片响应式属性"></a>图片响应式属性</h3><p><code>img</code>标签<code>srcset</code>: 是根据屏幕密度实现对应尺寸图片<br>还有<code>img</code>标签中的<code>sizes</code>属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;img src=&quot;mm-width-128px.jpg&quot; srcset=&quot;mm-width-128px.jpg 1x, mm-width-256px.jpg 2x&quot;&gt;</div></pre></td></tr></table></figure></p>
+<p>简写:<code>&lt;img src=&quot;mm-width-128px.jpg&quot; srcset=&quot;mm-width-256px.jpg 2x&quot;&gt;</code></p>
+<p>具体详情情况<a href="http://www.zhangxinxu.com/wordpress/2014/10/responsive-images-srcset-size-w-descriptor/" target="_blank" rel="external">张鑫旭大声写的日志</a></p>
+<p>背景图:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#log</span> <span class="selector-tag">a</span>&#123;</div><div class="line">    <span class="attribute">display</span>:block;</div><div class="line">    <span class="attribute">width</span>:<span class="number">100%</span>;</div><div class="line">    <span class="attribute">height</span>:<span class="number">40px</span>;</div><div class="line">    <span class="attribute">text-indent</span>:<span class="number">55rem</span>;</div><div class="line">    <span class="attribute">background-img</span>:<span class="built_in">url</span>(logo.png);</div><div class="line">    <span class="attribute">background-repeat</span>:no-repeat;</div><div class="line">    <span class="attribute">background-size</span>:<span class="number">100%</span> <span class="number">100%</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>background-size是css3的新属性，用于设置背景图片的大小，有两个可选值，第一个值用于指定背景图的width,第2个值用于指定背景图的height,如果只指定一个值，那么另一个值默认为auto。<br>background-size:cover; 等比扩展图片来填满元素<br>background-size:contain; 等比缩小图片来适应元素的尺寸</p>
+<h2 id="手机端布局-只考虑手机端布局-那就用手指头想也是用flex简单好用"><a href="#手机端布局-只考虑手机端布局-那就用手指头想也是用flex简单好用" class="headerlink" title="手机端布局(只考虑手机端布局, 那就用手指头想也是用flex简单好用)"></a>手机端布局(只考虑手机端布局, 那就用手指头想也是用flex简单好用)</h2><p>兼容问题没有的,  手机全部支持css3, 因为它出来的晚. 顺便吐槽下ie浏览器, 还好不是前6年的前端程序员<br><img src="/2018/04/25/简单聊聊web响应式布局/111.png" alt="111.png" title=""></p>
+
+    
+  </div>
+
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/04/21/javascript中正则的直白理解/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/05/04/Map详解/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+<!-- Gitalk评论插件通用代码 -->
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: '277317290454635afa73',
+  clientSecret: '78223c859304da5e8d71bfce136d436c6ff95c37',
+  repo: 'blog-comment',
+  owner: 'forsigner',
+  // 在这里设置一下截取前50个字符串, 这是因为 github 对 label 的长度有了要求, 如果超过
+  // 50个字符串则会报错.
+  // id: location.pathname.split('/').pop().substring(0, 49),
+  id: md5(location.pathname),
+  admin: ['forsigner'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('gitalk-container')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

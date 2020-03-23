@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>js使用jsonp方式解决跨域问题 | 会上树的猪</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="jsonp,跨域," />
+  
+
+  <meta name="description" content="跨域的安全限制都是对浏览器端来说的，服务器端是不存在跨域安全限制的。 浏览器的同源策略限制从一个源加载的文档或脚本与来自另一个源的资源进行交互。 如果协议，端口和主机对于两个页面是相同的，则两个页面具有相同的源，否则就是不同源的。 如果要在js里发起跨域请求，则要进行一些特殊处理了。或者，你可以把请求发到自己的服务端，再通过后台代码发起请求，再将数据返回前端。 这里讲下使用jquery的jsonp">
+<meta name="keywords" content="jsonp,跨域">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js使用jsonp方式解决跨域问题">
+<meta property="og:url" content="http://angely.me/2018/07/04/js使用jsonp方式解决跨域问题/index.html">
+<meta property="og:site_name" content="会上树的猪">
+<meta property="og:description" content="跨域的安全限制都是对浏览器端来说的，服务器端是不存在跨域安全限制的。 浏览器的同源策略限制从一个源加载的文档或脚本与来自另一个源的资源进行交互。 如果协议，端口和主机对于两个页面是相同的，则两个页面具有相同的源，否则就是不同源的。 如果要在js里发起跨域请求，则要进行一些特殊处理了。或者，你可以把请求发到自己的服务端，再通过后台代码发起请求，再将数据返回前端。 这里讲下使用jquery的jsonp">
+<meta property="og:image" content="http://angely.me/2018/07/04/js使用jsonp方式解决跨域问题/1.png">
+<meta property="og:image" content="http://angely.me/2018/07/04/js使用jsonp方式解决跨域问题/2.png">
+<meta property="og:image" content="http://angely.me/2018/07/04/js使用jsonp方式解决跨域问题/2.png">
+<meta property="og:image" content="http://angely.me/2018/07/04/js使用jsonp方式解决跨域问题/5.png">
+<meta property="og:image" content="http://angely.me/2018/07/04/js使用jsonp方式解决跨域问题/6.png">
+<meta property="og:updated_time" content="2020-03-23T02:21:44.099Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="js使用jsonp方式解决跨域问题">
+<meta name="twitter:description" content="跨域的安全限制都是对浏览器端来说的，服务器端是不存在跨域安全限制的。 浏览器的同源策略限制从一个源加载的文档或脚本与来自另一个源的资源进行交互。 如果协议，端口和主机对于两个页面是相同的，则两个页面具有相同的源，否则就是不同源的。 如果要在js里发起跨域请求，则要进行一些特殊处理了。或者，你可以把请求发到自己的服务端，再通过后台代码发起请求，再将数据返回前端。 这里讲下使用jquery的jsonp">
+<meta name="twitter:image" content="http://angely.me/2018/07/04/js使用jsonp方式解决跨域问题/1.png">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-38189205-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-js使用jsonp方式解决跨域问题" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">js使用jsonp方式解决跨域问题</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.07.04</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>li yuan</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/算法/">算法</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>跨域的安全限制都是对浏览器端来说的，服务器端是不存在跨域安全限制的。</p>
+<p>浏览器的同源策略限制从一个源加载的文档或脚本与来自另一个源的资源进行交互。</p>
+<p>如果协议，端口和主机对于两个页面是相同的，则两个页面具有相同的源，否则就是不同源的。</p>
+<p>如果要在js里发起跨域请求，则要进行一些特殊处理了。或者，你可以把请求发到自己的服务端，再通过后台代码发起请求，再将数据返回前端。</p>
+<p>这里讲下使用jquery的jsonp如何发起跨域请求及其原理。</p>
+<p>先看下准备环境：两个端口不一样，构成跨域请求的条件。</p>
+<p>获取数据：获取数据的端口为9090</p>
+<img src="/2018/07/04/js使用jsonp方式解决跨域问题/1.png" alt="跨域1" title="跨域1">
+<p>请求数据：请求数据的端口为8080</p>
+<img src="/2018/07/04/js使用jsonp方式解决跨域问题/2.png" alt="跨域1" title="跨域1">
+<ol>
+<li><strong>先看下直接发起ajax请求会怎么样</strong></li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>JS Bin<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://code.jquery.com/jquery-2.2.4.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"btn"</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"跨域获取数据"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">textarea</span> <span class="attr">id</span>=<span class="string">"text"</span> <span class="attr">style</span>=<span class="string">"width: 400px; height: 100px;"</span>&gt;</span><span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">  $(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">            $(<span class="string">"#btn"</span>).click(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">                 $.ajax(&#123;</div><div class="line">                    <span class="attr">url</span>: <span class="string">'http://www.quanqiuwa.com:3001'</span>,</div><div class="line">                     <span class="attr">type</span>: <span class="string">'GET'</span>,</div><div class="line">                     <span class="attr">success</span>: <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</div><div class="line">                         $(text).val(data);</div><div class="line">                     &#125;,</div><div class="line">                   <span class="attr">error</span>: <span class="function"><span class="keyword">function</span> (<span class="params">xhr</span>) </span>&#123;</div><div class="line">                     <span class="built_in">console</span>.log(xhr)</div><div class="line">                   &#125;</div><div class="line">                &#125;);</div><div class="line">            &#125;);</div><div class="line">         &#125;);</div><div class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>请求的结果如下图：可以看到跨域请求因为浏览器的同源策略被拦截了。</p>
+<img src="/2018/07/04/js使用jsonp方式解决跨域问题/2.png" alt="跨域1" title="跨域1">
+<p>2.<strong>接下来看如何发起跨域请求。解决跨域请求的方式有很多，这里只说一下jquery的jsop方式及其原理。</strong></p>
+<blockquote>
+<p>首先我们需要明白，在页面上直接发起一个跨域的ajax请求是不可以的，但是，在页面上引入不同域上的js脚本却是可以的，就像你可以在自己的页面上使用<img src=""> 标签来随意显示某个域上的图片一样。</p>
+</blockquote>
+<p>比如我在8080端口的页面上请求一个9090端口的图片：可以看到直接通过src跨域请求是可以的。<br>下面是可以请求回来图片内容的.<br><img src="/2018/07/04/js使用jsonp方式解决跨域问题/5.png" alt="跨域1" title="跨域1"></p>
+<p>3.<strong>那么看下如何使用<code>&lt;script src=&quot;&quot;&gt;</code>来完成一个跨域请求：</strong></p>
+<p>　　当点击”跨域获取数据”的按钮时，添加一个<code>&lt;script&gt;</code>标签，用于发起跨域请求；注意看请求地址后面带了一个<code>callback=showData</code>的参数；</p>
+<p>　　<code>showData</code>即是回调函数名称，传到后台，用于包裹数据。数据返回到前端后，就是<code>showData(result)</code>的形式，因为是script脚本，所以自动调用showData函数，而<code>result</code>就是<code>showData</code>的参数。</p>
+<p>　　至此，我们算是跨域把数据请求回来了，但是比较麻烦，需要自己写脚本发起请求，然后写个回调函数处理数据，不是很方便。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">showData</span> (<span class="params">result</span>) </span>&#123;</div><div class="line">             <span class="keyword">var</span> data = <span class="built_in">JSON</span>.stringify(result); <span class="comment">//json对象转成字符串</span></div><div class="line">             $(<span class="string">"#text"</span>).val(data);</div><div class="line">         &#125;</div><div class="line"> </div><div class="line">         $(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    </div><div class="line">            $(<span class="string">"#btn"</span>).click(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">                 <span class="comment">//向头部输入一个脚本，该脚本发起一个跨域请求</span></div><div class="line">                 $(<span class="string">"head"</span>).append(<span class="string">"&lt;script src='http://www.quanqiuwa.com:3001/update'&gt;&lt;\/script&gt;"</span>);</div><div class="line">             &#125;);</div><div class="line"> </div><div class="line">         &#125;);</div></pre></td></tr></table></figure>
+<img src="/2018/07/04/js使用jsonp方式解决跨域问题/6.png" alt="跨域1" title="跨域1">
+<p>4.<strong>再来看jquery的jsonp方式跨域请求：</strong><br>服务端代码不变，js代码如下：最简单的方式，只需配置一个<code>dataType:&#39;jsonp&#39;</code>，就可以发起一个跨域请求。jsonp指定服务器返回的数据类型为jsonp格式，可以看发起的请求路径，自动带了一个<code>callback=xxx</code>，<code>xxx</code>是<code>jquery</code>随机生成的一个回调函数名称。</p>
+<p>这里的<code>success</code>就跟上面的<code>showData</code>一样，如果有<code>success</code>函数则默认<code>success()</code>作为回调函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">$.ajax(&#123;</div><div class="line">                     url: &quot;http://localhost:9090/student&quot;,</div><div class="line">                     type: &quot;GET&quot;,</div><div class="line">                     dataType: &quot;jsonp&quot;, //指定服务器返回的数据类型</div><div class="line">                     success: function (data) &#123;</div><div class="line">                         var result = JSON.stringify(data); //json对象转成字符串</div><div class="line">                         $(&quot;#text&quot;).val(result);</div><div class="line">                     &#125;</div><div class="line">                 &#125;);</div></pre></td></tr></table></figure>
+<p>懒得copy了,</p>
+<blockquote>
+<p><a href="https://www.cnblogs.com/chiangchou/p/jsonp.html" target="_blank" rel="external">原文</a></p>
+</blockquote>
+
+    
+  </div>
+
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/05/12/全球蛙首次开会议程/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/07/27/手机扫码ios和android通用下载app/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+<!-- Gitalk评论插件通用代码 -->
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: '277317290454635afa73',
+  clientSecret: '78223c859304da5e8d71bfce136d436c6ff95c37',
+  repo: 'blog-comment',
+  owner: 'forsigner',
+  // 在这里设置一下截取前50个字符串, 这是因为 github 对 label 的长度有了要求, 如果超过
+  // 50个字符串则会报错.
+  // id: location.pathname.split('/').pop().substring(0, 49),
+  id: md5(location.pathname),
+  admin: ['forsigner'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('gitalk-container')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

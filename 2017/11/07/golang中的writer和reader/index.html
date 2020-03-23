@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>golang中的writer和reader | 会上树的猪</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="golang,go基础," />
+  
+
+  <meta name="description" content="先来说说程序中的输入和输出 c里面有标准输出和输入还有错误处理, 还有非常重要的管道的, 以至于它非常好扩展. 那么golang中的Write和Reader的接口设计遵循了Unix的输入和输出, 一个程序的输出可以是另外一个程序的输入。他们的功能单一并且纯粹，这样就可以非常容易的编写程序代码，又可以通过组合的概念，让我们的程序做更多的事情。 Unix的三种输入输出输入模式12345var (">
+<meta name="keywords" content="golang,go基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="golang中的writer和reader">
+<meta property="og:url" content="http://angely.me/2017/11/07/golang中的writer和reader/index.html">
+<meta property="og:site_name" content="会上树的猪">
+<meta property="og:description" content="先来说说程序中的输入和输出 c里面有标准输出和输入还有错误处理, 还有非常重要的管道的, 以至于它非常好扩展. 那么golang中的Write和Reader的接口设计遵循了Unix的输入和输出, 一个程序的输出可以是另外一个程序的输入。他们的功能单一并且纯粹，这样就可以非常容易的编写程序代码，又可以通过组合的概念，让我们的程序做更多的事情。 Unix的三种输入输出输入模式12345var (">
+<meta property="og:updated_time" content="2020-03-23T02:21:44.090Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="golang中的writer和reader">
+<meta name="twitter:description" content="先来说说程序中的输入和输出 c里面有标准输出和输入还有错误处理, 还有非常重要的管道的, 以至于它非常好扩展. 那么golang中的Write和Reader的接口设计遵循了Unix的输入和输出, 一个程序的输出可以是另外一个程序的输入。他们的功能单一并且纯粹，这样就可以非常容易的编写程序代码，又可以通过组合的概念，让我们的程序做更多的事情。 Unix的三种输入输出输入模式12345var (">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-38189205-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Unix的三种输入输出输入模式"><span class="toc-text">Unix的三种输入输出输入模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Reader和Writer接口"><span class="toc-text">Reader和Writer接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#例子"><span class="toc-text">例子</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-golang中的writer和reader" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">golang中的writer和reader</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.11.07</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>li yuan</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/算法/">算法</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>先来说说程序中的输入和输出</p>
+<p><code>c</code>里面有标准输出和输入还有错误处理, 还有非常重要的管道的, 以至于它非常好扩展.</p>
+<p>那么<code>golang</code>中的<code>Write</code>和<code>Reader</code>的接口设计遵循了Unix的输入和输出, 一个程序的输出可以是另外一个程序的输入。他们的功能单一并且纯粹，这样就可以非常容易的编写程序代码，又可以通过组合的概念，让我们的程序做更多的事情。</p>
+<h3 id="Unix的三种输入输出输入模式"><a href="#Unix的三种输入输出输入模式" class="headerlink" title="Unix的三种输入输出输入模式"></a>Unix的三种输入输出输入模式</h3><figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> (</div><div class="line">   Stdin  = NewFile(<span class="keyword">uintptr</span>(syscall.Stdin), <span class="string">"/dev/stdin"</span>)</div><div class="line">   Stdout = NewFile(<span class="keyword">uintptr</span>(syscall.Stdout), <span class="string">"/dev/stdout"</span>)</div><div class="line">   Stderr = NewFile(<span class="keyword">uintptr</span>(syscall.Stderr), <span class="string">"/dev/stderr"</span>)</div><div class="line">)</div></pre></td></tr></table></figure>
+<p>这三种标准的输入和输出都是一个<code>*File</code>，而<code>*File</code>恰恰就是同时实现了<code>io.Writer</code>和<code>io.Reader</code>这两个接口的类型，所以他们同时具备输入和输出的功能，既可以从里面读取数据，又可以往里面写入数据。</p>
+<p>Go标准库的io包也是基于Unix这种输入和输出的理念，大部分的接口都是扩展了<code>io.Writer</code>和<code>io.Reader</code>，大部分的类型也都选择的实现了<code>io.Writer</code>和<code>io.Reader</code>这两个接口，然后把数据的输入和输出，抽象为流的读写，所以只要实现了这两个接口，都可以使用流的读写功能。</p>
+<p><code>io.Writer</code>和<code>io.Reader</code>两个接口的高度抽象，让我们不用再面向具体的业务，我们只关注，是读还是写，只要我们定义的方法函数可以接收这两个接口作为参数，那么我们就可以进行流的读写，而不用关心如何读，写到哪里去，这也是面向接口编程的好处。</p>
+<h3 id="Reader和Writer接口"><a href="#Reader和Writer接口" class="headerlink" title="Reader和Writer接口"></a>Reader和Writer接口</h3><p>这两个高度抽象的接口，只有一个方法，也体现了Go接口设计的简洁性，只做一件事。</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Writer 接口包装了基本的 Write 方法。</span></div><div class="line"></div><div class="line"><span class="comment">// Write 将 len(p) 个字节从 p 中写入到基本数据流中。</span></div><div class="line"><span class="comment">// 它返回从 p 中被写入的字节数 n（0 &lt;= n &lt;= len(p)）以及任何遇到的引起写入提前停止的错误。</span></div><div class="line"><span class="comment">// 若 Write 返回的 n &lt; len(p)，它就必须返回一个非nil的错误。Write 不能修改此切片的数据，即便它是临时的。</span></div><div class="line"></div><div class="line"><span class="keyword">type</span> Writer <span class="keyword">interface</span> &#123;</div><div class="line">    Write(p []<span class="keyword">byte</span>) (n <span class="keyword">int</span>, err error)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这是<code>Wirter</code>接口的定义，它只有一个<code>Write</code>方法，接受一个<code>byte</code>的切片，返回两个值，n表示写入的字节数、err表示写入时发生的错误。</p>
+<p>从其文档注释来看，这个方法是有规范要求的，我们要想实现一个io.Writer接口，就要遵循这些规则。</p>
+<p>这些实现<code>io.Writer</code>接口的规则，所有实现了该接口的类型都要遵守，不然可能会导致莫名其妙的问题。</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">Reader 接口包装了基本的 Read 方法。</div><div class="line"></div><div class="line"><span class="comment">// Read 将 len(p) 个字节读取到 p 中。它返回读取的字节数 n（0 &lt;= n &lt;= len(p)） 以及任何遇到的错误。即使 Read 返回的 n &lt; len(p)，它也会在调用过程中使用 p 的全部作为暂存空间。若一些数据可用但不到 len(p) 个字节，Read 会照例返回可用的东西， 而不是等待更多。</span></div><div class="line"></div><div class="line"><span class="comment">// 当 Read 在成功读取 n &gt; 0 个字节后遇到一个错误或 EOF 情况，它就会返回读取的字节数。 它会从相同的调用中返回（非nil的）错误或从随后的调用中返回错误（和 n == 0）。 这种一般情况的一个例子就是 Reader 在输入流结束时会返回一个非零的字节数， 可能的返回不是 err == EOF 就是 err == nil。无论如何，下一个 Read 都应当返回 0, EOF。</span></div><div class="line"></div><div class="line"><span class="comment">// 调用者应当总在考虑到错误 err 前处理 n &gt; 0 的字节。这样做可以在读取一些字节， 以及允许的 EOF 行为后正确地处理I/O错误。</span></div><div class="line"></div><div class="line"><span class="comment">// Read 的实现在 len(p) == 0 以外的情况下会阻止返回零字节的计数和 nil 错误， 调用者应将返回 0 和 nil 视作什么也没有发生；特别是它并不表示 EOF。</span></div><div class="line"></div><div class="line"><span class="comment">// 实现必须不保留 p。</span></div><div class="line"></div><div class="line"><span class="keyword">type</span> Reader <span class="keyword">interface</span> &#123;</div><div class="line">    Read(p []<span class="keyword">byte</span>) (n <span class="keyword">int</span>, err error)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这是<code>io.Reader</code>接口定义，也只有一个<code>Read</code>方法，这个方法接受一个<code>byte</code>的切片，并返回两个值，一个是读入的字节数，一个是<code>err</code>错误。</p>
+<ul>
+<li><p>从其注释文档看，<code>io.Reader</code>接口的规则更多。</p>
+</li>
+<li><p>从其注释文档看，<code>io.Reader</code>接口的规则更多。</p>
+</li>
+<li><p>Read最多读取len(p)字节的数据，并保存到p。</p>
+</li>
+<li>返回读取的字节数以及任何发生的错误信息</li>
+<li>n要满足0 &lt;= n &lt;= len(p)</li>
+<li>n&lt;len(p)时，表示读取的数据不足以填满p，这时方法会立即返回，而不是等待更多的数据</li>
+<li>读取过程中遇到错误，会返回读取的字节数n以及相应的错误err</li>
+<li>在底层输入流结束时，方法会返回n&gt;0的字节，但是err可能时EOF，也可以是nil</li>
+<li>在第6种(上面)情况下，再次调用read方法的时候，肯定会返回0,EOF</li>
+<li>调用Read方法时，如果n&gt;0时，优先处理处理读入的数据，然后再处理错误err，EOF也要这样处理</li>
+<li>Read方法不鼓励返回n=0并且err=nil的情况</li>
+</ul>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span>(</div><div class="line">    <span class="string">"bytes"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">//定义零值Buffer类型变量b</span></div><div class="line">    <span class="keyword">var</span> b bytes.Buffer</div><div class="line">    <span class="comment">//使用Write方法为写入字符串</span></div><div class="line">    b.Write([]<span class="keyword">byte</span>(<span class="string">"你好"</span>))</div><div class="line">    <span class="comment">//这个是把一个字符串拼接到Buffer里</span></div><div class="line">    fmt.Fprint(&amp;b,<span class="string">","</span>,<span class="string">"http://www.flysnow.org"</span>)</div><div class="line">    <span class="comment">//把Buffer里的内容打印到终端控制台</span></div><div class="line">    b.WriteTo(os.Stdout)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个例子是拼接字符串到<code>Buffer</code>里，然后再输出到控制台，这个例子非常简单，但是利用了流的读写，<code>bytes.Buffer</code>是一个可变字节的类型，可以让我们很容易的对字节进行操作，比如读写，追加等。bytes.Buffer实现了io.Writer和io.Reader接口，所以我么可以很容易的进行读写操作，而不用关注具体实现。</p>
+<p><code>b.Write([]byte(&quot;你好&quot;))</code>实现了写入一个字符串，我们把这个字符串转为一个字节切片，然后调用<code>Write</code>方法写入，这个就是<code>bytes.Buffer</code>为了实现<code>io.Writer</code>接口而实现的一个方法，可以帮我们写入数据流。</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">// Buffer 实现了Write接口</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *Buffer)</span> <span class="title">Write</span><span class="params">(p []<span class="keyword">byte</span>)</span> <span class="params">(n <span class="keyword">int</span>, err error)</span></span> &#123;</div><div class="line">    b.lastRead = opInvalid</div><div class="line">    m := b.grow(<span class="built_in">len</span>(p))</div><div class="line">    <span class="keyword">return</span> <span class="built_in">copy</span>(b.buf[m:], p), <span class="literal">nil</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>以上就是<code>bytes.Buffer</code> 实现<code>io.Writer</code>接口的方法, 最终我们看到, 我们写入的切片会被写到<code>b.buf</code>里面, 这了<code>b.buf[m:]</code>拷贝其实就是追加的意思, 不会覆盖原来的数据.<br>从实现看，我们发现其实只有<code>b *Buffer</code>指针实现了<code>io.Writer</code>接口，所以我们示例代码中调用<code>fmt.Fprint</code>函数的时候，传递的是一个地址<code>&amp;b</code>。</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">Fprint</span><span class="params">(w io.Writer, a ...<span class="keyword">interface</span>&#123;&#125;)</span> <span class="params">(n <span class="keyword">int</span>, err error)</span></span> &#123;</div><div class="line">    p := newPrinter()</div><div class="line">    p.doPrint(a)</div><div class="line">    n, err = w.Write(p.buf)</div><div class="line">    p.free()</div><div class="line">    <span class="keyword">return</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这是函数<code>fmt.Fprint</code>的实现,  他的功能就是为一个把数据<code>a</code>写入到一个<code>io.Write</code>接口实现了, 具体如何写入,  它是不关心的,  因为<code>io.Writer</code>会做的, 它只关心可以写入即可。<code>w.Write(p.buf)</code>调用<code>Wirte</code>方法写入。</p>
+<p>最后的<code>b.WriteTo(os.Stdout)</code>是把最终的数据输出到标准的<code>os.Stdout</code>里，以便我们查看输出，它接收一个<code>io.Writer</code>接口类型的参数，开篇我们讲过<code>os.Stdout</code>也实现了这个<code>io.Writer</code>接口，所以就可以作为参数传入。</p>
+<p>这里我们会发现，很多方法的接收参数都是<code>io.Writer</code>接口，当然还有<code>io.Reader</code>接口，这就是面向接口的编程，我们不用关注具体实现，只用关注这个接口可以做什么事情，如果我们换成输出到文件里，那么也很容易，只用把<code>os.File</code>类型作为参数即可。任何实现了该接口的类型，都可以作为参数。</p>
+<p>除了<code>b.WriteTo</code>方法外，我们还可以使用<code>io.Reader</code>接口的<code>Read</code>方法实现数据的读取.<br><figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> p [<span class="number">100</span>]<span class="keyword">byte</span></div><div class="line">n,err:=b.Read(p[:])</div><div class="line">fmt.Println(n,err,<span class="keyword">string</span>(p[:n]))</div></pre></td></tr></table></figure></p>
+<p>这是最原始的方法，使用Read方法，n为读取的字节数，然后我们输出打印出来。</p>
+<p>因为byte.Buffer指针实现了io.Reader接口，所以我们还可以使用如下方式读取数据信息。</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">data,err:=ioutil.ReadAll(&amp;b)</div><div class="line">fmt.Println(<span class="keyword">string</span>(data),err)</div></pre></td></tr></table></figure>
+<p>ioutil.ReadAll接口一个io.Reader接口的参数，表明可以从任何实现了io.Reader接口的类型里读取全部的数据。<br><figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">readAll</span><span class="params">(r io.Reader, capacity <span class="keyword">int64</span>)</span> <span class="params">(b []<span class="keyword">byte</span>, err error)</span></span> &#123;</div><div class="line">    buf := bytes.NewBuffer(<span class="built_in">make</span>([]<span class="keyword">byte</span>, <span class="number">0</span>, capacity))</div><div class="line">    <span class="comment">// If the buffer overflows, we will get bytes.ErrTooLarge.</span></div><div class="line">    <span class="comment">// Return that as an error. Any other panic remains.</span></div><div class="line">    <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</div><div class="line">        e := <span class="built_in">recover</span>()        </div><div class="line">        <span class="keyword">if</span> e == <span class="literal">nil</span> &#123;</div><div class="line">                    <span class="keyword">return</span></div><div class="line">        &#125;       </div><div class="line">        <span class="keyword">if</span> panicErr, ok := e.(error); ok &amp;&amp; panicErr == bytes.ErrTooLarge &#123;</div><div class="line">                   err = panicErr</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    <span class="built_in">panic</span>(e)</div><div class="line">        &#125;</div><div class="line">    &#125;()</div><div class="line">    _, err = buf.ReadFrom(r)    <span class="keyword">return</span> buf.Bytes(), err</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>以上是ioutil.ReadAll实现的源代码，也非常简单，基本原理是创建一个byte.Buffer ,通过这个byte.Buffer的ReadFrom方法，把io.Reader里的数据读取出来，最后通过byte.Buffer的Bytes方法进行返回最终读取的字节数据信息。</p>
+<p>整个流的读取和写入已经被完全抽象啦， io包的大部分操作和类型都是基于这两个接口，当然还有http等其他牵涉到数据流、文件流等的，都可以完全用io.Writer和io.Reader接口来表示，通过这两个接口的连接，我们可以实现任何数据的读写。</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/10/30/Golang中defer的关键字/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/11/09/iphone和safari浏览器中关于Date对象的兼容/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+<!-- Gitalk评论插件通用代码 -->
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: '277317290454635afa73',
+  clientSecret: '78223c859304da5e8d71bfce136d436c6ff95c37',
+  repo: 'blog-comment',
+  owner: 'forsigner',
+  // 在这里设置一下截取前50个字符串, 这是因为 github 对 label 的长度有了要求, 如果超过
+  // 50个字符串则会报错.
+  // id: location.pathname.split('/').pop().substring(0, 49),
+  id: md5(location.pathname),
+  admin: ['forsigner'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('gitalk-container')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

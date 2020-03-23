@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>js实现多种括号匹配的解题思路 | 会上树的猪</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="正则,模拟栈," />
+  
+
+  <meta name="description" content="前言: 这几天工作中项目不是很忙,  也真是这样, 我们组中不知道怎么就开始在codewars上面刷题了.我也不例外, 就和他们一起来玩耍这个游戏.然而在昨天的时候遇到一个题:  解决问题要求要求匹配()[]{}着三种括号的匹配,函数返回一个匹配的boole值 方法1: 模拟出栈入栈来实现我在网上查的是通过模拟栈的方式来解决, 因为每次()左括号要匹配成功, 必须有一个相对应的右括号这样才能功能匹">
+<meta name="keywords" content="正则,模拟栈">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js实现多种括号匹配的解题思路">
+<meta property="og:url" content="http://angely.me/2017/08/17/js中模拟栈的操作/index.html">
+<meta property="og:site_name" content="会上树的猪">
+<meta property="og:description" content="前言: 这几天工作中项目不是很忙,  也真是这样, 我们组中不知道怎么就开始在codewars上面刷题了.我也不例外, 就和他们一起来玩耍这个游戏.然而在昨天的时候遇到一个题:  解决问题要求要求匹配()[]{}着三种括号的匹配,函数返回一个匹配的boole值 方法1: 模拟出栈入栈来实现我在网上查的是通过模拟栈的方式来解决, 因为每次()左括号要匹配成功, 必须有一个相对应的右括号这样才能功能匹">
+<meta property="og:updated_time" content="2020-03-23T02:21:44.098Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="js实现多种括号匹配的解题思路">
+<meta name="twitter:description" content="前言: 这几天工作中项目不是很忙,  也真是这样, 我们组中不知道怎么就开始在codewars上面刷题了.我也不例外, 就和他们一起来玩耍这个游戏.然而在昨天的时候遇到一个题:  解决问题要求要求匹配()[]{}着三种括号的匹配,函数返回一个匹配的boole值 方法1: 模拟出栈入栈来实现我在网上查的是通过模拟栈的方式来解决, 因为每次()左括号要匹配成功, 必须有一个相对应的右括号这样才能功能匹">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-38189205-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决问题"><span class="toc-text">解决问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方法1-模拟出栈入栈来实现"><span class="toc-text">方法1: 模拟出栈入栈来实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法2-正则匹配然后替换"><span class="toc-text">方法2: 正则匹配然后替换</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-js中模拟栈的操作" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">js实现多种括号匹配的解题思路</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.08.17</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>li yuan</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/字符串操作/">字符串操作</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言:"></a>前言:</h2><blockquote>
+<p>这几天工作中项目不是很忙,  也真是这样, 我们组中不知道怎么就开始在<code>codewars</code>上面刷题了.我也不例外, 就和他们一起来玩耍这个游戏.<br>然而在昨天的时候遇到一个题:</p>
+</blockquote>
+<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>要求要求匹配<code>()[]{}</code>着三种括号的匹配,函数返回一个匹配的<code>boole</code>值</p>
+<h3 id="方法1-模拟出栈入栈来实现"><a href="#方法1-模拟出栈入栈来实现" class="headerlink" title="方法1: 模拟出栈入栈来实现"></a>方法1: 模拟出栈入栈来实现</h3><p>我在网上查的是通过模拟栈的方式来解决, 因为每次<code>()</code><strong>左括号</strong>要匹配成功, 必须有一个相对应的<strong>右括号</strong>这样才能功能匹配,<br>如果没有相对于的<strong>有括号</strong>就匹配失败,利用<strong>出栈, 入栈</strong>的理解刚好可以和这个想吻合, 遇到<strong>左括号</strong>入栈遇到<strong>有括号</strong>出栈, 随后检测栈中有没有元素.<br>通过上面思路我们来写代码<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">groupCheck</span> (<span class="params">s</span>)  </span>&#123;</div><div class="line">  <span class="keyword">if</span> (s.length % <span class="number">2</span> !== <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">  <span class="keyword">let</span> len = s.length,</div><div class="line">      res = [];</div><div class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</div><div class="line">    <span class="keyword">switch</span>(s[i])&#123;</div><div class="line">    <span class="keyword">case</span> <span class="string">'('</span>:res.push(<span class="number">1</span>);<span class="keyword">break</span>; <span class="comment">// 由于括号有3中, 所以我们给他们每一种打上标签 , 出栈的时候对应标签选择出栈;</span></div><div class="line">    <span class="keyword">case</span> <span class="string">'['</span>:res.push(<span class="number">2</span>);<span class="keyword">break</span>;</div><div class="line">    <span class="keyword">case</span> <span class="string">'&#123;'</span>:res.push(<span class="number">3</span>);<span class="keyword">break</span>;</div><div class="line">    <span class="keyword">case</span> <span class="string">')'</span>:<span class="keyword">if</span>(res[res.length - <span class="number">1</span>] !== <span class="number">1</span>) <span class="keyword">return</span> <span class="literal">false</span>;res.pop();<span class="keyword">break</span>;</div><div class="line">    <span class="keyword">case</span> <span class="string">']'</span>:<span class="keyword">if</span>(res[res.length - <span class="number">1</span>] !== <span class="number">2</span>) <span class="keyword">return</span> <span class="literal">false</span>;res.pop();<span class="keyword">break</span>;</div><div class="line">    <span class="keyword">case</span> <span class="string">'&#125;'</span>:<span class="keyword">if</span>(res[res.length - <span class="number">1</span>] !== <span class="number">3</span>) <span class="keyword">return</span> <span class="literal">false</span>;res.pop();<span class="keyword">break</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> res.length == <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line">groupCheck(<span class="string">'()[&#123;&#125;()[&#123;&#125;]]'</span>);</div><div class="line"><span class="comment">// return 结果为true;</span></div></pre></td></tr></table></figure></p>
+<p>这种方法代码看起来不是很简便, 是因为我当时写完之后, 看到’最佳实践’只有4行代码,  才恍然大悟,</p>
+<h3 id="方法2-正则匹配然后替换"><a href="#方法2-正则匹配然后替换" class="headerlink" title="方法2: 正则匹配然后替换"></a>方法2: 正则匹配然后替换</h3><p>这个方法总体思路也是使用模拟出入栈的方式来检测栈中内容, 而这个方式看起来更简单, 更高效, 直接操作的字符串, 不是数组,  所以实际意义上, 并不是模拟出入栈, 只是借鉴了这种想法.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">groupCheck</span>(<span class="params">s</span>)</span>&#123;</div><div class="line">   <span class="keyword">var</span> r = <span class="regexp">/\&#123;\&#125;|\[\]|\(\)/</span>; <span class="comment">// 使用正则来匹配是否一对括号.</span></div><div class="line">   <span class="keyword">while</span>(r.test(s)) <span class="comment">// 知道没有匹配括号为止</span></div><div class="line">     s = s.replace(r, <span class="string">''</span>); <span class="comment">// 把匹配中的括号替换为空字符串;</span></div><div class="line">   <span class="keyword">return</span> !s.length;</div><div class="line"> &#125;</div><div class="line">groupCheck(<span class="string">'()[&#123;&#125;()[&#123;&#125;]]'</span>);</div><div class="line"><span class="comment">// return 结果为true;</span></div></pre></td></tr></table></figure></p>
+
+    
+  </div>
+
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/08/11/深入理解es7中的decorators/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/09/02/react-native导航的那些事/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+<!-- Gitalk评论插件通用代码 -->
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: '277317290454635afa73',
+  clientSecret: '78223c859304da5e8d71bfce136d436c6ff95c37',
+  repo: 'blog-comment',
+  owner: 'forsigner',
+  // 在这里设置一下截取前50个字符串, 这是因为 github 对 label 的长度有了要求, 如果超过
+  // 50个字符串则会报错.
+  // id: location.pathname.split('/').pop().substring(0, 49),
+  id: md5(location.pathname),
+  admin: ['forsigner'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('gitalk-container')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

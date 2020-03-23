@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>使用js来体验装饰者模式 | 会上树的猪</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="设计模式,es7,decorator," />
+  
+
+  <meta name="description" content="装饰者模式:在不必改变原始类文件和使用继承的情况下, 动态地扩展一个对象的功能, 通过一个创建一个包装对象, 也就是装饰者来包裹这个真实的对象, 这样我们就可以为对象添加一个方法或者一些行为, 但是保持变量名不变。 将方法调用传递给原始对象; 达到不改变原始对象的情况下, 扩展原始对象的目的.  其实这个模式也可以使用的函数上面,  看起来像是下面这样子的 12345678910111213141">
+<meta name="keywords" content="设计模式,es7,decorator">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用js来体验装饰者模式">
+<meta property="og:url" content="http://angely.me/2017/08/11/使用js来体验装饰者模式/index.html">
+<meta property="og:site_name" content="会上树的猪">
+<meta property="og:description" content="装饰者模式:在不必改变原始类文件和使用继承的情况下, 动态地扩展一个对象的功能, 通过一个创建一个包装对象, 也就是装饰者来包裹这个真实的对象, 这样我们就可以为对象添加一个方法或者一些行为, 但是保持变量名不变。 将方法调用传递给原始对象; 达到不改变原始对象的情况下, 扩展原始对象的目的.  其实这个模式也可以使用的函数上面,  看起来像是下面这样子的 12345678910111213141">
+<meta property="og:image" content="http://angely.me/2017/08/11/使用js来体验装饰者模式/理解装饰者模式.jpg">
+<meta property="og:image" content="http://angely.me/2017/08/11/使用js来体验装饰者模式/钢铁侠.jpg">
+<meta property="og:updated_time" content="2020-03-23T02:21:44.132Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用js来体验装饰者模式">
+<meta name="twitter:description" content="装饰者模式:在不必改变原始类文件和使用继承的情况下, 动态地扩展一个对象的功能, 通过一个创建一个包装对象, 也就是装饰者来包裹这个真实的对象, 这样我们就可以为对象添加一个方法或者一些行为, 但是保持变量名不变。 将方法调用传递给原始对象; 达到不改变原始对象的情况下, 扩展原始对象的目的.  其实这个模式也可以使用的函数上面,  看起来像是下面这样子的 12345678910111213141">
+<meta name="twitter:image" content="http://angely.me/2017/08/11/使用js来体验装饰者模式/理解装饰者模式.jpg">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-38189205-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#装饰者模式"><span class="toc-text">装饰者模式:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#装饰者模式和es7中的decorator"><span class="toc-text">装饰者模式和es7中的decorator</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#下面我们以-钢铁侠-为例讲解如何使用-ES7-的-decorator。"><span class="toc-text">下面我们以 钢铁侠 为例讲解如何使用 ES7 的 decorator。</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用原生js实现装饰器模式"><span class="toc-text">使用原生js实现装饰器模式</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-使用js来体验装饰者模式" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">使用js来体验装饰者模式</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.08.11</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>li yuan</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="装饰者模式"><a href="#装饰者模式" class="headerlink" title="装饰者模式:"></a>装饰者模式:</h2><p>在不必改变原始<strong>类</strong>文件和使用继承的情况下, 动态地扩展一个对象的功能, 通过一个创建一个包装对象, 也就是装饰者来包裹这个真实的对象, 这样我们就可以为对象添加一个方法或者一些行为, 但是保持变量名不变。 将方法调用传递给原始对象; 达到不改变原始对象的情况下, 扩展原始对象的目的.</p>
+<img src="/2017/08/11/使用js来体验装饰者模式/理解装饰者模式.jpg" alt="理解装饰者模式" title="理解装饰者模式">
+<p>其实这个模式也可以使用的<strong>函数</strong>上面,  看起来像是下面这样子的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 原有函数</span></div><div class="line"><span class="keyword">let</span> getData = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">  <span class="keyword">return</span> (<span class="keyword">new</span> <span class="built_in">Date</span>()).toString();</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// 包装函数,  写过函数式的应该很容易就可以看明白</span></div><div class="line"><span class="keyword">let</span> upperCaseDacorator = <span class="function"><span class="params">fn</span> =&gt;</span> &#123;</div><div class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">...arg</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">return</span> fn.apply(<span class="keyword">this</span>, arg).toUpperCase();</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// 调用装饰折后的函数方法</span></div><div class="line"><span class="keyword">let</span> test = upperCaseDacorator(getData)()</div><div class="line"><span class="built_in">console</span>.log(test);</div></pre></td></tr></table></figure>
+<p>个人经常使用上面这种形式的方法,  平时写函数比较多, 看起来也更简单.</p>
+<h2 id="装饰者模式和es7中的decorator"><a href="#装饰者模式和es7中的decorator" class="headerlink" title="装饰者模式和es7中的decorator"></a>装饰者模式和<code>es7</code>中的<code>decorator</code></h2><p><a href="http://www.cnblogs.com/whitewolf/p/details-of-ES7-JavaScript-Decorators.html" target="_blank" rel="external">不知道的可以先看看这里</a><br><code>es7</code>中增加了一个<code>decorator</code>属性, 借鉴自<code>python</code>,</p>
+<h3 id="下面我们以-钢铁侠-为例讲解如何使用-ES7-的-decorator。"><a href="#下面我们以-钢铁侠-为例讲解如何使用-ES7-的-decorator。" class="headerlink" title="下面我们以 钢铁侠 为例讲解如何使用 ES7 的 decorator。"></a>下面我们以 钢铁侠 为例讲解如何使用 ES7 的 decorator。</h3><p>以钢铁侠为例，钢铁侠本质是一个人，只是“装饰”了很多武器方才变得那么 NB，不过再怎么装饰他还是一个人。</p>
+<img src="/2017/08/11/使用js来体验装饰者模式/钢铁侠.jpg" alt="理解装饰者模式" title="理解装饰者模式">
+<p>我们的示例场景是这样的</p>
+<ul>
+<li>创建一个普通的Man类，它的抵御值 2，攻击力为 3，血量为 3；</li>
+<li>我们让其带上钢铁侠的盔甲，这样他的抵御力增加 100，变成 102；</li>
+<li>让其带上光束手套，攻击力增加 50，变成 53；</li>
+<li>最后让他增加“飞行”能力</li>
+</ul>
+<p>好的, 现在我们来创建普通<code>Man</code>类:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Man</span></span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(def = 2, atk = 3, hp = 3) &#123;</div><div class="line">    <span class="keyword">this</span>.init(def, atk, hp);</div><div class="line">  &#125;</div><div class="line">  init(def, atk, hp) &#123;</div><div class="line">    <span class="keyword">this</span>.def = def; <span class="comment">// 防御值</span></div><div class="line">    <span class="keyword">this</span>.atk = atk; <span class="comment">// 攻击力</span></div><div class="line">    <span class="keyword">this</span>.hp = hp; <span class="comment">// 血量</span></div><div class="line">  &#125;</div><div class="line">  toString() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">`防御力:<span class="subst">$&#123;<span class="keyword">this</span>.def&#125;</span>,攻击力:<span class="subst">$&#123;<span class="keyword">this</span>.atk&#125;</span>,血量:<span class="subst">$&#123;<span class="keyword">this</span>.hp&#125;</span>`</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> tony = <span class="keyword">new</span> Man();</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="string">`当前状态 ===&gt; <span class="subst">$&#123;tony&#125;</span>`</span>);</div><div class="line"><span class="comment">// 输出：当前状态 ===&gt; 防御力:2,攻击力:3,血量:3</span></div></pre></td></tr></table></figure>
+<p>穿件<code>decorateArmour</code>头盔方法, 为钢铁侠装配盔甲 . <code>decorateArmour</code>是装饰在方法<code>init</code>上的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">decorateArmour</span>(<span class="params">target, key, descriptor</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> method = descriptor.value;</div><div class="line">  <span class="keyword">let</span> moreDef = <span class="number">100</span>;</div><div class="line">  <span class="keyword">let</span> ret;</div><div class="line">  descriptor.value = <span class="function">(<span class="params">...args</span>) =&gt;</span> &#123;</div><div class="line">    args[<span class="number">0</span>] += moreDef;</div><div class="line">    ret = method.apply(target, args);</div><div class="line">    <span class="keyword">return</span> ret;</div><div class="line">  &#125;;</div><div class="line">  <span class="keyword">return</span> descriptor;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Man</span></span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(def = 2, atk = 3, hp = 3) &#123;</div><div class="line">    <span class="keyword">this</span>.init(def, atk, hp);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  @decorateArmour</div><div class="line">  init(def, atk, hp) &#123;</div><div class="line">    <span class="keyword">this</span>.def = def; <span class="comment">// 防御值</span></div><div class="line">    <span class="keyword">this</span>.atk = atk; <span class="comment">// 攻击力</span></div><div class="line">    <span class="keyword">this</span>.hp = hp; <span class="comment">// 血量</span></div><div class="line">  &#125;</div><div class="line">  toString() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">`防御力:<span class="subst">$&#123;<span class="keyword">this</span>.def&#125;</span>,攻击力:<span class="subst">$&#123;<span class="keyword">this</span>.atk&#125;</span>,血量:<span class="subst">$&#123;<span class="keyword">this</span>.hp&#125;</span>`</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 输出：当前状态 ===&gt; 防御力:102,攻击力:3,血量:3</span></div></pre></td></tr></table></figure>
+<p>我们看到输出结果, <code>输出：当前状态 ===&gt; 防御力:102,攻击力:3,血量:3</code>, 看起来盔甲起作用了.</p>
+<p>初学者这里会有两个疑问</p>
+<ul>
+<li><code>decorateArmour</code>方法的参数为啥是这三个? 可以更换么?</li>
+<li><code>decorateArmour</code>方法为什么放回的是<code>descriptor</code></li>
+</ul>
+<p>这里给出个人的解答作为参考:</p>
+<ul>
+<li><strong>Decorators</strong>的本质是利用了es5中的<code>Object.defineProperty</code>属性, 这三个参数其实是和<code>Object.defineProperty</code>参数一样的, 因此不能改变, <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty" target="_blank" rel="external">详细分析参考</a></li>
+<li>可以看看<strong>bable转码后</strong>的代码, 其中有一句是<code>descriptor = descriptor(target, key, descriptor) || descriptor;</code>想要具体理解还需要看代码中的上下文.</li>
+</ul>
+<p><strong>demo2 装饰器叠加: 增加光束手套</strong><br>在上面的示例中, 我们成功为普通人 增加’盔甲’这个装饰;现在我们继续添加光束手套, 来达到增加50点防御值.<br>我们还是在<strong><code>decorateArmour</code></strong>方法做修改, 改名为<code>decorateLight</code>, 同事修改防御值的属性:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">decorateLight</span>(<span class="params">target, key, descriptor</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> method = descriptor.value;</div><div class="line">  <span class="keyword">let</span> moreAtk = <span class="number">50</span>;</div><div class="line">  <span class="keyword">let</span> ret;</div><div class="line">  descriptor.value = <span class="function">(<span class="params">...args</span>) =&gt;</span> &#123;</div><div class="line">    args[<span class="number">1</span>] += moreAtk;</div><div class="line">    ret = method.apply(target, args);</div><div class="line">    <span class="keyword">return</span> ret;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> descriptor;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Step2: 直接在<strong><code>init</code></strong>方法上添加装饰语法:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@decorateArmour</div><div class="line">  @decorateLight</div><div class="line">  init(def,atk,hp)&#123;</div><div class="line">    <span class="keyword">this</span>.def = def; <span class="comment">// 防御值</span></div><div class="line">    <span class="keyword">this</span>.atk = atk;  <span class="comment">// 攻击力</span></div><div class="line">    <span class="keyword">this</span>.hp = hp;  <span class="comment">// 血量</span></div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<p>最后, 我们的代码就成了下面的样子<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">decorateLight</span>(<span class="params">target, key, descriptor</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> method = descriptor.value;</div><div class="line">  <span class="keyword">let</span> moreAtk = <span class="number">50</span>;</div><div class="line">  <span class="keyword">let</span> ret;</div><div class="line">  descriptor.value = <span class="function">(<span class="params">...args</span>)=&gt;</span>&#123;</div><div class="line">    args[<span class="number">1</span>] += moreAtk;</div><div class="line">    ret = method.apply(target, args);</div><div class="line">    <span class="keyword">return</span> ret;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> descriptor;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Man</span></span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(def = 2,atk = 3,hp = 3)&#123;</div><div class="line">    <span class="keyword">this</span>.init(def,atk,hp);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  @decorateArmour</div><div class="line">  @decorateLight</div><div class="line">  init(def,atk,hp)&#123;</div><div class="line">    <span class="keyword">this</span>.def = def; <span class="comment">// 防御值</span></div><div class="line">    <span class="keyword">this</span>.atk = atk;  <span class="comment">// 攻击力</span></div><div class="line">    <span class="keyword">this</span>.hp = hp;  <span class="comment">// 血量</span></div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> tony = <span class="keyword">new</span> Man();</div><div class="line"><span class="built_in">console</span>.log(<span class="string">`当前状态 ===&gt; <span class="subst">$&#123;tony&#125;</span>`</span>);</div><div class="line"><span class="comment">//输出：当前状态 ===&gt; 防御力:102,攻击力:53,血量:3</span></div></pre></td></tr></table></figure></p>
+<p>我们这个总结一下上面装饰模式的优势, 它可以对方法进行叠加使用, 对原始类的侵入行非常小, 只是增加一行<br><code>@decorateLight</code>, 可以方便的修改(同事还可以复用)</p>
+<p>装饰模式有两种: <strong>纯粹的装饰模式</strong>和<strong>半透明的装饰模式</strong>.<br>上面的demo中所使用的恩是 <strong>纯粹的装饰模式</strong>, 它并不增加对原始累的接口;<br>下面我们使用<strong>半透明的装饰模式</strong>来增加一个飞行的能力.看样子像适配器模式(TODO: 适配器模式)的样子</p>
+<p>Step1: 增加一个方法<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addFly</span>(<span class="params">canFly</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="params">target</span> =&gt;</span> &#123;</div><div class="line">    target.canFly = canFly;</div><div class="line">    <span class="keyword">const</span> extra = canFly ? <span class="string">'(添加飞行能力)'</span> : <span class="string">''</span>;</div><div class="line">    <span class="keyword">const</span> method = target.prototype.toString;</div><div class="line">    target.prototype.toString = <span class="function">(<span class="params">...args</span>) =&gt;</span> &#123;</div><div class="line">      <span class="keyword">return</span> method.apply(target.prototype.args) + extra;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> target;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Step2: 这个方法将直接去装饰原始lei:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addFly</span>(<span class="params">canFly</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">target</span>)</span>&#123;</div><div class="line">    target.canFly = canFly;</div><div class="line">    <span class="keyword">let</span> extra = canFly ? <span class="string">'(技能加成:飞行能力)'</span> : <span class="string">''</span>;</div><div class="line">    <span class="keyword">let</span> method = target.prototype.toString;</div><div class="line">    target.prototype.toString = <span class="function">(<span class="params">...args</span>)=&gt;</span>&#123;</div><div class="line">      <span class="keyword">return</span> method.apply(target.prototype,args) + extra;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> target;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@addFly(<span class="literal">true</span>)</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Man</span></span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(def = 2,atk = 3,hp = 3)&#123;</div><div class="line">    <span class="keyword">this</span>.init(def,atk,hp);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  @decorateArmour</div><div class="line">  @decorateLight</div><div class="line">  init(def,atk,hp)&#123;</div><div class="line">    <span class="keyword">this</span>.def = def; <span class="comment">// 防御值</span></div><div class="line">    <span class="keyword">this</span>.atk = atk;  <span class="comment">// 攻击力</span></div><div class="line">    <span class="keyword">this</span>.hp = hp;  <span class="comment">// 血量</span></div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="string">`当前状态 ===&gt; <span class="subst">$&#123;tony&#125;</span>`</span>);</div><div class="line"><span class="comment">// 输出：当前状态 ===&gt; 防御力:102,攻击力:53,血量:3(技能加成:飞行能力)</span></div></pre></td></tr></table></figure></p>
+<p>作用在方法上的 <code>decorator</code> 接收的第一个参数（ target ）是类的 prototype ；如果把一个 <code>decorator</code> 作用到类上，则它的第一个参数 target 是 类本身 。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>看到这里估计还有些人会迷糊着, 说到底,  装饰模式中的<code>@</code>其实就是一个<strong>高阶函数</strong>, 下面是语法糖给你传入的参数;<br>这里就那<code>redux</code>中的<code>connect</code>函数来举例子,</p>
+<p><code>connect(mapStoreToProps, mapDispatchToProps)(Component)</code>这里是<code>connect</code>方法的具体调用方法, 其中使用装饰者模式就是下面的样子<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">@connect(mapStoreToProps, mapDispatchToProps)</div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">    render () &#123;</div><div class="line">        <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">""</span>&gt;</span>组件<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// 这里可以看出装饰者模式在es7中只是一种语法糖!!!</span></div></pre></td></tr></table></figure></p>
+<blockquote>
+<p><a href="http://www.tuicool.com/articles/2yeiEr" target="_blank" rel="external">原文地址</a></p>
+</blockquote>
+<h2 id="使用原生js实现装饰器模式"><a href="#使用原生js实现装饰器模式" class="headerlink" title="使用原生js实现装饰器模式"></a>使用原生<strong>js</strong>实现装饰器模式</h2><blockquote>
+<p><a href="http://www.codingserf.com/index.php/2015/05/javascript-design-patterns-decorator/" target="_blank" rel="external">javascript设计模式: 装饰者模式</a></p>
+</blockquote>
+
+    
+  </div>
+
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/08/09/奇偶数排序/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/08/11/深入理解es7中的decorators/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+<!-- Gitalk评论插件通用代码 -->
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: '277317290454635afa73',
+  clientSecret: '78223c859304da5e8d71bfce136d436c6ff95c37',
+  repo: 'blog-comment',
+  owner: 'forsigner',
+  // 在这里设置一下截取前50个字符串, 这是因为 github 对 label 的长度有了要求, 如果超过
+  // 50个字符串则会报错.
+  // id: location.pathname.split('/').pop().substring(0, 49),
+  id: md5(location.pathname),
+  admin: ['forsigner'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('gitalk-container')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

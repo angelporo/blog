@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Nginx反向代理配置字段详解 | 会上树的猪</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Nginx," />
+  
+
+  <meta name="description" content="安装brew install nginx如果不清楚安装目录, run nginx -h 就可以看到默认的配置文件地址mac一般在/usr/local/etc/nginx 基本配置123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960">
+<meta name="keywords" content="Nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx反向代理配置字段详解">
+<meta property="og:url" content="http://angely.me/2018/02/27/Nginx反向代理配置字段接受/index.html">
+<meta property="og:site_name" content="会上树的猪">
+<meta property="og:description" content="安装brew install nginx如果不清楚安装目录, run nginx -h 就可以看到默认的配置文件地址mac一般在/usr/local/etc/nginx 基本配置123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960">
+<meta property="og:updated_time" content="2020-03-23T02:21:44.085Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nginx反向代理配置字段详解">
+<meta name="twitter:description" content="安装brew install nginx如果不清楚安装目录, run nginx -h 就可以看到默认的配置文件地址mac一般在/usr/local/etc/nginx 基本配置123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-38189205-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装brew-install-nginx"><span class="toc-text">安装brew install nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基本配置"><span class="toc-text">基本配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx启动-重启-以及关闭命令"><span class="toc-text">nginx启动,重启,以及关闭命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#停止"><span class="toc-text">停止</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重启"><span class="toc-text">重启</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-Nginx反向代理配置字段接受" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Nginx反向代理配置字段详解</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.02.27</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>li yuan</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/Nginx配置详解/">Nginx配置详解</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="安装brew-install-nginx"><a href="#安装brew-install-nginx" class="headerlink" title="安装brew install nginx"></a>安装<code>brew install nginx</code></h2><p>如果不清楚安装目录, run <code>nginx -h</code> 就可以看到默认的配置文件地址<br>mac一般在<code>/usr/local/etc/nginx</code></p>
+<h2 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div></pre></td><td class="code"><pre><div class="line">#运行用户</div><div class="line">user www-data;    </div><div class="line">#启动进程,通常设置成和cpu的数量相等</div><div class="line">worker_processes  1;</div><div class="line"></div><div class="line">#全局错误日志及PID文件</div><div class="line">error_log  /var/log/nginx/error.log;</div><div class="line">pid        /var/run/nginx.pid;</div><div class="line"></div><div class="line">#工作模式及连接数上限</div><div class="line">events &#123;</div><div class="line">    use   epoll;             #epoll是多路复用IO(I/O Multiplexing)中的一种方式,但是仅用于linux2.6以上内核,可以大大提高nginx的性能</div><div class="line">    worker_connections  1024;#单个后台worker process进程的最大并发链接数</div><div class="line">    # multi_accept on; </div><div class="line">&#125;</div><div class="line"></div><div class="line">#设定http服务器，利用它的反向代理功能提供负载均衡支持</div><div class="line">http &#123;</div><div class="line">     #设定mime类型,类型由mime.type文件定义</div><div class="line">    include       /etc/nginx/mime.types;</div><div class="line">    default_type  application/octet-stream;</div><div class="line">    #设定日志格式</div><div class="line">    access_log    /var/log/nginx/access.log;</div><div class="line"></div><div class="line">    #sendfile 指令指定 nginx 是否调用 sendfile 函数（zero copy 方式）来输出文件，对于普通应用，</div><div class="line">    #必须设为 on,如果用来进行下载等应用磁盘IO重负载应用，可设置为 off，以平衡磁盘与网络I/O处理速度，降低系统的uptime.</div><div class="line">    sendfile        on;</div><div class="line">    #tcp_nopush     on;</div><div class="line"></div><div class="line">    #连接超时时间</div><div class="line">    #keepalive_timeout  0;</div><div class="line">    keepalive_timeout  65;</div><div class="line">    tcp_nodelay        on;</div><div class="line">    </div><div class="line">    #开启gzip压缩</div><div class="line">    gzip  on;</div><div class="line">    gzip_disable &quot;MSIE [1-6]\.(?!.*SV1)&quot;;</div><div class="line"></div><div class="line">    #设定请求缓冲</div><div class="line">    client_header_buffer_size    1k;</div><div class="line">    large_client_header_buffers  4 4k;</div><div class="line"></div><div class="line">    include /etc/nginx/conf.d/*.conf;</div><div class="line">    include /etc/nginx/sites-enabled/*;</div><div class="line"></div><div class="line">    #设定负载均衡的服务器列表</div><div class="line">     upstream mysvr &#123;</div><div class="line">    #weigth参数表示权值，权值越高被分配到的几率越大</div><div class="line">    #本机上的Squid开启3128端口</div><div class="line">    server 192.168.8.1:3128 weight=5;</div><div class="line">    server 192.168.8.2:80  weight=1;</div><div class="line">    server 192.168.8.3:80  weight=6;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">   server &#123;</div><div class="line">    #侦听80端口</div><div class="line">        listen       80;</div><div class="line">        #定义使用www.xx.com访问</div><div class="line">        server_name  www.xx.com;</div><div class="line"></div><div class="line">        #设定本虚拟主机的访问日志</div><div class="line">        access_log  logs/www.xx.com.access.log  main;</div><div class="line"></div><div class="line">    #默认请求</div><div class="line">    location / &#123;</div><div class="line">          root   /root;      #定义服务器的默认网站根目录位置</div><div class="line">          index index.php index.html index.htm;   #定义首页索引文件的名称</div><div class="line"></div><div class="line">          fastcgi_pass  www.xx.com;</div><div class="line">         fastcgi_param  SCRIPT_FILENAME  $document_root/$fastcgi_script_name; </div><div class="line">          include /etc/nginx/fastcgi_params;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    # 定义错误提示页面</div><div class="line">    error_page   500 502 503 504 /50x.html;  </div><div class="line">        location = /50x.html &#123;</div><div class="line">        root   /root;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    #静态文件，nginx自己处理</div><div class="line">    location ~ ^/(images|javascript|js|css|flash|media|static)/ &#123;</div><div class="line">        root /var/www/virtual/htdocs;</div><div class="line">        #过期30天，静态文件不怎么更新，过期可以设大一点，如果频繁更新，则可以设置得小一点。</div><div class="line">        expires 30d;</div><div class="line">    &#125;</div><div class="line">    #PHP 脚本请求全部转发到 FastCGI处理. 使用FastCGI默认配置.</div><div class="line">    location ~ \.php$ &#123;</div><div class="line">        root /root;</div><div class="line">        fastcgi_pass 127.0.0.1:9000;</div><div class="line">        fastcgi_index index.php;</div><div class="line">        fastcgi_param SCRIPT_FILENAME /home/www/www$fastcgi_script_name;</div><div class="line">        include fastcgi_params;</div><div class="line">    &#125;</div><div class="line">    #设定查看Nginx状态的地址</div><div class="line">    location /NginxStatus &#123;</div><div class="line">        stub_status            on;</div><div class="line">        access_log              on;</div><div class="line">        auth_basic              &quot;NginxStatus&quot;;</div><div class="line">        auth_basic_user_file  conf/htpasswd;</div><div class="line">    &#125;</div><div class="line">    #禁止访问 .htxxx 文件</div><div class="line">    location ~ /\.ht &#123;</div><div class="line">        deny all;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>负载均衡配置<br>主要修改http节点内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line">#设定http服务器，利用它的反向代理功能提供负载均衡支持</div><div class="line">http &#123;</div><div class="line">     #设定mime类型,类型由mime.type文件定义</div><div class="line">    include       /etc/nginx/mime.types;</div><div class="line">    default_type  application/octet-stream;</div><div class="line">    #设定日志格式</div><div class="line">    access_log    /var/log/nginx/access.log;</div><div class="line"></div><div class="line">    #省略上文有的一些配置节点</div><div class="line"></div><div class="line">    #。。。。。。。。。。</div><div class="line"></div><div class="line">    #设定负载均衡的服务器列表</div><div class="line">     upstream mysvr &#123;</div><div class="line">    #weigth参数表示权值，权值越高被分配到的几率越大</div><div class="line">    server 192.168.8.1x:3128 weight=5;#本机上的Squid开启3128端口</div><div class="line">    server 192.168.8.2x:80  weight=1;</div><div class="line">    server 192.168.8.3x:80  weight=6;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">   upstream mysvr2 &#123;</div><div class="line">    #weigth参数表示权值，权值越高被分配到的几率越大</div><div class="line"></div><div class="line">    server 192.168.8.x:80  weight=1;</div><div class="line">    server 192.168.8.x:80  weight=6;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">   #第一个虚拟服务器</div><div class="line">   server &#123;</div><div class="line">    #侦听192.168.8.x的80端口</div><div class="line">        listen       80;</div><div class="line">        server_name  192.168.8.x;</div><div class="line"></div><div class="line">      #对aspx后缀的进行负载均衡请求</div><div class="line">    location ~ .*\.aspx$ &#123;</div><div class="line"></div><div class="line">         root   /root;      #定义服务器的默认网站根目录位置</div><div class="line">          index index.php index.html index.htm;   #定义首页索引文件的名称</div><div class="line"></div><div class="line">          proxy_pass  http://mysvr ;#请求转向mysvr 定义的服务器列表</div><div class="line"></div><div class="line">          #以下是一些反向代理的配置可删除.</div><div class="line"></div><div class="line">          proxy_redirect off;</div><div class="line"></div><div class="line">          #后端的Web服务器可以通过X-Forwarded-For获取用户真实IP</div><div class="line">          proxy_set_header Host $host;</div><div class="line">          proxy_set_header X-Real-IP $remote_addr;</div><div class="line">          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</div><div class="line">          client_max_body_size 10m;    #允许客户端请求的最大单文件字节数</div><div class="line">          client_body_buffer_size 128k;  #缓冲区代理缓冲用户端请求的最大字节数，</div><div class="line">          proxy_connect_timeout 90;  #nginx跟后端服务器连接超时时间(代理连接超时)</div><div class="line">          proxy_send_timeout 90;        #后端服务器数据回传时间(代理发送超时)</div><div class="line">          proxy_read_timeout 90;         #连接成功后，后端服务器响应时间(代理接收超时)</div><div class="line">          proxy_buffer_size 4k;             #设置代理服务器（nginx）保存用户头信息的缓冲区大小</div><div class="line">          proxy_buffers 4 32k;               #proxy_buffers缓冲区，网页平均在32k以下的话，这样设置</div><div class="line">          proxy_busy_buffers_size 64k;    #高负荷下缓冲大小（proxy_buffers*2）</div><div class="line">          proxy_temp_file_write_size 64k;  #设定缓存文件夹大小，大于这个值，将从upstream服务器传</div><div class="line"></div><div class="line">       &#125;</div><div class="line">     &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="nginx启动-重启-以及关闭命令"><a href="#nginx启动-重启-以及关闭命令" class="headerlink" title="nginx启动,重启,以及关闭命令"></a>nginx启动,重启,以及关闭命令</h2><h3 id="停止"><a href="#停止" class="headerlink" title="停止"></a>停止</h3><p>1 查询nginx进程号然后kill掉<br><code>ps -ef | ag nginx</code><br>在进程列表里 面找master进程，它的编号就是主进程号了。</p>
+<p>2 发送信号<br>从容停止Nginx：<br>kill -QUIT 主进程号<br>快速停止Nginx：<br>kill -TERM 主进程号<br>强制停止Nginx：<br>pkill -9 nginx</p>
+<p>我使用的<code>zsh</code> 所以关闭起来很容易, 直接<code>kill nginx</code>然后按<code>tab</code>就可以显示出<code>nginx</code>进程号</p>
+<h3 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h3><p><strong>注意</strong>，修改了配置文件后最好先检查一下修改过的配置文件是否正 确，以免重启后Nginx出现错误影响服务器稳定运行。判断Nginx配置是否正确命令如下：<br><code>nginx -t -c /usr/nginx/conf/nginx.conf</code></p>
+<p>重启<code>/usr/nginx/sbin/nginx -s reload</code></p>
+
+    
+  </div>
+
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/02/27/使用jsdoc通过注释来自动生成js文档/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/02/28/使用pm2来部署node项目/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+<!-- Gitalk评论插件通用代码 -->
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: '277317290454635afa73',
+  clientSecret: '78223c859304da5e8d71bfce136d436c6ff95c37',
+  repo: 'blog-comment',
+  owner: 'forsigner',
+  // 在这里设置一下截取前50个字符串, 这是因为 github 对 label 的长度有了要求, 如果超过
+  // 50个字符串则会报错.
+  // id: location.pathname.split('/').pop().substring(0, 49),
+  id: md5(location.pathname),
+  admin: ['forsigner'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('gitalk-container')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

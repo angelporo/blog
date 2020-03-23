@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>状态模式 | 会上树的猪</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="设计模式," />
+  
+
+  <meta name="description" content="也是第一次听说这个状态模式, 也是学习的方式来写一下这个模式的简单理解;  状态模式:(state), 当一个对象的内部状态发生改变时, 会导致其行为的改变, 看起来像是改变了对象 举个栗子: 有一个人去掷骰子, 犹豫没有做手脚(你懂的), 所以,  一直都是看运气. 首先, 定义一个奖品数组:1let prizes = [&apos;prize1&apos;, &apos;prize2&apos;, &apos;prize3&apos;, &apos;prize">
+<meta name="keywords" content="设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="状态模式">
+<meta property="og:url" content="http://angely.me/2017/08/07/状态模式/index.html">
+<meta property="og:site_name" content="会上树的猪">
+<meta property="og:description" content="也是第一次听说这个状态模式, 也是学习的方式来写一下这个模式的简单理解;  状态模式:(state), 当一个对象的内部状态发生改变时, 会导致其行为的改变, 看起来像是改变了对象 举个栗子: 有一个人去掷骰子, 犹豫没有做手脚(你懂的), 所以,  一直都是看运气. 首先, 定义一个奖品数组:1let prizes = [&apos;prize1&apos;, &apos;prize2&apos;, &apos;prize3&apos;, &apos;prize">
+<meta property="og:updated_time" content="2020-03-23T02:21:44.153Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="状态模式">
+<meta name="twitter:description" content="也是第一次听说这个状态模式, 也是学习的方式来写一下这个模式的简单理解;  状态模式:(state), 当一个对象的内部状态发生改变时, 会导致其行为的改变, 看起来像是改变了对象 举个栗子: 有一个人去掷骰子, 犹豫没有做手脚(你懂的), 所以,  一直都是看运气. 首先, 定义一个奖品数组:1let prizes = [&apos;prize1&apos;, &apos;prize2&apos;, &apos;prize3&apos;, &apos;prize">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-38189205-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#状态模式"><span class="toc-text">状态模式:</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-状态模式" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">状态模式</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.08.07</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>li yuan</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <blockquote>
+<p>也是第一次听说这个<code>状态模式</code>, 也是学习的方式来写一下这个模式的简单理解;</p>
+</blockquote>
+<h2 id="状态模式"><a href="#状态模式" class="headerlink" title="状态模式:"></a>状态模式:</h2><p>(state), 当一个对象的内部状态发生改变时, 会导致其行为的改变, 看起来像是改变了对象</p>
+<p>举个栗子: 有一个人去掷骰子, 犹豫没有做手脚(你懂的), 所以,  一直都是看运气.</p>
+<p>首先, 定义一个奖品数组:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> prizes = [<span class="string">'prize1'</span>, <span class="string">'prize2'</span>, <span class="string">'prize3'</span>, <span class="string">'prize4'</span>, <span class="string">'prize5'</span>, <span class="string">'prize6'</span>];</div></pre></td></tr></table></figure></p>
+<p>接下来定义一个1~6的随机函数来充当骰子, 如下:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> dice = <span class="function">(<span class="params">(</span>) =&gt;</span> &#123;</div><div class="line">  <span class="keyword">let</span> result = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random()*<span class="number">6</span>+<span class="number">1</span>);</div><div class="line">  <span class="keyword">return</span> &#123; <span class="attr">res</span>: result&#125;;</div><div class="line">&#125;)();</div></pre></td></tr></table></figure></p>
+<p>现在已经准备完毕, 我们需要让一个人来掷骰子, 如下:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="params">endRes</span> =&gt;</span> &#123;</div><div class="line">	<span class="keyword">if</span>(endRes === <span class="number">1</span>)&#123;</div><div class="line">		<span class="built_in">console</span>.log(<span class="string">'您获得了'</span>+test[<span class="number">0</span>]);</div><div class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(endRes === <span class="number">2</span>)&#123;</div><div class="line">		<span class="built_in">console</span>.log(<span class="string">'您获得了'</span>+test[<span class="number">1</span>]);</div><div class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(endRes === <span class="number">3</span>)&#123;</div><div class="line">		<span class="built_in">console</span>.log(<span class="string">'您获得了'</span>+test[<span class="number">2</span>]);</div><div class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(endRes === <span class="number">4</span>)&#123;</div><div class="line">		<span class="built_in">console</span>.log(<span class="string">'您获得了'</span>+test[<span class="number">3</span>]);</div><div class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(endRes === <span class="number">5</span>)&#123;</div><div class="line">		<span class="built_in">console</span>.log(<span class="string">'您获得了'</span>+test[<span class="number">4</span>]);</div><div class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(endRes === <span class="number">6</span>)&#123;</div><div class="line">		<span class="built_in">console</span>.log(<span class="string">'您获得了'</span>+test[<span class="number">5</span>]);</div><div class="line">	&#125;</div><div class="line">&#125;)(dice.res)</div></pre></td></tr></table></figure></p>
+<p>然后控制台打印吃了6以内的随机奖品</p>
+<p>接下来我们看看一个多种比较复制的条件和逻辑时的状态模式形式, 代码如下:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> State = <span class="function">(<span class="params"> (</span>) =&gt;</span> &#123;</div><div class="line">  <span class="keyword">let</span> States = &#123;</div><div class="line">    <span class="attr">state0</span>: <span class="function">(<span class="params">params</span>) =&gt;</span> &#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">'state0~'</span>);</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">state1</span>: <span class="function">(<span class="params">params</span>) =&gt;</span> &#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">'state1~'</span>);</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">state2</span>:  <span class="function">(<span class="params">params</span>) =&gt;</span> &#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">'state2~'</span>);</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">state3</span>: <span class="function">(<span class="params">params</span>) =&gt;</span> &#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">'state3~'</span>);</div><div class="line">    &#125;</div><div class="line">  &#125;;</div><div class="line">  <span class="keyword">let</span> getResult = <span class="function">(<span class="params">result</span>) =&gt;</span> &#123;</div><div class="line">    States[<span class="string">'state'</span> + result] &amp;&amp; States[<span class="string">'state'</span> + result]();</div><div class="line">  &#125;;</div><div class="line">  <span class="keyword">return</span> &#123; <span class="attr">setState</span>: getResult &#125;;</div><div class="line">&#125;)();</div></pre></td></tr></table></figure></p>
+<p>这里的处理方式明显要感觉清爽许多, 并且各个分支很独立, 我们可以对于通用变量, 函数等进行罗列, 组装等, 灵活性可谓是大大的增强~</p>
+<p>此时我们看看其中一个状态下的处理, 调用和控制台输出如下所示:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">State.setState(<span class="number">1</span>);</div><div class="line"></div><div class="line">state1~</div></pre></td></tr></table></figure>
+<p>这里我们也可以定义一个log函数来进一步的状态做一个监控, 代码如下:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> log = <span class="function">(<span class="params">(</span>) =&gt;</span> &#123;</div><div class="line">  <span class="keyword">let</span> info = <span class="string">''</span>;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    <span class="attr">set</span>: <span class="function"><span class="params">msg</span> =&gt;</span> &#123;</div><div class="line">      info += msg + <span class="string">'\n'</span>;</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">getAll</span>: <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">      <span class="built_in">console</span>.log(info);</div><div class="line">      info = <span class="string">''</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;;</div><div class="line">&#125;)();</div></pre></td></tr></table></figure></p>
+<p>这里我们定义了添加方法set和获取日志方法getAll.接下来我们找个例子看看</p>
+<p>我一个朋友最近入手了一台mac，哈哈，我们就mac的操作方式做一个例子吧，mac可以通过键盘，触控板，鼠标来进行界面操作。我们用状态模式来定义这么一个构造器，代码如下，主要注释已经写好～</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> MacState = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">  <span class="keyword">let</span> _needState = &#123;&#125;;</div><div class="line">  states = &#123;</div><div class="line">    <span class="attr">keyBoard</span>: <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">      log.set(<span class="string">'keyBoard -&gt; 敲击了一下'</span>);</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">touchPad</span>: <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">      log.set(<span class="string">'touchPad -&gt; 操作一下'</span>);</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">mouse</span>: <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">      log.set(<span class="string">'mouse -&gt; 按一下'</span>);</div><div class="line">    &#125;</div><div class="line">  &#125;;</div><div class="line"></div><div class="line">  <span class="keyword">let</span> Action = &#123;</div><div class="line">    <span class="attr">addStates</span>: <span class="function">(<span class="params">...arg</span>) =&gt;</span> &#123;</div><div class="line">      <span class="comment">//清空操作对象</span></div><div class="line">      _needState = &#123;&#125;;</div><div class="line">      <span class="comment">// 遍历添加动作</span></div><div class="line">      <span class="keyword">if</span>(arg.length) &#123;</div><div class="line">        arg.forEach( <span class="function">(<span class="params">n</span>) =&gt;</span> &#123;</div><div class="line">          _needState[i] = <span class="literal">true</span>;</div><div class="line">        &#125;);</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">mission</span>: <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">      <span class="keyword">for</span>(key <span class="keyword">in</span> _needState) &#123;</div><div class="line">        states[key] &amp;&amp; states[key]();</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    &#125;,</div><div class="line">  &#125;;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    <span class="attr">addStates</span>: Action.addStates,</div><div class="line">    <span class="attr">mission</span>: Action.mission</div><div class="line">  &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们来仔细看看上面代码上的优势, 把我们想要的功能和状态封装到了一个方法, 其中内部包含契约好的状态, 以及对应状态的执行方法, 还有具体的操作方式, 然后返回对应做操的对象,</p>
+<p>接下来让我们调用这个方法<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">mac.addStates(<span class="string">'touchPad'</span>,<span class="string">'mouse'</span>)</div><div class="line">    .mission()</div><div class="line">    .addStates(<span class="string">'keyBoard'</span>)</div><div class="line">    .mission();</div><div class="line">log.getAll();</div></pre></td></tr></table></figure></p>
+<p>上面是用的是<code>function</code>的方法来写的,  也完全可以使用<code>class</code>来写<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">touchPad -&gt; 操作一下</div><div class="line">mouse -&gt; 按一下</div><div class="line">keyBoard -&gt; 敲击了一下</div></pre></td></tr></table></figure></p>
+<p>嗯嗯，还可以，每一个操作都记录到了～。就这样我们算是结束了对状态模式的认知。其实每种模式所解决的问题都是显而易见的，我们一路写下来会发现，状态模式解决了多个分支判断过程中代码的臃肿问题，解决了状态间的耦合，对于分支的增加与修改也很清晰的可以做到。哈哈，好吧，这就是我们的状态模式。</p>
+<p>想想我们做电商中的订单系统,  完全就可以使用状态模式来写.</p>
+<p><a class="jsbin-embed" href="http://jsbin.com/kuyacek/embed?js,console" target="_blank" rel="external">JS Bin on jsbin.com</a><script src="http://static.jsbin.com/js/embed.min.js?4.0.4"></script></p>
+<blockquote>
+<p><a href="https://zhuanlan.zhihu.com/p/24292464" target="_blank" rel="external">原文在这里</a></p>
+</blockquote>
+
+    
+  </div>
+
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/08/03/js中工厂模式/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/08/07/设计模式-js中的模板方法模式/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+<!-- Gitalk评论插件通用代码 -->
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: '277317290454635afa73',
+  clientSecret: '78223c859304da5e8d71bfce136d436c6ff95c37',
+  repo: 'blog-comment',
+  owner: 'forsigner',
+  // 在这里设置一下截取前50个字符串, 这是因为 github 对 label 的长度有了要求, 如果超过
+  // 50个字符串则会报错.
+  // id: location.pathname.split('/').pop().substring(0, 49),
+  id: md5(location.pathname),
+  admin: ['forsigner'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('gitalk-container')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

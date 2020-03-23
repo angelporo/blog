@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>javascript中正则的直白理解 | 会上树的猪</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="RegExp,js正则," />
+  
+
+  <meta name="description" content="创建方法 构造函数方式 正则表达式直接量方式  正则表达式直接量方式var expression=/pattern/flags正则表达式的模式（pattern）部分： 构造函数方式var pattern = new RegExp(&amp;quot;&amp;quot;) 由此可见创建一个正则表达式是很容易的,  较为困难的任务是用正则表达式描述字符的模式, 也就是上面pattern部分 目前就以直接量方式介绍.">
+<meta name="keywords" content="RegExp,js正则">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript中正则的直白理解">
+<meta property="og:url" content="http://angely.me/2018/04/21/javascript中正则的直白理解/index.html">
+<meta property="og:site_name" content="会上树的猪">
+<meta property="og:description" content="创建方法 构造函数方式 正则表达式直接量方式  正则表达式直接量方式var expression=/pattern/flags正则表达式的模式（pattern）部分： 构造函数方式var pattern = new RegExp(&amp;quot;&amp;quot;) 由此可见创建一个正则表达式是很容易的,  较为困难的任务是用正则表达式描述字符的模式, 也就是上面pattern部分 目前就以直接量方式介绍.">
+<meta property="og:updated_time" content="2020-03-23T02:21:44.097Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="javascript中正则的直白理解">
+<meta name="twitter:description" content="创建方法 构造函数方式 正则表达式直接量方式  正则表达式直接量方式var expression=/pattern/flags正则表达式的模式（pattern）部分： 构造函数方式var pattern = new RegExp(&amp;quot;&amp;quot;) 由此可见创建一个正则表达式是很容易的,  较为困难的任务是用正则表达式描述字符的模式, 也就是上面pattern部分 目前就以直接量方式介绍.">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-38189205-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#创建方法"><span class="toc-text">创建方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#正则表达式直接量方式"><span class="toc-text">正则表达式直接量方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#构造函数方式"><span class="toc-text">构造函数方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#flags几种规则"><span class="toc-text">flags几种规则</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#js正则表达式的一些预定义的特殊字符"><span class="toc-text">js正则表达式的一些预定义的特殊字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#js正则表达式的一些预定义类"><span class="toc-text">js正则表达式的一些预定义类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#js正则表达式的量词-使用的频率高"><span class="toc-text">js正则表达式的量词(使用的频率高)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#js正则表达式的贪婪量词与惰性量词，捕获与非捕获组，正向前瞻"><span class="toc-text">js正则表达式的贪婪量词与惰性量词，捕获与非捕获组，正向前瞻</span></a></li></ol></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-javascript中正则的直白理解" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">javascript中正则的直白理解</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.04.21</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>li yuan</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/正则/">正则</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="创建方法"><a href="#创建方法" class="headerlink" title="创建方法"></a>创建方法</h1><ul>
+<li>构造函数方式</li>
+<li>正则表达式直接量方式</li>
+</ul>
+<h2 id="正则表达式直接量方式"><a href="#正则表达式直接量方式" class="headerlink" title="正则表达式直接量方式"></a>正则表达式直接量方式</h2><p><code>var expression=/pattern/flags</code><br>正则表达式的模式（pattern）部分：</p>
+<h2 id="构造函数方式"><a href="#构造函数方式" class="headerlink" title="构造函数方式"></a>构造函数方式</h2><p><code>var pattern = new RegExp(&quot;&quot;)</code></p>
+<p>由此可见创建一个正则表达式是很容易的,  较为困难的任务是用正则表达式描述字符的模式, 也就是上面<code>pattern</code>部分</p>
+<p>目前就以直接量方式介绍.</p>
+<h2 id="flags几种规则"><a href="#flags几种规则" class="headerlink" title="flags几种规则"></a>flags几种规则</h2><ul>
+<li>i（表示忽略匹配的字母大小写）</li>
+<li>g（表示匹配全局）</li>
+<li>m（表示多行匹配）</li>
+</ul>
+<p>例子<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"a"</span>,<span class="string">"i"</span>);<span class="comment">//以忽略字母大小写的形式进行匹配</span></div><div class="line"><span class="keyword">var</span> reg2 = <span class="regexp">/a/i</span>;<span class="comment">//以忽略字母大小写的形式进行匹配</span></div></pre></td></tr></table></figure></p>
+<p>这里不具体介绍RegExp对象下的方法, 如果有需求请查阅mdn</p>
+<p>遇到元字符需转义</p>
+<p>js正则表达式中的元字符有：( [ { \ ^ $ | ) ? * + .  当要用到这些字符时要在前面加“ \ “</p>
+<h3 id="js正则表达式的一些预定义的特殊字符"><a href="#js正则表达式的一些预定义的特殊字符" class="headerlink" title="js正则表达式的一些预定义的特殊字符"></a>js正则表达式的一些预定义的特殊字符</h3><table>
+<thead>
+<tr>
+<th>字符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\n</td>
+<td>换行</td>
+</tr>
+<tr>
+<td>\r</td>
+<td>回车</td>
+</tr>
+<tr>
+<td>\t</td>
+<td>制表符</td>
+</tr>
+<tr>
+<td>\f</td>
+<td>换页符</td>
+</tr>
+<tr>
+<td>\cX</td>
+<td>与X对应的控制字符</td>
+</tr>
+<tr>
+<td>\b</td>
+<td>退格符(BackSpace)</td>
+</tr>
+<tr>
+<td>\v</td>
+<td>垂直制表符</td>
+</tr>
+<tr>
+<td>\0</td>
+<td>空字符(“”)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="js正则表达式的一些预定义类"><a href="#js正则表达式的一些预定义类" class="headerlink" title="js正则表达式的一些预定义类"></a>js正则表达式的一些预定义类</h3><table>
+<thead>
+<tr>
+<th>符号简写</th>
+<th>符号</th>
+<th>文字描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\d</td>
+<td>[0-9]</td>
+<td>匹配数字</td>
+</tr>
+<tr>
+<td>\D</td>
+<td>[^0-9]</td>
+<td>匹配非数字字符</td>
+</tr>
+<tr>
+<td>\s</td>
+<td>[ \n\r\t\f\x0B]</td>
+<td>匹配一个空白字符</td>
+</tr>
+<tr>
+<td>\S</td>
+<td>[^ \n\r\t\f\x0B]</td>
+<td>　匹配一个非空白字符</td>
+</tr>
+<tr>
+<td>\w</td>
+<td>[a-zA-Z0-9_]</td>
+<td>匹配字母数字和下划线</td>
+</tr>
+<tr>
+<td>\W</td>
+<td>[^a-zA-Z0-9_]</td>
+<td>匹配除字母数字下划线之外的字符</td>
+</tr>
+</tbody>
+</table>
+<h3 id="js正则表达式的量词-使用的频率高"><a href="#js正则表达式的量词-使用的频率高" class="headerlink" title="js正则表达式的量词(使用的频率高)"></a><strong>js正则表达式的量词</strong>(使用的频率高)</h3><table>
+<thead>
+<tr>
+<th>符号</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>*　　</td>
+<td>　  表示前面紧跟着的字符至少有0个或者多个</td>
+</tr>
+<tr>
+<td>+　　</td>
+<td>　 表示前面紧跟着的字符至少有1个或者多个</td>
+</tr>
+<tr>
+<td>？　　</td>
+<td>　 表示前面紧跟着的字符只有0个或者1个</td>
+</tr>
+<tr>
+<td>{n}</td>
+<td>表示前面紧跟着的字符有n个</td>
+</tr>
+<tr>
+<td>{n,m}</td>
+<td>表示前面紧跟着的字符在n和m个之间</td>
+</tr>
+<tr>
+<td>{n,}</td>
+<td>表示前面紧跟着的字符至少有n个</td>
+</tr>
+</tbody>
+</table>
+<h3 id="js正则表达式的贪婪量词与惰性量词，捕获与非捕获组，正向前瞻"><a href="#js正则表达式的贪婪量词与惰性量词，捕获与非捕获组，正向前瞻" class="headerlink" title="js正则表达式的贪婪量词与惰性量词，捕获与非捕获组，正向前瞻"></a>js正则表达式的贪婪量词与惰性量词，捕获与非捕获组，正向前瞻</h3><ol>
+<li><p>在使用正则匹配字符串时，一般地，当要匹配的字符串为’aaabbbccc’，/a+/匹配的是aaa，此为贪婪量词（即想要匹配更多的字符），而通过在”+”号后面加上”?”可变为惰性量词，此时只匹配字符串中的第一个a</p>
+</li>
+<li><p>一般地，当我们在正则表达式中加上一个括号时表示括号里的内容为要捕获的分组，比如：/^[a-zA-Z]+(\d+)$/，如果在括号里的内容前面加上”?:”时则表示此分组为非捕获组，即在最后返回的数组中不存在这个分组</p>
+</li>
+<li><p>关于捕获组，在正则表达式中通过RegExp访问$1,$2,$3….$9，可以获取第一个，第二个…第九个捕获组的内容</p>
+</li>
+<li><p>捕获出现在特定字符之前的字符,只有当字符后面跟着某个特定字符才去捕获它，相应的就有负向前瞻，表示当字符后面不跟着特定字符才去捕获它，正向前瞻在要指定的字符前加上”?=”，负向前瞻则是加上”?!”</p>
+</li>
+</ol>
+
+    
+  </div>
+
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/04/09/react16-3中带来的巨大改变/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/04/25/简单聊聊web响应式布局/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+<!-- Gitalk评论插件通用代码 -->
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: '277317290454635afa73',
+  clientSecret: '78223c859304da5e8d71bfce136d436c6ff95c37',
+  repo: 'blog-comment',
+  owner: 'forsigner',
+  // 在这里设置一下截取前50个字符串, 这是因为 github 对 label 的长度有了要求, 如果超过
+  // 50个字符串则会报错.
+  // id: location.pathname.split('/').pop().substring(0, 49),
+  id: md5(location.pathname),
+  admin: ['forsigner'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('gitalk-container')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

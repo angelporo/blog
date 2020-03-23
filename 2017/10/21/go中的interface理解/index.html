@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>go中的interface理解 | 会上树的猪</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="go,interface," />
+  
+
+  <meta name="description" content="刚开始学习go看了语法之后觉得interface理解不了, 然后也不清楚什么情况下来使用这个接口, 所以在网上就翻来翻去, 找到一个比较亲民的理解,1// TODO: channel和interface使用场景 在之前先看一下func的一些基础定义在golang中定义函数的方式123func (p myType ) funcName ( a, b int , c string ) ( r , s">
+<meta name="keywords" content="go,interface">
+<meta property="og:type" content="article">
+<meta property="og:title" content="go中的interface理解">
+<meta property="og:url" content="http://angely.me/2017/10/21/go中的interface理解/index.html">
+<meta property="og:site_name" content="会上树的猪">
+<meta property="og:description" content="刚开始学习go看了语法之后觉得interface理解不了, 然后也不清楚什么情况下来使用这个接口, 所以在网上就翻来翻去, 找到一个比较亲民的理解,1// TODO: channel和interface使用场景 在之前先看一下func的一些基础定义在golang中定义函数的方式123func (p myType ) funcName ( a, b int , c string ) ( r , s">
+<meta property="og:updated_time" content="2020-03-23T02:21:44.091Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="go中的interface理解">
+<meta name="twitter:description" content="刚开始学习go看了语法之后觉得interface理解不了, 然后也不清楚什么情况下来使用这个接口, 所以在网上就翻来翻去, 找到一个比较亲民的理解,1// TODO: channel和interface使用场景 在之前先看一下func的一些基础定义在golang中定义函数的方式123func (p myType ) funcName ( a, b int , c string ) ( r , s">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-38189205-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#在之前先看一下func的一些基础定义"><span class="toc-text">在之前先看一下func的一些基础定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#interface"><span class="toc-text">interface</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-go中的interface理解" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">go中的interface理解</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.10.21</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>li yuan</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/算法/">算法</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>刚开始学习<code>go</code>看了语法之后觉得<code>interface</code>理解不了, 然后也不清楚什么情况下来使用这个接口, 所以在网上就翻来翻去, 找到一个比较亲民的理解,<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// <span class="doctag">TODO:</span> channel和interface使用场景</span></div></pre></td></tr></table></figure></p>
+<h2 id="在之前先看一下func的一些基础定义"><a href="#在之前先看一下func的一些基础定义" class="headerlink" title="在之前先看一下func的一些基础定义"></a>在之前先看一下<code>func</code>的一些基础定义</h2><p>在golang中定义函数的方式<br><figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p myType )</span> <span class="title">funcName</span> <span class="params">( a, b <span class="keyword">int</span> , c <span class="keyword">string</span> )</span> <span class="params">( r , s <span class="keyword">int</span> )</span></span> &#123;</div><div class="line">    <span class="keyword">return</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>关键字——func</li>
+<li>方法名——funcName</li>
+<li>入参——— a,b int,b string</li>
+<li>返回值—— r,s int</li>
+<li>函数体—— {}</li>
+</ul>
+<p>这里具体说一下<strong><code>(p myType)</code></strong><br>在<code>Go</code>中通过给函数标明所属类型，来给该类型定义方法, 也就是通过函数来给类型扩展方法, 上面的<code>p myType</code>表示给myType扩展funcName方法<code>p myType</code>不是必须的。如果没有，则纯粹是一个函数，通过包名称访问。packageName.funcationName</p>
+<h2 id="interface"><a href="#interface" class="headerlink" title="interface"></a><code>interface</code></h2><p>如果一只鸟长得像鸭子，走起路来像鸭子，叫起来也像鸭子，那么就把这只鸟叫做鸭子；</p>
+<ul>
+<li>如果一个结构体绑定的方法包含接口的所有方法,即认为实现了该接口</li>
+<li>将对象赋值给接口时,会发生拷贝,而接口的存储是指向这个复制的指针,复制的无法修改原来状态,也无法获取指针</li>
+</ul>
+<p>golang中的interface就是上面这个意思，如果你定义了一个struct，它里面的方法和属性都和interface中的一样，那么可以说，这个struct实现这个interface,上代码</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">	<span class="string">"fmt"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">type</span> s <span class="keyword">struct</span> &#123;</div><div class="line">    <span class="comment">//定义一个s类型，有一个属性i是int的</span></div><div class="line">	i <span class="keyword">int</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(this *s)</span> <span class="title">Get</span><span class="params">()</span> <span class="title">int</span></span> &#123;</div><div class="line">    <span class="comment">//Get方法获得i属性</span></div><div class="line">	<span class="keyword">return</span> this.i</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(this *s)</span> <span class="title">Put</span><span class="params">(v <span class="keyword">int</span>)</span></span> &#123;</div><div class="line">    <span class="comment">//Put方法设置i属性</span></div><div class="line">	this.i = v</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">type</span> I <span class="keyword">interface</span> &#123;</div><div class="line">    <span class="comment">//定义一个接口类型，里面有Get方法与Put方法</span></div><div class="line">	Get() <span class="keyword">int</span></div><div class="line">	Put(<span class="keyword">int</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	<span class="keyword">var</span> S s</div><div class="line">    <span class="comment">//申请一个S变量，他是s类型的值</span></div><div class="line">	f(&amp;S)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">f</span><span class="params">(my I)</span></span> &#123;</div><div class="line">    <span class="comment">//这里的my保存了接口类型的值，因为s实现了I，所以传递的my虽然是个I类型，但是可以当作s类型来使用</span></div><div class="line">	my.Put(<span class="number">999</span>)</div><div class="line">	fmt.Println(my.Get())</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面例子中f()虽然需要一个I类型的值,  但是s类型已经现式implement了I类型的接口(s类型实现了I接口要求的所有函数), 所以同样传入取地址的S<code>&amp;S</code>变量同样可以调用方法</p>
+<p>这种方式有一个专业的说法(非侵入式接口)</p>
+<p>非侵入式接口一个很重要的好处就是去掉了繁杂的继承体系，我们看许大神在《go语言编程》一书中作的总结：</p>
+<ul>
+<li>Go语言的标准库，再也不需要绘制类库的继承树图。你一定见过不少C++、 Java、 C# 类库的继承树图。在Go中，类的继承树并无意义，你只需要知道这个类实现了哪些方法，每个方法是啥含义就足够了.</li>
+<li>实现类的时候，只需要关心自己应该提供哪些方法，不用再纠结接口需要拆得多细才 合理。接口由使用方按需定义，而不用事前规划.</li>
+<li>不用为了实现一个接口而导入一个包，因为多引用一个外部的包，就意味着更多的耦 合。接口由使用方按自身需求来定义，使用方无需关心是否有其他模块定义过类似的接口.</li>
+</ul>
+<p>首先golang不支持面向对象思想, 它只能使用<code>interface</code>来模拟继承, 本质就是组合, 也可以通过<code>interface</code>来实现多态</p>
+<p><strong>上面是对<code>interface</code>的类型理解</strong></p>
+<p><strong>下面说一下在函数中的使用</strong>:</p>
+<p>在编写程序的时候会有传入函数的参数不确定的情况,或者<code>return</code>不确定参数, 那么我们就可以使用<strong>空接口</strong>来代替你所使用到的类型, 比如<code>int string float64 []interface error</code>等不同的类型<br>如果返回不同的类型就会导致编译出错, 但是你还需要使用不同的类型</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ToStr传入空接口用来代替任何类型</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">ToStr</span><span class="params">(i <span class="keyword">interface</span>&#123;&#125;)</span> <span class="title">string</span></span> &#123;</div><div class="line">    <span class="comment">// 使用fmt中的Sprintf函数来把Interface转换成了String</span></div><div class="line">    <span class="keyword">return</span> fmt.Sprintf(<span class="string">"%v"</span>, i)</div><div class="line">&#125;</div><div class="line">ToStr(<span class="number">1</span>)</div><div class="line">ToStr(<span class="keyword">float64</span>(<span class="number">1.234254354</span>))</div><div class="line"><span class="comment">// 传入不同类型 编译不会报错</span></div></pre></td></tr></table></figure>
+<p>打印结果:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">➜  imClientServer go run test.go</div><div class="line">str: 1, str2: 1.234254354%</div></pre></td></tr></table></figure></p>
+<p>同样传入参数和返回内容都可以使用<code>interface{}</code>来代替任何类型</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 传入任何类型 返回slice任何类型</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">ToSlice</span><span class="params">(arr <span class="keyword">interface</span>&#123;&#125;)</span> []<span class="title">interface</span></span>&#123;&#125; &#123;</div><div class="line">  v := reflect.ValueOf(arr)</div><div class="line">  <span class="keyword">if</span> v.Kind() != reflect.Slice &#123;</div><div class="line">    <span class="built_in">panic</span>(<span class="string">"toslice arr not slice"</span>)</div><div class="line">  &#125;</div><div class="line">  l := v.Len()</div><div class="line">  ret := <span class="built_in">make</span>([]<span class="keyword">interface</span>&#123;&#125;, l)</div><div class="line">  <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; l; i++ &#123;</div><div class="line">    ret[i] = v.Index(i).Interface()</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> ret</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+    
+  </div>
+
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/10/20/golang编辑器emacs/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/10/25/初次学习c语言的感想/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+<!-- Gitalk评论插件通用代码 -->
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: '277317290454635afa73',
+  clientSecret: '78223c859304da5e8d71bfce136d436c6ff95c37',
+  repo: 'blog-comment',
+  owner: 'forsigner',
+  // 在这里设置一下截取前50个字符串, 这是因为 github 对 label 的长度有了要求, 如果超过
+  // 50个字符串则会报错.
+  // id: location.pathname.split('/').pop().substring(0, 49),
+  id: md5(location.pathname),
+  admin: ['forsigner'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('gitalk-container')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

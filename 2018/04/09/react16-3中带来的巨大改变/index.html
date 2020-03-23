@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>react16.3中带来的巨大改变 | 会上树的猪</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="react,react16.3," />
+  
+
+  <meta name="description" content="Context APIContext API总是很让人迷惑。这个API是官方的，但是官方又不希望开发者们使用这个API，说是这个API会在以后发生改变。现在就是那个改变的时刻。新的API已经被merge了。而且它看起来更加的“用户友好”了。尤其是你不得不使用redux、mobx的时候，可以选择新的Context API实现更加简单的状态管理。 新的API用起来非常的简单：React.createC">
+<meta name="keywords" content="react,react16.3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="react16.3中带来的巨大改变">
+<meta property="og:url" content="http://angely.me/2018/04/09/react16-3中带来的巨大改变/index.html">
+<meta property="og:site_name" content="会上树的猪">
+<meta property="og:description" content="Context APIContext API总是很让人迷惑。这个API是官方的，但是官方又不希望开发者们使用这个API，说是这个API会在以后发生改变。现在就是那个改变的时刻。新的API已经被merge了。而且它看起来更加的“用户友好”了。尤其是你不得不使用redux、mobx的时候，可以选择新的Context API实现更加简单的状态管理。 新的API用起来非常的简单：React.createC">
+<meta property="og:updated_time" content="2020-03-23T02:21:44.123Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="react16.3中带来的巨大改变">
+<meta name="twitter:description" content="Context APIContext API总是很让人迷惑。这个API是官方的，但是官方又不希望开发者们使用这个API，说是这个API会在以后发生改变。现在就是那个改变的时刻。新的API已经被merge了。而且它看起来更加的“用户友好”了。尤其是你不得不使用redux、mobx的时候，可以选择新的Context API实现更加简单的状态管理。 新的API用起来非常的简单：React.createC">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-38189205-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Context-API"><span class="toc-text">Context API</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#注意"><span class="toc-text">注意:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新的生命周期方法"><span class="toc-text">新的生命周期方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#废弃的方法："><span class="toc-text">废弃的方法：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#static-getDerivedStateFromProps"><span class="toc-text">static getDerivedStateFromProps</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#值得注意的事"><span class="toc-text">值得注意的事</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Static-Mode"><span class="toc-text">Static Mode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Async-Mode"><span class="toc-text">Async Mode</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-react16-3中带来的巨大改变" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">react16.3中带来的巨大改变</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.04.09</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>li yuan</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/react/">react</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="Context-API"><a href="#Context-API" class="headerlink" title="Context API"></a>Context API</h2><p>Context API总是很让人迷惑。这个API是官方的，但是官方又不希望开发者们使用这个API，说是这个API会在以后发生改变。现在就是那个改变的时刻。新的API已经被merge了。而且它看起来更加的“用户友好”了。尤其是你不得不使用redux、mobx的时候，可以选择新的Context API实现更加简单的状态管理。</p>
+<p>新的API用起来非常的简单：<code>React.createContext()</code>，这样就创建了两个组件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123;createContext&#125; <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"></div><div class="line"><span class="keyword">const</span> ThemeContext = createContext(&#123;</div><div class="line">  <span class="attr">background</span>: <span class="string">'yellow'</span>,</div><div class="line">  <span class="attr">color</span>: <span class="string">'white'</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>调用<code>createContext</code>方法会返回两个对象，一个是<code>Provider</code>来代替<code>redux</code>中的<code>Provider</code>，一个是<code>Consumer</code>。</p>
+<p>那个Provider是一个特殊的组件。它可以用来给子树里的组件提供数据。一个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Application</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">  render() &#123;</div><div class="line">    &lt;ThemeContext.Provider value=&#123;&#123;<span class="attr">background</span>: <span class="string">'black'</span>, <span class="attr">color</span>: <span class="string">'white'</span>&#125;&#125;&gt;</div><div class="line">      <span class="xml"><span class="tag">&lt;<span class="name">Header</span> /&gt;</span></span></div><div class="line">      <span class="tag">&lt;<span class="name">Main</span> /&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">Footer</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">ThemeContext.Provider</span>&gt;</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上例展示了如何传递“theme” context的。当然这些值可以是动态的（比如，基于this.state）。</p>
+<p>下一步就是使用Consumer。<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">const Header = () =&gt; &#123;</div><div class="line">  &lt;ThemeContext.Consumer&gt;</div><div class="line">    &#123;(context) =&gt; &#123;</div><div class="line">      return (</div><div class="line">        &lt;div style=&#123;&#123;background: context.background, color: context.color&#125;&#125;&gt;</div><div class="line">          Welcome!</div><div class="line">        &lt;/div&gt;</div><div class="line">      );</div><div class="line">    &#125;&#125;</div><div class="line">  &lt;/ThemeContext.Consumer&gt;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果在<code>render Consumer</code>的时候没有嵌套在一个<code>Provider</code>里面。那么就会使用<code>createContext</code>方法调用的时候设置的默认值。</p>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意:"></a>注意:</h3><ul>
+<li>Consumer必须可以访问到同一个Context组件。如果你要创建一个新的context，用的是同样的入参，那么这个新建的context的数据是不可访问的。因此，可以把Context当做一个组件，它可以创建一次，然后可以export，可以import。</li>
+<li>这个新的语法用了<code>function as child</code>模式（有时也叫做<code>render prop</code>模式）。如果不是很熟悉这个模式，那么推荐你看一下这些<a href="https://medium.com/merrickchristensen/function-as-child-components-5f3920a9ace9" target="_blank" rel="external">文章</a>.</li>
+<li>新的API不再要求你声明contextProps了。</li>
+</ul>
+<p>Context传递的数据和Context.Provider组件的value属性是一样的。对Provider数据的修改会引起所有的消费者（consumer）重绘。</p>
+<h2 id="新的生命周期方法"><a href="#新的生命周期方法" class="headerlink" title="新的生命周期方法"></a>新的生命周期方法</h2><p>参考这个<a href="https://github.com/reactjs/rfcs/blob/master/text/0006-static-lifecycle-methods.md" target="_blank" rel="external">RFC</a>。新的声明周期方法会被引入，而旧的会被废弃。</p>
+<p>这一改变主要是为了强制推行最佳实践。你可以看看<a href="https://medium.com/@baphemot/understanding-reactjs-component-life-cycle-823a640b3e8d" target="_blank" rel="external">这篇文章</a>来了解一下为什么这些生命周期方法会变得很诡异。这些最佳模式在React 16的异步绘制模式(Async Mode)下显得非常重要。</p>
+<h2 id="废弃的方法："><a href="#废弃的方法：" class="headerlink" title="废弃的方法："></a>废弃的方法：</h2><ul>
+<li>componentWillMount–使用componentDidMount代替</li>
+<li>componentWillUpdate–使用componentDidUpdate代替</li>
+<li>componentWillReceiveProps–使用一个新的方法：static getDerivedStateFromProps来代替。</li>
+</ul>
+<p>不过这些并不会立刻发生，他们可以用到React 16.4。在React 17里将被彻底移除。如果你开启了StrictMode或者AsyncMode，可以通过这样的方式来使用，但是会收到警告：</p>
+<ul>
+<li>UNSAFE_componentWillMount</li>
+<li>UNSAFE_componentWillReceiveProps</li>
+<li>UNSAFE_componentWillUpdate</li>
+</ul>
+<h2 id="static-getDerivedStateFromProps"><a href="#static-getDerivedStateFromProps" class="headerlink" title="static getDerivedStateFromProps"></a>static getDerivedStateFromProps</h2><p>当componentWillReceiveProps我们需要其他的方式根据props的变动更新state。社区决定引入一个新的static方法来处理这个问题。</p>
+<p>什么是静态方法？一个静态方法就是存在于类内，而不是类的实例内的方法。静态方法访问不到this，并且在声明的时候有static关键字在前面修饰。</p>
+<p>但是，问题来了。既然这个方法没有办法访问this，那么如何调用this.setState呢？答案就是，不调用。这个方法直接返回需要更新的state的数据，或者返回null，如果没有什么需要更新的话。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> getDerivedStateFromProps(nextProps, prevState) &#123;</div><div class="line">  <span class="keyword">if</span>(nextProps.currentRow === prevState.lastRow) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    <span class="attr">lastRow</span>: nextProps.currentRow,</div><div class="line">    <span class="attr">isCrollingDown</span>: nextProps.curentRow &gt; prevState.lastRow</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>调用这个方法和之前调用this.setState的效果是一样的。只会修改这些返回的值，如果是null的话则不修改state。state的其他值都会保留。</p>
+<h2 id="值得注意的事"><a href="#值得注意的事" class="headerlink" title="值得注意的事"></a>值得注意的事</h2><p>你需要定义初始state的值。无论是在constructor里，或者是类属性。否则会报警告。</p>
+<p>这个方法getDerivedStateFromProps()会在第一次挂载和重绘的时候都会调用到，因此你基本不用在constructor里根据传入的props来setState。</p>
+<p>如果定义了getDerivedStateFromProps后，又定义了componentWillReceiveProps。那么，只有前者会被调用，并且你会收到一个警告。</p>
+<p>一般你会使用一个回调来保证某些代码实在state更新之后才被调用的。那么，请把这些代码都移到componentDidUpdate里。</p>
+<p>如果你不喜欢使用static关键字，那么你可以这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ComponentName.getDerivedStateFromProps = <span class="function">(<span class="params">nextProps, prevState</span>) =&gt;</span> &#123;</div><div class="line">  <span class="comment">// Your code here</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Static-Mode"><a href="#Static-Mode" class="headerlink" title="Static Mode"></a>Static Mode</h3><p>严格模式是一个新的方式来确保你的代码是按照最佳实践开发的。它实际是一个在React.StrictMode下的组件。它可以用在你的组件树的任何一部分上。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123;StrictMode&#125; <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Application</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      <span class="xml"><span class="tag">&lt;<span class="name">StrictMode</span>&gt;</span></span></div><div class="line">        <span class="tag">&lt;<span class="name">Context.Provider</span> <span class="attr">value</span>=<span class="string">&#123;&#123;background:</span> '<span class="attr">black</span>', <span class="attr">color:</span> '<span class="attr">white</span>'&#125;&#125;&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">Header</span> /&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">Main</span> /&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">Footer</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">Context.Provider</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">StrictMode</span>&gt;</span></div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果一个在StricMode子树里的组件使用了componentWillMount方法，那么你会看到一个报错消息。</p>
+<h3 id="Async-Mode"><a href="#Async-Mode" class="headerlink" title="Async Mode"></a>Async Mode</h3><p>异步模式在React.unsafe_AsyncMode下。使用AsncMode也会打开StrictMode模式下的警告。</p>
+<p>如果你想学习更多异步模式的内容，你可以在下面的地方看到更多的文章和示例：</p>
+<ul>
+<li><a href="https://build-mbfootjxoo.now.sh" target="_blank" rel="external">https://build-mbfootjxoo.now.sh</a></li>
+<li><a href="https://github.com/koba04/react-fiber-resources" target="_blank" rel="external">https://github.com/koba04/react-fiber-resources</a></li>
+</ul>
+
+    
+  </div>
+
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/03/29/console-log在终端输出漂亮的颜色/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/04/21/javascript中正则的直白理解/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+<!-- Gitalk评论插件通用代码 -->
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: '277317290454635afa73',
+  clientSecret: '78223c859304da5e8d71bfce136d436c6ff95c37',
+  repo: 'blog-comment',
+  owner: 'forsigner',
+  // 在这里设置一下截取前50个字符串, 这是因为 github 对 label 的长度有了要求, 如果超过
+  // 50个字符串则会报错.
+  // id: location.pathname.split('/').pop().substring(0, 49),
+  id: md5(location.pathname),
+  admin: ['forsigner'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('gitalk-container')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

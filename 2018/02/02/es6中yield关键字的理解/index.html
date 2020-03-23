@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>js中迭代器和生成器 | 会上树的猪</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="es6,yield,迭代器,可迭代对象,生成器," />
+  
+
+  <meta name="description" content="迭代器和可迭代对象请先看看可迭代协议和迭代器协议 定义迭代器iterator是一个Object, 这个Object有一个next函数, 该函数返回一个value和done属性额Object其中value指向迭代序列中下一个值 . 这样看来迭代器中定义简直简单的感人…… 栗子:1234567891011121314151617181920/*** 制作一个迭代器**/function makeIte">
+<meta name="keywords" content="es6,yield,迭代器,可迭代对象,生成器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js中迭代器和生成器">
+<meta property="og:url" content="http://angely.me/2018/02/02/es6中yield关键字的理解/index.html">
+<meta property="og:site_name" content="会上树的猪">
+<meta property="og:description" content="迭代器和可迭代对象请先看看可迭代协议和迭代器协议 定义迭代器iterator是一个Object, 这个Object有一个next函数, 该函数返回一个value和done属性额Object其中value指向迭代序列中下一个值 . 这样看来迭代器中定义简直简单的感人…… 栗子:1234567891011121314151617181920/*** 制作一个迭代器**/function makeIte">
+<meta property="og:updated_time" content="2020-03-23T02:21:44.087Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="js中迭代器和生成器">
+<meta name="twitter:description" content="迭代器和可迭代对象请先看看可迭代协议和迭代器协议 定义迭代器iterator是一个Object, 这个Object有一个next函数, 该函数返回一个value和done属性额Object其中value指向迭代序列中下一个值 . 这样看来迭代器中定义简直简单的感人…… 栗子:1234567891011121314151617181920/*** 制作一个迭代器**/function makeIte">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-38189205-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#迭代器和可迭代对象"><span class="toc-text">迭代器和可迭代对象</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#定义"><span class="toc-text">定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#可迭代协议"><span class="toc-text">可迭代协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#实现该协议"><span class="toc-text">实现该协议</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#迭代器协议"><span class="toc-text">迭代器协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#自定义可迭代对象"><span class="toc-text">自定义可迭代对象</span></a></li></ol></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-es6中yield关键字的理解" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">js中迭代器和生成器</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.02.02</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>li yuan</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/算法/">算法</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="迭代器和可迭代对象"><a href="#迭代器和可迭代对象" class="headerlink" title="迭代器和可迭代对象"></a>迭代器和可迭代对象</h1><p>请先看看<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Iteration_protocols#iterable" target="_blank" rel="external">可迭代协议和迭代器协议</a></p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>迭代器<code>iterator</code>是一个<code>Object</code>, 这个<code>Object</code>有一个<code>next</code>函数, 该函数返回一个<code>value</code>和<code>done</code>属性额<code>Object</code>其中<code>value</code>指向迭代序列中下一个值 . 这样看来迭代器中定义简直简单的感人……</p>
+<p>栗子:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">* 制作一个迭代器</div><div class="line">**/</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeIterator</span>(<span class="params">array</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"Enter this function"</span>);</div><div class="line">    <span class="keyword">var</span> nextIndex = <span class="number">0</span>; <span class="comment">// 设置局部count</span></div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">next</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">return</span> nextIndex &lt; array.length ?</div><div class="line">                &#123;<span class="attr">value</span>: array[nextIndex++], <span class="attr">done</span>: <span class="literal">false</span> &#125; :</div><div class="line">                &#123; <span class="attr">done</span>: <span class="literal">true</span> &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">&#125;</div><div class="line"> <span class="keyword">var</span> iteratorT = makeIterator([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);</div><div class="line">     <span class="built_in">console</span>.log(iteratorT) <span class="comment">// 打印出&#123;next&#125;函数</span></div><div class="line">     <span class="built_in">console</span>.log(iteratorT.next().value); <span class="comment">// 1</span></div><div class="line">     <span class="built_in">console</span>.log(iteratorT.next().value); <span class="comment">// 2</span></div><div class="line">     <span class="built_in">console</span>.log(iteratorT.next().value); <span class="comment">// 3</span></div><div class="line">     <span class="built_in">console</span>.log(iteratorT.next().done);  <span class="literal">false</span></div></pre></td></tr></table></figure></p>
+<h2 id="可迭代协议"><a href="#可迭代协议" class="headerlink" title="可迭代协议"></a>可迭代协议</h2><p>这是一个协议, 一旦支持可迭代协议, 就意味着该<code>Object</code>可以用<code>for-of</code>来遍历, 可以用来定义或者定制js对象的迭代行为. 常见的内建类型比如<code>Array &amp; Map</code> 都是支持可迭代协议的.</p>
+<h3 id="实现该协议"><a href="#实现该协议" class="headerlink" title="实现该协议"></a>实现该协议</h3><p>对象必须实现@@iterator方法,  意味着对象必须有一个带有@@iterator key的可以通过常量<code>Symbol.iterator</code>访问到的属性.<br><code>Symbol.iterator</code> 属性 返回一个对象的无参数函数, 被返回对象符合迭代协议</p>
+<h2 id="迭代器协议"><a href="#迭代器协议" class="headerlink" title="迭代器协议"></a>迭代器协议</h2><p>上面的例子就是一个迭代器协议的实现 <code>iterator</code>协议定义了产生<code>value</code>序列的一种标准方法, 只要实现符合要求的next函数, 改对象就是一个迭代器. 这个概念是不是和<code>golang</code>中的<code>interface</code>相似呢.</p>
+<p><code>String</code>内置的可迭代对象<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> someString = <span class="string">"hi"</span>;</div><div class="line"><span class="keyword">typeof</span> someString[<span class="built_in">Symbol</span>.iterator];          <span class="comment">// "function"</span></div></pre></td></tr></table></figure></p>
+<p>可见<code>String</code>内部已经实现了可迭代协议</p>
+<p>String 的默认迭代器会一个接一个返回该字符串的字符</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> iterator = someString[<span class="built_in">Symbol</span>.iterator]();</div><div class="line">iterator + <span class="string">""</span>;                               <span class="comment">// "[object String Iterator]"</span></div><div class="line"></div><div class="line">iterator.next();                             <span class="comment">// &#123; value: "h", done: false &#125;</span></div><div class="line">iterator.next();                             <span class="comment">// &#123; value: "i", done: false &#125;</span></div><div class="line">iterator.next();                             <span class="comment">// &#123; value: undefined, done: true &#125;</span></div></pre></td></tr></table></figure>
+<p>我们可以通过自己的 @@iterator 方法重新定义迭代行为：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> someString = <span class="keyword">new</span> <span class="built_in">String</span>(<span class="string">"hi"</span>);          <span class="comment">// need to construct a String object explicitly to avoid auto-boxing</span></div><div class="line"></div><div class="line">someString[<span class="built_in">Symbol</span>.iterator] = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> &#123; <span class="comment">// this is the iterator object, returning a single element, the string "bye"</span></div><div class="line">    next: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>._first) &#123;</div><div class="line">        <span class="keyword">this</span>._first = <span class="literal">false</span>;</div><div class="line">        <span class="keyword">return</span> &#123; <span class="attr">value</span>: <span class="string">"bye"</span>, <span class="attr">done</span>: <span class="literal">false</span> &#125;;</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">return</span> &#123; <span class="attr">done</span>: <span class="literal">true</span> &#125;;</div><div class="line">      &#125;</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">_first</span>: <span class="literal">true</span></div><div class="line">  &#125;;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p><code>String</code>, <code>Array</code>, <code>TypedArray</code>, <code>Map and Set</code> 是所有内置可迭代对象， 因为它们的原型对象都有一个 <code>@@iterator</code> 方法.</p>
+<h3 id="自定义可迭代对象"><a href="#自定义可迭代对象" class="headerlink" title="自定义可迭代对象"></a>自定义可迭代对象</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myIterator = &#123;&#125;;</div><div class="line"></div><div class="line">myIterator[<span class="built_in">Symbol</span>.iterator] = <span class="function"><span class="keyword">function</span>* (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">yield</span> <span class="number">1</span>;</div><div class="line">    <span class="keyword">yield</span> <span class="number">2</span>;</div><div class="line">    <span class="keyword">yield</span> <span class="number">3</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">[ ...myIterator ] <span class="comment">//[1, 2, 3]</span></div></pre></td></tr></table></figure>
+<p>如何还有不理解的可以自己去mdn上面仔细看看.</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/02/01/使用Uglifyjs来压缩你的js/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/02/05/js中的yield的理解/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+<!-- Gitalk评论插件通用代码 -->
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: '277317290454635afa73',
+  clientSecret: '78223c859304da5e8d71bfce136d436c6ff95c37',
+  repo: 'blog-comment',
+  owner: 'forsigner',
+  // 在这里设置一下截取前50个字符串, 这是因为 github 对 label 的长度有了要求, 如果超过
+  // 50个字符串则会报错.
+  // id: location.pathname.split('/').pop().substring(0, 49),
+  id: md5(location.pathname),
+  admin: ['forsigner'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('gitalk-container')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

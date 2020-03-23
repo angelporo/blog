@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>使用jsdoc通过注释来自动生成js文档 | 会上树的猪</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="jsdoc,js文档," />
+  
+
+  <meta name="description" content="如果要维护一个项目,  文档是必不可少的, 如果没有文档, 你同事看起来就会减少效率. 好处不觉得没有必要写了, 好多公司都需要一个文档来注释项目的api 这里js我们选着jsdoc来生成 安装 npm install -g jsdoc 命令行中使用jsdoc youJavascriptFile.js 项目中安装npm install --save-dev jsdoc 安装在项目中我们必须要调用.">
+<meta name="keywords" content="jsdoc,js文档">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用jsdoc通过注释来自动生成js文档">
+<meta property="og:url" content="http://angely.me/2018/02/27/使用jsdoc通过注释来自动生成js文档/index.html">
+<meta property="og:site_name" content="会上树的猪">
+<meta property="og:description" content="如果要维护一个项目,  文档是必不可少的, 如果没有文档, 你同事看起来就会减少效率. 好处不觉得没有必要写了, 好多公司都需要一个文档来注释项目的api 这里js我们选着jsdoc来生成 安装 npm install -g jsdoc 命令行中使用jsdoc youJavascriptFile.js 项目中安装npm install --save-dev jsdoc 安装在项目中我们必须要调用.">
+<meta property="og:updated_time" content="2020-03-23T02:21:44.131Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用jsdoc通过注释来自动生成js文档">
+<meta name="twitter:description" content="如果要维护一个项目,  文档是必不可少的, 如果没有文档, 你同事看起来就会减少效率. 好处不觉得没有必要写了, 好多公司都需要一个文档来注释项目的api 这里js我们选着jsdoc来生成 安装 npm install -g jsdoc 命令行中使用jsdoc youJavascriptFile.js 项目中安装npm install --save-dev jsdoc 安装在项目中我们必须要调用.">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-38189205-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Examples"><span class="toc-text">Examples</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tags"><span class="toc-text">Tags</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-使用jsdoc通过注释来自动生成js文档" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">使用jsdoc通过注释来自动生成js文档</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.02.27</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>li yuan</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/api生成器/">api生成器</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>如果要维护一个项目,  文档是必不可少的, 如果没有文档, 你同事看起来就会减少效率.</p>
+<p>好处不觉得没有必要写了, 好多公司都需要一个文档来注释项目的api</p>
+<p>这里<code>js</code>我们选着<a href="https://github.com/jsdoc3/jsdoc" target="_blank" rel="external">jsdoc</a>来生成</p>
+<p>安装</p>
+<p><code>npm install -g jsdoc</code></p>
+<p>命令行中使用<br><code>jsdoc youJavascriptFile.js</code></p>
+<p>项目中安装<br><code>npm install --save-dev jsdoc</code></p>
+<p>安装在项目中我们必须要调用<code>./node_modules/.bin/jsdoc youJavascriptFile.js</code></p>
+<p>一般生成好的文件在<code>out</code>目录下, </p>
+<h2 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h2><p>这里具体要说的是几个注释模板, 让你生成后的代码api文档更美观</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/** Class representing a point. */</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Create a point.</div><div class="line">     * @param &#123;number&#125; x - The x value.</div><div class="line">     * @param &#123;number&#125; y - The y value.</div><div class="line">     */</div><div class="line">    <span class="keyword">constructor</span>(x, y) &#123;</div><div class="line">        <span class="comment">// ...</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Get the x value.</div><div class="line">     * @return &#123;number&#125; The x value.</div><div class="line">     */</div><div class="line">    getX() &#123;</div><div class="line">        <span class="comment">// ...</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Get the y value.</div><div class="line">     * @return &#123;number&#125; The y value.</div><div class="line">     */</div><div class="line">    getY() &#123;</div><div class="line">        <span class="comment">// ...</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Convert a string containing two comma-separated numbers into a point.</div><div class="line">     * @param &#123;string&#125; str - The string containing two comma-separated numbers.</div><div class="line">     * @return &#123;Point&#125; A Point object.</div><div class="line">     */</div><div class="line">    <span class="keyword">static</span> fromString(str) &#123;</div><div class="line">        <span class="comment">// ...</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/** @module color/mixer */</span></div><div class="line"></div><div class="line"><span class="comment">/** The name of the module. */</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> name = <span class="string">'mixer'</span>;</div><div class="line"></div><div class="line"><span class="comment">/** The most recent blended color. */</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">var</span> lastColor = <span class="literal">null</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Blend two colors together.</div><div class="line"> * @param &#123;string&#125; color1 - The first color, in hexadecimal format.</div><div class="line"> * @param &#123;string&#125; color2 - The second color, in hexadecimal format.</div><div class="line"> * @return &#123;string&#125; The blended color.</div><div class="line"> */</div><div class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">blend</span>(<span class="params">color1, color2</span>) </span>&#123;&#125;</div><div class="line"></div><div class="line"><span class="comment">// convert color to array of RGB values (0-255)</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">rgbify</span>(<span class="params">color</span>) </span>&#123;&#125;</div><div class="line"></div><div class="line"><span class="keyword">export</span> &#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Get the red, green, and blue values of a color.</div><div class="line">     * @function</div><div class="line">     * @param &#123;string&#125; color - A color, in hexadecimal format.</div><div class="line">     * @returns &#123;Array.&lt;number&gt;&#125; An array of the red, green, and blue values,</div><div class="line">     * each ranging from 0 to 255.</div><div class="line">     */</div><div class="line">    rgbify <span class="keyword">as</span> toRgb</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Tags"><a href="#Tags" class="headerlink" title="Tags"></a>Tags</h2><p>具体可以看官方文档, <a href="http://usejsdoc.org/" target="_blank" rel="external">jsdoc</a></p>
+<p>妈妈再也不用担心文档需要自己手写了!!!</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/02/26/react使用服务端渲染来优化SEO/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/02/27/Nginx反向代理配置字段接受/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+<!-- Gitalk评论插件通用代码 -->
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: '277317290454635afa73',
+  clientSecret: '78223c859304da5e8d71bfce136d436c6ff95c37',
+  repo: 'blog-comment',
+  owner: 'forsigner',
+  // 在这里设置一下截取前50个字符串, 这是因为 github 对 label 的长度有了要求, 如果超过
+  // 50个字符串则会报错.
+  // id: location.pathname.split('/').pop().substring(0, 49),
+  id: md5(location.pathname),
+  admin: ['forsigner'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('gitalk-container')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

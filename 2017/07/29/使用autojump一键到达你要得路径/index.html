@@ -7,25 +7,25 @@
 <head>
   <meta charset="utf-8">
   
-  <title>使用autojump一键到达你要得路径 | 李渊</title>
+  <title>使用autojump一键到达你要得路径 | 会上树的猪</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="mac,autojump,linux," />
+    <meta name="keywords" content="linux,mac,autojump," />
   
 
-  <meta name="description" content="安装安装 brew install autojump 因为使用的是zsh和term2 所以需要在~/.zshrc内添加autojump 作为插件来使用. 看起来是这样子:123456# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)# Custom plugins may">
-<meta name="keywords" content="mac,autojump,linux">
+  <meta name="description" content="安装安装 brew install autojump 因为使用的是zsh和term2 所以需要在~/.zshrc内添加autojump 作为插件来使用. 看起来是这样子: 123456# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)# Custom plugins may">
+<meta name="keywords" content="linux,mac,autojump">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用autojump一键到达你要得路径">
 <meta property="og:url" content="http://angely.me/2017/07/29/使用autojump一键到达你要得路径/index.html">
-<meta property="og:site_name" content="李渊">
-<meta property="og:description" content="安装安装 brew install autojump 因为使用的是zsh和term2 所以需要在~/.zshrc内添加autojump 作为插件来使用. 看起来是这样子:123456# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)# Custom plugins may">
-<meta property="og:updated_time" content="2018-11-20T09:22:51.000Z">
+<meta property="og:site_name" content="会上树的猪">
+<meta property="og:description" content="安装安装 brew install autojump 因为使用的是zsh和term2 所以需要在~/.zshrc内添加autojump 作为插件来使用. 看起来是这样子: 123456# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)# Custom plugins may">
+<meta property="og:updated_time" content="2020-03-23T02:21:44.130Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用autojump一键到达你要得路径">
-<meta name="twitter:description" content="安装安装 brew install autojump 因为使用的是zsh和term2 所以需要在~/.zshrc内添加autojump 作为插件来使用. 看起来是这样子:123456# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)# Custom plugins may">
+<meta name="twitter:description" content="安装安装 brew install autojump 因为使用的是zsh和term2 所以需要在~/.zshrc内添加autojump 作为插件来使用. 看起来是这样子: 123456# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)# Custom plugins may">
 
   
 
@@ -243,7 +243,8 @@ ga('send', 'pageview');
     
       <h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>安装 <code>brew install autojump</code></p>
 <p>因为使用的是<code>zsh</code>和<code>term2</code> 所以需要在<code>~/.zshrc</code>内添加<code>autojump</code> 作为插件来使用.</p>
-<p>看起来是这样子:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)</div><div class="line"># Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/</div><div class="line"># Example format: plugins=(rails git textmate ruby lighthouse)</div><div class="line"># Add wisely, as too many plugins slow down shell startup.</div><div class="line">plugins=(git bundler osx)</div><div class="line">plugins=(autojump)</div></pre></td></tr></table></figure></p>
+<p>看起来是这样子:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)</div><div class="line"># Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/</div><div class="line"># Example format: plugins=(rails git textmate ruby lighthouse)</div><div class="line"># Add wisely, as too many plugins slow down shell startup.</div><div class="line">plugins=(git bundler osx)</div><div class="line">plugins=(autojump)</div></pre></td></tr></table></figure>
 <p>还需要添加<code>[[ -s ~/.autojump/etc/profile.d/autojump.zsh ]] &amp;&amp; . ~/.autojump/etc/profile.d/autojump.zsh</code>同样到<code>~/.zshrc</code></p>
 <h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p><code>j</code> 是 <code>autojump</code> 封装好的命令,  在你 <code>cd</code> 之后它就会在它的数据库内写入地址链接,  然后在使用<code>jc</code>的时候检索数据库,  到你指定的目录. ( 模糊搜索 )</p>
 
@@ -260,7 +261,7 @@ ga('send', 'pageview');
     <a class="show pull-left" href="/2017/07/28/javascript异步开源库/">
         <i class="icon icon-angle-left"></i>
     </a>
-    <a class="show pull-right" href="/2018/11/20/开发环境介绍以及博客搭建/">
+    <a class="show pull-right" href="/2017/07/31/react中的高阶组件/">
         <i class="icon icon-angle-right"></i>
     </a>
   </div>
