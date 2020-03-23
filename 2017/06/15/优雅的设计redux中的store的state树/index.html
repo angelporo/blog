@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>优雅的设计redux中的store的state树 | 李渊</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="react,redux,react-nativem," />
+  
+
+  <meta name="description" content="如何优雅的设计redux的store中的state树使用redux几个月的时间, 估计最大的问题就是怎么设计store才是合理的?是这个问题估计让我思考了好就才想到问题的关键处.state树按页面规划 还是按照数据库中的表划分">
+<meta name="keywords" content="react,redux,react-nativem">
+<meta property="og:type" content="article">
+<meta property="og:title" content="优雅的设计redux中的store的state树">
+<meta property="og:url" content="http://angely.me/2017/06/15/优雅的设计redux中的store的state树/index.html">
+<meta property="og:site_name" content="李渊">
+<meta property="og:description" content="如何优雅的设计redux的store中的state树使用redux几个月的时间, 估计最大的问题就是怎么设计store才是合理的?是这个问题估计让我思考了好就才想到问题的关键处.state树按页面规划 还是按照数据库中的表划分">
+<meta property="og:updated_time" content="2018-11-20T09:22:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="优雅的设计redux中的store的state树">
+<meta name="twitter:description" content="如何优雅的设计redux的store中的state树使用redux几个月的时间, 估计最大的问题就是怎么设计store才是合理的?是这个问题估计让我思考了好就才想到问题的关键处.state树按页面规划 还是按照数据库中的表划分">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-38189205-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#如何优雅的设计redux的store中的state树"><span class="toc-text">如何优雅的设计redux的store中的state树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#按照页面划分"><span class="toc-text">按照页面划分</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#同时使用react组件中的state和redux中store中的state"><span class="toc-text">同时使用react组件中的state和redux中store中的state</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#按照数据库中的表划分-比如想下面这样init-你的store"><span class="toc-text">按照数据库中的表划分,比如想下面这样init 你的store</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-优雅的设计redux中的store的state树" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">优雅的设计redux中的store的state树</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.06.15</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>li yuan</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/redux/">redux</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="如何优雅的设计redux的store中的state树"><a href="#如何优雅的设计redux的store中的state树" class="headerlink" title="如何优雅的设计redux的store中的state树"></a>如何优雅的设计redux的store中的state树</h2><p>使用redux几个月的时间, 估计最大的问题就是怎么设计store才是合理的?<br>是这个问题估计让我思考了好就才想到问题的关键处.<br>state树按页面规划 还是按照数据库中的表划分</p>
+<a id="more"></a>
+<h3 id="按照页面划分"><a href="#按照页面划分" class="headerlink" title="按照页面划分"></a>按照页面划分</h3><p>是把每个页面当成一个业务模块, 实际上这也是非常流行的一种做法, 很多公司就是这样子做的, 可以像下面这样初始化你的store, 适合多页面开发使用.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    <span class="attr">common</span>: &#123;</div><div class="line">      <span class="attr">isFetching</span>: <span class="literal">false</span></div><div class="line">    &#125;,</div><div class="line">　　 <span class="attr">profile</span>: &#123;</div><div class="line">　　 &#125;,</div><div class="line">    <span class="attr">list</span>: &#123;</div><div class="line">    &#125;,</div><div class="line">　　 <span class="attr">edit</span>: &#123;</div><div class="line">　　 &#125;,</div><div class="line">    <span class="attr">home</span>: &#123;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>优点</li>
+</ul>
+<p>模块之间互相独立,  不会互相影响, 每个页面维护自己的reducer, 由于模块中需要展示的东西不多所以数据量不是很大,使用起来很方便, 不太需要其他数据的缓存数据, 比较符合redux的设计(并不是用来做一个前端数据库)</p>
+<ul>
+<li><p>缺点</p>
+<pre><code>但这种方法有个致命的缺点，就是store中数据的同步问题和冗余问题。
+</code></pre><p>假如一个列表页面的数据依赖于另一个编辑页面的操作，在编辑页面，改变了数据.<br>这时候数据库里面的数据已经被改变了，但这时候列表页面和编辑页面的state是独立的，列表页面state节点下的数据并没有改变，退回到列表展示页，数据并不会发生变化，这就有问题了，而且同一份数据出现在多个节点下，也会有数据冗余的问题。</p>
+<p>  解决方法:</p>
+<ol>
+<li><p>每次进入列表页面去数据库刷新store  (如果你做的是一个用户端App显然不会这么干，只可能在第一次进入的时候才会载入数据，第二次应该就不会发请求了，立即从store中拿出缓存数据，否则性能和体验太差，PC端后台倒是无所谓)</p>
+</li>
+<li><p>编辑完保存后dispatch一个或多个action，去改变所有依赖到这条数据的页面的state (相对还是比较可靠的办法，前提是依赖的页面很少，如果是一个庞大的系统，每次新增加一个页面，你就需要去修改派发action的代码，太麻烦了，除非建立一个完备的事件系统，所有依赖到这条数据的页面都监听一个事件，只要一编辑，就触发所有的事件，更新自己的state节点)</p>
+<p> 具体操作:  当数据源保存成功后<code>发布</code>一个全局事件, 在依赖这个数据源的地方<code>订阅</code>这个事件, 在订阅的函数里面指定一个保存store的action</p>
+</li>
+<li><p>编辑完后除了更新数据库中的数据，在前端这边什么都不做，返回列表页，先取出缓存数据展示，等到页面DidMount之后悄悄发一个请求，不要出loading图，检查一下数据是否被更新过，如果是，拉取最新数据并更新store，如果不是，那就不变</p>
+<p>可以看看<a href="https://github.com/Reactive-Extensions/RxJS" target="_blank" rel="external">RxJS</a></p>
+</li>
+<li><p>列表页和编辑页共用一个state数据节点，列表页只存必要显示的字段，点击进入编辑页，根据列表页的记录id读取更详细的信息，编辑保存完成后，更新到这个state节点（这种方法其实采用的就是按数据库表划分的办法，统一数据源，关于统一数据源格式，可以看一看列表页和编辑页共用一个state数据节点，列表页只存必要显示的字段，点击进入编辑页，根据列表页的记录id读取更详细的信息，编辑保存完成后，更新到这个state节点（这种方法其实采用的就是按数据库表划分的办法，统一数据源，关于统一数据源格式，可以看一看<a href="https://github.com/paularmstrong/normalizr" target="_blank" rel="external">normalizr</a></p>
+</li>
+</ol>
+</li>
+</ul>
+<h4 id="同时使用react组件中的state和redux中store中的state"><a href="#同时使用react组件中的state和redux中store中的state" class="headerlink" title="同时使用react组件中的state和redux中store中的state"></a>同时使用react组件中的state和redux中store中的state</h4><blockquote>
+<p>注意：没有人告诉过你，用了redux必须通篇要用store中的state，redux作者也没有这么讲过，比较好的做法是结合react组件自己的state和store中的state一起使用。</p>
+</blockquote>
+<h3 id="按照数据库中的表划分-比如想下面这样init-你的store"><a href="#按照数据库中的表划分-比如想下面这样init-你的store" class="headerlink" title="按照数据库中的表划分,比如想下面这样init 你的store"></a>按照数据库中的表划分,比如想下面这样init 你的store</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    <span class="attr">common</span>: &#123;</div><div class="line">      <span class="attr">isFetching</span>: <span class="literal">false</span></div><div class="line">    &#125;,</div><div class="line">　  <span class="attr">companies</span>: &#123;</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">users</span>: &#123;</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">events</span>: &#123;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>这种方法可能比较适合单页应用，把store当成数据库使，增删改查都维护这一个store，作为前端数据源，保证前端数据源和后端数据库同步，并且保证了操作的及时反馈，适合对用户体验要求较高的场景，缺点就是前端不像后端，除了model数据，还有业务数据，临时状态数据，不能简单的用数据库的思路去设计store，如果是这样，那么为什么不用前端数据库呢？为啥还要用redux来多此一举，redux本质上是用来管理数据状态的。</p>
+</blockquote>
+<pre><code>所以, 我认为还是需要按照页面来划分, 但是应该和数据库划分表结合起来
+</code></pre><p>在此之前, 应该分清楚那些数据是放在store中, 如果是零时数据不需要做缓存, 我们应该用react自己的state去维护状态, 而不是放在redux中的store中.</p>
+<p>如果该数据需要缓存, 缓存只被一个页面所依赖, 那么就放到依赖页面的state中.</p>
+<p>如果该数据需要做缓存,并且不是被一个页面所依赖, 那么我们就把该数据提取出来, 放到一个公共state节点下</p>
+<p>redux作者的意思大概就是，对于store中的state树，躺着用，站着用，跪着用，想怎么用怎么用，并没有明确规定必须怎么用，只要自己用的舒服，解决你自己的特殊场景就可以了。</p>
+<p>参考:</p>
+<blockquote>
+<p><a href="http://www.jianshu.com/p/f3911358ebcb" target="_blank" rel="external">http://www.jianshu.com/p/f3911358ebcb</a></p>
+<p><a href="https://www.zhihu.com/question/47995437?sort=created" target="_blank" rel="external">https://www.zhihu.com/question/47995437?sort=created</a></p>
+<p><a href="https://www.zhihu.com/question/50888321" target="_blank" rel="external">https://www.zhihu.com/question/50888321</a></p>
+</blockquote>
+
+    
+  </div>
+
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/06/14/体验es7中的Async-Await来处理异步/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/06/15/Immutable-js意义以及使用场所/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+<!-- Gitalk评论插件通用代码 -->
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: '277317290454635afa73',
+  clientSecret: '78223c859304da5e8d71bfce136d436c6ff95c37',
+  repo: 'blog-comment',
+  owner: 'forsigner',
+  // 在这里设置一下截取前50个字符串, 这是因为 github 对 label 的长度有了要求, 如果超过
+  // 50个字符串则会报错.
+  // id: location.pathname.split('/').pop().substring(0, 49),
+  id: md5(location.pathname),
+  admin: ['forsigner'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('gitalk-container')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>emacs使用company-mode,ycmd,hippie,来完善你的补全功能,以及遇到的坑 | 李渊</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="emacs,emacs自动补全,ycmd,company-mode,hippie," />
+  
+
+  <meta name="keywords" content="emacs,emacs自动补全,ycmd,company-mode,hippie">
+<meta property="og:type" content="article">
+<meta property="og:title" content="emacs使用company-mode,ycmd,hippie,来完善你的补全功能,以及遇到的坑">
+<meta property="og:url" content="http://angely.me/2017/06/16/emacs使用company-mode-ycmd-hippie-来完善你的补全功能-以及遇到的坑/index.html">
+<meta property="og:site_name" content="李渊">
+<meta property="og:image" content="http://angely.me/2017/06/16/emacs使用company-mode-ycmd-hippie-来完善你的补全功能-以及遇到的坑/emacs-ycmd.png">
+<meta property="og:updated_time" content="2018-11-20T09:22:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="emacs使用company-mode,ycmd,hippie,来完善你的补全功能,以及遇到的坑">
+<meta name="twitter:image" content="http://angely.me/2017/06/16/emacs使用company-mode-ycmd-hippie-来完善你的补全功能-以及遇到的坑/emacs-ycmd.png">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-38189205-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#框框框的安装"><span class="toc-text">框框框的安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装ycmd-server"><span class="toc-text">安装ycmd server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-安装-ycmd-client，还有必要的工具"><span class="toc-text">2. 安装 ycmd client，还有必要的工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置"><span class="toc-text">配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加hippie-extend"><span class="toc-text">添加hippie-extend</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#遇到的问题处理对策"><span class="toc-text">遇到的问题处理对策</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-emacs使用company-mode-ycmd-hippie-来完善你的补全功能-以及遇到的坑" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">emacs使用company-mode,ycmd,hippie,来完善你的补全功能,以及遇到的坑</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.06.16</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>li yuan</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/emacs使用记/">emacs使用记</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <img src="/2017/06/16/emacs使用company-mode-ycmd-hippie-来完善你的补全功能-以及遇到的坑/emacs-ycmd.png" alt="my emacs image" title="my emacs image">
+<a id="more"></a>
+<blockquote>
+<p>先说一下使用emacs的历程</p>
+</blockquote>
+<p>之前使用vim, 配置github上面有很多, 可以自己配置,  无非就是一些插件, 然后改自己习惯的按键.<br>但是个人对vim还是不习惯,  别以为用了一年的时间,  也许还是因为自己没有真的用好它,  不过在工作中已经很方便了,  唯一不习惯的是模式之间的切换<br>毕竟是一个程序员, 不是做的运维, 因为要不停的写写写,  但是vim好多功能是在normal模式下,  所以需要不停的切换, 很不方便, 于是, 在一个夜黑风高的晚上, 卸载vim安装emacs, 因为用的mac折腾起来还是不费力的, 送上现在emacs的配置<a href="https://github.com/angelporo/emacs.d" target="_blank" rel="external">fork的purcell大神的配置(其中添加了自己的layer和配置, 在lisp/init-local.el)</a></p>
+<p>之前使用vim的时候会自己去写配置, 然后添加必要的插件,  去写一些适合自己的按键, 折腾一段时间后,<br>你会发现, 自己写的完全没有必要, 因为<code>github</code>上面有开源的, 写好的配置, 而且还是好几百人或是几千人维护的配置文件,你敢说你自己配置的能和大神配置的好么? 所以, 把那些折腾的时间用来专心写的你的项目或是研究自己喜欢的东西, 这个只是工具. 当然, 现在这么说只是因为爱过.</p>
+<p>对于emacs补全, 我用的ycmd和hippie配合company-mode的方式来, ycmd后端用的tern</p>
+<h2 id="框框框的安装"><a href="#框框框的安装" class="headerlink" title="框框框的安装"></a>框框框的安装</h2><p>前提自行安装git, python和以来包 , mac <code>birew install git build-essential cmake python-dev</code></p>
+<p><code>npm install tern -g</code></p>
+<h3 id="安装ycmd-server"><a href="#安装ycmd-server" class="headerlink" title="安装ycmd server"></a>安装ycmd server</h3><p> <code>git clone https://github.com/Valloric/ycmd</code></p>
+<p> 下载完整的submodule(时间比较久)<br> <code>git submodule update --init --recursive</code></p>
+<p> 下载完后进入<code>ycmd</code>文件夹编译</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ cd ~/ycmd</div><div class="line">$ ./build.py --tern-completer</div></pre></td></tr></table></figure>
+<h3 id="2-安装-ycmd-client，还有必要的工具"><a href="#2-安装-ycmd-client，还有必要的工具" class="headerlink" title="2. 安装 ycmd client，还有必要的工具"></a>2. 安装 ycmd client，还有必要的工具</h3><p>打开Emacs , 命令<code>M-x list-packages</code>分别安装 <code>ycmd, company-ycmd, flycheck-ycmd company-mode</code></p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">;;设置ycmd补全插件</div><div class="line">(set-variable &apos;ycmd-server-command &apos;(&quot;python&quot; &quot;/Users/angel/ycmd/ycmd&quot;))</div><div class="line">(setq company-tooltip-limit 8)</div><div class="line">(setq company-idle-delay 0.2)</div><div class="line">(setq company-echo-delay 0)</div><div class="line">(setq company-begin-commands &apos;(self-insert-command))</div><div class="line">(setq company-require-match nil)</div><div class="line">(company-ycmd-setup)</div><div class="line">(add-hook &apos;after-init-hook &apos;global-company-mode)</div></pre></td></tr></table></figure>
+<p>讲上面代码添加到配置文件中…</p>
+<pre><code>注意上面路径需要绝对路径不能使用`~/ycmd/ycmd`
+</code></pre><h3 id="添加hippie-extend"><a href="#添加hippie-extend" class="headerlink" title="添加hippie-extend"></a>添加<code>hippie-extend</code></h3><p>hippie是一个提示先后顺序设置的插件,所以, 需要你自己的需求来配置</p>
+<p>安装: <code>package-install hippie-extend</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">(global-set-key (kbd &quot;M-/&quot;) &apos;hippie-expand)</div><div class="line"></div><div class="line">(setq hippie-expand-try-functions-list</div><div class="line">      &apos;(try-expand-debbrev</div><div class="line">        try-expand-debbrev-all-buffers</div><div class="line">        try-expand-debbrev-from-kill</div><div class="line">        try-complete-file-name-partially</div><div class="line">        try-complete-file-name</div><div class="line">        try-expand-all-abbrevs</div><div class="line">        try-expand-list</div><div class="line">        try-expand-line</div><div class="line">        try-complete-lisp-symbol-partially</div><div class="line">        try-complete-lisp-symbol))</div></pre></td></tr></table></figure>
+<p>上面是我的配置,如果不习惯, 可以自己配置</p>
+<p>更换上面<code>hippie-expand-try-functions-list</code> 参数就可以</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">try-expand-dabbrev                 ; 搜索当前 buffer</div><div class="line">try-expand-dabbrev-visible         ; 搜索当前可见窗口</div><div class="line">try-expand-dabbrev-all-buffers     ; 搜索所有 buffer</div><div class="line">try-expand-dabbrev-from-kill       ; 从 kill-ring 中搜索</div><div class="line">try-complete-file-name-partially   ; 文件名部分匹配</div><div class="line">try-complete-file-name             ; 文件名匹配</div><div class="line">try-expand-all-abbrevs             ; 匹配所有缩写词</div><div class="line">try-expand-list                    ; 补全一个列表</div><div class="line">try-expand-line                    ; 补全当前行</div><div class="line">try-complete-lisp-symbol-partially ; 部分补全 elisp symbol</div><div class="line">try-complete-lisp-symbol           ; 补全 lisp symbol</div></pre></td></tr></table></figure>
+<h2 id="遇到的问题处理对策"><a href="#遇到的问题处理对策" class="headerlink" title="遇到的问题处理对策"></a>遇到的问题处理对策</h2><blockquote>
+<p>tern是一个补全的后端, 是需要配合emacs的前端来实现的. tern安装之后自己会启动, 如不能自动, 请手动启动</p>
+</blockquote>
+<ul>
+<li><p>tern 启动之后会在项目目录下创建一个 <code>.tern-port</code>文件, 里面的端口和emacs中<br><code>M-x describe-variabble tern-known-port</code> 看到的一致.</p>
+</li>
+<li><p><code>tern-mode</code>是否启动?<br><code>M-x describe-variabel tern-mode</code>结果应该是t. (这一步我的meacs中tern启动后 没有出任何结果, 好奇怪)</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ cd /path/to/project</div><div class="line">$ tern</div><div class="line">Listening on port 63935</div></pre></td></tr></table></figure>
+<p>记住这个端口号，回到 Emacs，手动 <code>M-x tern-use-server RET 63953</code> 第二个server可以不填 默认是<code>127.0.0.1</code><br>当然最终还是要解决配置问题, 想tern自动启动.</p>
+<p>把下面代码放到配置文件中就可以自启动了.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">(add-hook &apos;js-mode-hook</div><div class="line">          &apos;(lambda ()</div><div class="line">             (company-mode 1)</div><div class="line">             (tern-mode 1)</div><div class="line">             (setq company-tooltip-align-annotations t)</div><div class="line">             (add-to-list &apos;company-backends &apos;company-tern)))</div></pre></td></tr></table></figure>
+<p>如果不出现js补全dom的提示 可能是因为跟目录没有 <code>.tern-project</code>文件<br>然后添加下面代码到<code>~/.tern-project</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"libs"</span>: [</div><div class="line">    <span class="string">"browser"</span>,</div><div class="line">    <span class="string">"jquery"</span></div><div class="line">  ],</div><div class="line">  <span class="attr">"plugins"</span>: &#123;</div><div class="line">    <span class="attr">"node"</span>: &#123;&#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>所以即使项目目录没有任何配置,  根目录<code>.tern-project</code>也会起作用!</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/06/15/Immutable-js意义以及使用场所/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/06/22/react-native地区选择器/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+<!-- Gitalk评论插件通用代码 -->
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: '277317290454635afa73',
+  clientSecret: '78223c859304da5e8d71bfce136d436c6ff95c37',
+  repo: 'blog-comment',
+  owner: 'forsigner',
+  // 在这里设置一下截取前50个字符串, 这是因为 github 对 label 的长度有了要求, 如果超过
+  // 50个字符串则会报错.
+  // id: location.pathname.split('/').pop().substring(0, 49),
+  id: md5(location.pathname),
+  admin: ['forsigner'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('gitalk-container')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

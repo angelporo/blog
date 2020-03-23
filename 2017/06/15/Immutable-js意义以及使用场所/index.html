@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Immutable.js意义以及使用场所 | 李渊</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="react,react-native,immutable," />
+  
+
+  <meta name="description" content="学习资料地址Immutable Data 就是一旦创建，就不能再被更改的数据,对 Immutable 对象的任何修改或添加删除操作都会返回一个新的 Immutable 对象,">
+<meta name="keywords" content="react,react-native,immutable">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Immutable.js意义以及使用场所">
+<meta property="og:url" content="http://angely.me/2017/06/15/Immutable-js意义以及使用场所/index.html">
+<meta property="og:site_name" content="李渊">
+<meta property="og:description" content="学习资料地址Immutable Data 就是一旦创建，就不能再被更改的数据,对 Immutable 对象的任何修改或添加删除操作都会返回一个新的 Immutable 对象,">
+<meta property="og:image" content="http://angely.me/2017/06/15/Immutable-js意义以及使用场所/immuable.gif">
+<meta property="og:updated_time" content="2018-11-20T09:22:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Immutable.js意义以及使用场所">
+<meta name="twitter:description" content="学习资料地址Immutable Data 就是一旦创建，就不能再被更改的数据,对 Immutable 对象的任何修改或添加删除操作都会返回一个新的 Immutable 对象,">
+<meta name="twitter:image" content="http://angely.me/2017/06/15/Immutable-js意义以及使用场所/immuable.gif">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-38189205-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#学习资料地址"><span class="toc-text">学习资料地址</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Immutable-优点"><span class="toc-text">Immutable 优点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#我认为最大的缺点就是容易和原生对象混淆"><span class="toc-text">我认为最大的缺点就是容易和原生对象混淆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#周边信息"><span class="toc-text">周边信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实践"><span class="toc-text">实践</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#与Redux配合使用遇到的坑"><span class="toc-text">与Redux配合使用遇到的坑</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-Immutable-js意义以及使用场所" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Immutable.js意义以及使用场所</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.06.15</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>li yuan</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h3 id="学习资料地址"><a href="#学习资料地址" class="headerlink" title="学习资料地址"></a><a href="https://juejin.im/post/5948985ea0bb9f006bed7472" target="_blank" rel="external">学习资料地址</a></h3><pre><code>Immutable Data 就是一旦创建，就不能再被更改的数据,对 Immutable 对象的任何修改或添加删除操作都会返回一个新的 Immutable 对象,
+</code></pre><a id="more"></a>
+<p>安装: <code>npm install immutable</code></p>
+<img src="/2017/06/15/Immutable-js意义以及使用场所/immuable.gif" alt="Immuable" title="Immuable">
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">let foo = &#123;a: &#123;b: 1&#125;&#125;;</div><div class="line">let bar = foo;</div><div class="line">bar.a.b = 2;</div><div class="line">console.log(foo.a.b);  // 打印 2</div><div class="line">console.log(foo === bar);  //  打印 true</div><div class="line"></div><div class="line">// 使用 immutable.js 后</div><div class="line">import Immutable from &apos;immutable&apos;;</div><div class="line">foo = Immutable.fromJS(&#123;a: &#123;b: 1&#125;&#125;);</div><div class="line">bar = foo.setIn([&apos;a&apos;, &apos;b&apos;], 2);   // 使用 setIn 赋值</div><div class="line">console.log(foo.getIn([&apos;a&apos;, &apos;b&apos;]));  // 使用 getIn 取值，打印 1</div><div class="line"></div><div class="line">console.log(foo === bar);  //  打印 false</div></pre></td></tr></table></figure>
+<p>先放上官方<code>README</code>要解决的  (共享的可变状态是万恶之源)</p>
+<p>上面的例子中已经看出来了, , , 着不是react设计初衷,</p>
+<h2 id="Immutable-优点"><a href="#Immutable-优点" class="headerlink" title="Immutable 优点"></a>Immutable 优点</h2><ol>
+<li><p>Immutable 降低了 Mutable 带来的复杂度</p>
+<blockquote>
+<p>可变（Mutable）数据耦合了 Time 和 Value 的概念，造成了数据很难被回溯</p>
+</blockquote>
+</li>
+<li><p>节省内存</p>
+<blockquote>
+<p>Immutable.js 使用了 Structure Sharing 会尽量复用内存。没有被引用的对象会被垃圾回收。</p>
+</blockquote>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">import &#123; Map&#125; from &apos;immutable&apos;;</div><div class="line">let a = Map(&#123;</div><div class="line">  select: &apos;users&apos;,</div><div class="line">  filter: Map(&#123; name: &apos;Cam&apos; &#125;)</div><div class="line">&#125;)</div><div class="line">let b = a.set(&apos;select&apos;, &apos;people&apos;);</div><div class="line"></div><div class="line">a === b; // false</div><div class="line"></div><div class="line">a.get(&apos;filter&apos;) === b.get(&apos;filter&apos;); // true</div></pre></td></tr></table></figure>
+<ol>
+<li><p>Undo/Redo，Copy/Paste，甚至时间旅行这些功能做起来小菜一碟</p>
+<p> 因为每次数据都是不一样的，只要把这些数据放到一个数组里储存起来，想回退到哪里就拿出对应数据即可，很容易开发出撤销重做这种功能。后面我会提供 Flux 做 Undo 的示例。</p>
+</li>
+<li><p>并发安全传统的并发非常难做，因为要处理各种数据不一致问题，因此『聪明人』发明了各种锁来解决。但使用了 Immutable 之后，数据天生是不可变的，并发锁就不需要了。</p>
+</li>
+</ol>
+<p>然而现在并没什么卵用，因为 JavaScript 还是单线程运行的啊。但未来可能会加入，提前解决未来的问题不也挺好吗？</p>
+<p>常用api示例:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">//Map()  原生object转Map对象 (只会转换第一层，注意和fromJS区别)</div><div class="line">immutable.Map(&#123;name:&apos;danny&apos;, age:18&#125;)</div><div class="line"></div><div class="line">//List()  原生array转List对象 (只会转换第一层，注意和fromJS区别)</div><div class="line">immutable.List([1,2,3,4,5])</div><div class="line"></div><div class="line">//fromJS()   原生js转immutable对象  (深度转换，会将内部嵌套的对象和数组全部转成immutable)</div><div class="line">immutable.fromJS([1,2,3,4,5])    //将原生array  --&gt; List</div><div class="line">immutable.fromJS(&#123;name:&apos;danny&apos;, age:18&#125;)   //将原生object  --&gt; Map</div><div class="line"></div><div class="line">//toJS()  immutable对象转原生js  (深度转换，会将内部嵌套的Map和List全部转换成原生js)</div><div class="line">immutableData.toJS();</div><div class="line"></div><div class="line">//查看List或者map大小</div><div class="line">immutableData.size  或者 immutableData.count()</div><div class="line"></div><div class="line">// is()   判断两个immutable对象是否相等</div><div class="line">immutable.is(imA, imB);</div><div class="line"></div><div class="line">//merge()  对象合并</div><div class="line">var imA = immutable.fromJS(&#123;a:1,b:2&#125;);</div><div class="line">var imA = immutable.fromJS(&#123;c:3&#125;);</div><div class="line">var imC = imA.merge(imB);</div><div class="line">console.log(imC.toJS())  //&#123;a:1,b:2,c:3&#125;</div><div class="line"></div><div class="line">//增删改查（所有操作都会返回新的值，不会修改原来值）</div><div class="line">var immutableData = immutable.fromJS(&#123;</div><div class="line">    a:1,</div><div class="line">    b:2，</div><div class="line">    c:&#123;</div><div class="line">        d:3</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line">var data1 = immutableData.get(&apos;a&apos;) //  data1 = 1</div><div class="line">var data2 = immutableData.getIn([&apos;c&apos;, &apos;d&apos;]) // data2 = 3   getIn用于深层结构访问</div><div class="line">var data3 = immutableData.set(&apos;a&apos; , 2);   // data3中的 a = 2</div><div class="line">var data4 = immutableData.setIn([&apos;c&apos;, &apos;d&apos;], 4);   //data4中的 d = 4</div><div class="line">var data5 = immutableData.update(&apos;a&apos;,function(x)&#123;return x+4&#125;)   //data5中的 a = 5</div><div class="line">var data6 = immutableData.updateIn([&apos;c&apos;, &apos;d&apos;],function(x)&#123;return x+4&#125;)   //data6中的 d = 7</div><div class="line">var data7 = immutableData.delete(&apos;a&apos;)   //data7中的 a 不存在</div><div class="line">var data8 = immutableData.deleteIn([&apos;c&apos;, &apos;d&apos;])   //data8中的 d 不存在</div></pre></td></tr></table></figure>
+<h3 id="我认为最大的缺点就是容易和原生对象混淆"><a href="#我认为最大的缺点就是容易和原生对象混淆" class="headerlink" title="我认为最大的缺点就是容易和原生对象混淆"></a>我认为最大的缺点就是容易和原生对象混淆</h3><blockquote>
+<p>就是在开发的过程中,  有时候很你那分清楚是Immutable对象还是原生对象, Immutable中的Map和List虽然对应原生的Object和Array, 使用上还是有很大区别的, 主要还是API的不同带来的. 另外.Immuable每次修改会自动<code>return</code>新的Immutable, 还有就是使用的时候, 需要转换, 这个比较麻烦,  每次需要在和其他库配合的时候都需要转换</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">map.get(&apos;key&apos;) // Immuable对象取值</div><div class="line">may.key  //原生对象取值</div></pre></td></tr></table></figure>
+<h3 id="周边信息"><a href="#周边信息" class="headerlink" title="周边信息"></a>周边信息</h3><p>两个 immutable 对象可以使用 <code>===</code> 来比较，这样是直接比较内存地址，性能最好。但即使两个对象的值是一样的，也会返回 <code>false</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">let map1 = Immutable.Map(&#123;a:1, b:1, c:1&#125;);</div><div class="line">let map2 = Immutable.Map(&#123;a:1, b:1, c:1&#125;);</div><div class="line">map1 === map2;             // false</div></pre></td></tr></table></figure>
+<p>为了直接比较对象的值，immutable.js 提供了 <code>Immutable.is</code> 来做『值比较』，结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Immutable.is(map1, map2);  // true</div></pre></td></tr></table></figure></p>
+<p><code>Immutable.is</code> 比较的是两个对象的 <code>hashCode</code> 或 <code>valueOf</code>（对于 JavaScript 对象）。由于 immutable 内部使用了 Trie 数据结构来存储，只要两个对象的 <code>hashCode</code> 相等，值就是一样的。这样的算法避免了深度遍历比较，性能非常好。</p>
+<p>后面会使用 <code>Immutable.is</code> 来减少 React 重复渲染，提高性能。</p>
+<p>与 Object.freeze、const 区别</p>
+<p><code>Object.freeze</code> 和 ES6 中新加入的 <code>const</code> 都可以达到防止对象被篡改的功能，但它们是 shallowCopy 的。对象层级一深就要特殊处理了。</p>
+<p>Cursor 的概念</p>
+<p>这个 Cursor 和数据库中的游标是完全不同的概念。</p>
+<p>由于 Immutable 数据一般嵌套非常深，为了便于访问深层数据，Cursor 提供了可以直接访问这个深层数据的引用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">import Immutable from &apos;immutable&apos;;</div><div class="line">import Cursor from &apos;immutable/contrib/cursor&apos;;</div><div class="line"></div><div class="line">let data = Immutable.fromJS(&#123; a: &#123; b: &#123; c: 1 &#125; &#125; &#125;);</div><div class="line">// 让 cursor 指向 &#123; c: 1 &#125;</div><div class="line">let cursor = Cursor.from(data, [&apos;a&apos;, &apos;b&apos;], newData =&gt; &#123;</div><div class="line">  // 当 cursor 或其子 cursor 执行 update 时调用</div><div class="line">  console.log(newData);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">cursor.get(&apos;c&apos;); // 1</div><div class="line">cursor = cursor.update(&apos;c&apos;, x =&gt; x + 1);</div><div class="line">cursor.get(&apos;c&apos;); // 2</div></pre></td></tr></table></figure>
+<h3 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h3><ol>
+<li>与 React 搭配使用，Pure Render</li>
+</ol>
+<p>熟悉 React 的都知道，React 做性能优化时有一个避免重复渲染的大招，就是使用 <code>shouldComponentUpdate()</code>，但它默认返回 <code>true</code>，即始终会执行 <code>render()</code> 方法，然后做 Virtual DOM 比较，并得出是否需要做真实 DOM 更新，这里往往会带来很多无必要的渲染并成为性能瓶颈。</p>
+<p>当然我们也可以在 <code>shouldComponentUpdate()</code> 中使用使用 deepCopy 和 deepCompare 来避免无必要的 <code>render()</code>，但 deepCopy 和 deepCompare 一般都是非常耗性能的。</p>
+<p>Immutable 则提供了简洁高效的判断数据是否变化的方法，只需 <code>===</code> 和 <code>is</code> 比较就能知道是否需要执行 <code>render()</code>，而这个操作几乎 0 成本，所以可以极大提高性能。修改后的 <code>shouldComponentUpdate</code> 是这样的：</p>
+<p>前几天在优化redux中的store使用immutable的时候发现一个问题,  那就是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">import &#123; is &#125; from &apos;immutable&apos;;</div><div class="line"></div><div class="line">shouldComponentUpdate: (nextProps = &#123;&#125;, nextState = &#123;&#125;) =&gt; &#123;</div><div class="line">  const thisProps = this.props || &#123;&#125;, thisState = this.state || &#123;&#125;;</div><div class="line"></div><div class="line">  if (Object.keys(thisProps).length !== Object.keys(nextProps).length ||</div><div class="line">      Object.keys(thisState).length !== Object.keys(nextState).length) &#123;</div><div class="line">    return true;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  for (const key in nextProps) &#123;</div><div class="line">    if (thisProps[key] !== nextProps[key] || ！is(thisProps[key], nextProps[key])) &#123;</div><div class="line">      return true;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  for (const key in nextState) &#123;</div><div class="line">    if (thisState[key] !== nextState[key] || ！is(thisState[key], nextState[key])) &#123;</div><div class="line">      return true;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  return false;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>使用 Immutable 后，如下图，当红色节点的 state 变化后，不会再渲染树中的所有节点，而是只渲染图中绿色的部分:<br><br>你也可以借助 <code>React.addons.PureRenderMixin</code> 或支持 class 语法的<a href="">pure-render-decoratorhttps://github.com/felixgirault/pure-render-decorator</a> 来实现。</p>
+</blockquote>
+<p>setState 的一个技巧</p>
+<p>React 建议把 <code>this.state</code> 当作 Immutable 的，因此修改前需要做一个 deepCopy，显得麻烦：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">import &apos;_&apos; from &apos;lodash&apos;;</div><div class="line"></div><div class="line">const Component = React.createClass(&#123;</div><div class="line">  getInitialState() &#123;</div><div class="line">    return &#123;</div><div class="line">      data: &#123; times: 0 &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  handleAdd() &#123;</div><div class="line">    let data = _.cloneDeep(this.state.data);</div><div class="line">    data.times = data.times + 1;</div><div class="line">    this.setState(&#123; data: data &#125;);</div><div class="line">    // 如果上面不做 cloneDeep，下面打印的结果会是已经加 1 后的值。</div><div class="line">    console.log(this.state.data.times);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>使用 Immutable 后：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">getInitialState() &#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">      <span class="attr">data</span>: <span class="built_in">Map</span>(&#123; <span class="attr">times</span>: <span class="number">0</span> &#125;)</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  handleAdd() &#123;</div><div class="line">    <span class="keyword">this</span>.setState(&#123; <span class="attr">data</span>: <span class="keyword">this</span>.state.data.update(<span class="string">'times'</span>, v =&gt; v + <span class="number">1</span>) &#125;);</div><div class="line">    <span class="comment">// 这时的 times 并不会改变</span></div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.state.data.get(<span class="string">'times'</span>));</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<p>上面的 <code>handleAdd</code> 可以简写成：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">handleAdd() &#123;</div><div class="line">    <span class="keyword">this</span>.setState(<span class="function">(<span class="params">&#123;data&#125;</span>) =&gt;</span> (&#123;</div><div class="line">      <span class="attr">data</span>: data.update(<span class="string">'times'</span>, v =&gt; v + <span class="number">1</span>) &#125;)</div><div class="line">    &#125;);</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<h3 id="与Redux配合使用遇到的坑"><a href="#与Redux配合使用遇到的坑" class="headerlink" title="与Redux配合使用遇到的坑"></a>与<code>Redux</code>配合使用遇到的坑</h3><p>先说下<code>redux</code>中的单向数据流（View -&gt; Action -&gt; Middleware -&gt; Reducer）, 项目中使用的redux,</p>
+<p>由于redux中内置的<code>combineReducers</code>和reducer中的<code>initialState</code>都会返回一个原生的Object对象, 所以配合<code>Imuutable</code>之后就会和原生Object搭配使用,  开发起来很不爽.</p>
+<p>幸运的是,  redux中并不排斥使用Immutable, 可以自己重写<code>combineReducers</code>或使用<a href="https://github.com/indexiatech/redux-immutablejs" target="_blank" rel="external"> redux-immutablejs</a>来提供支持</p>
+<p>上面我们提到 Cursor 可以方便检索和 update 层级比较深的数据，但因为 Redux 中已经有了 select 来做检索，Action 来更新数据，因此 Cursor 在这里就没有用武之地了。</p>
+<blockquote>
+<p><a href="https://zhuanlan.zhihu.com/p/20295971?columnSlug=purerender" target="_blank" rel="external">写的很不错,  原文地址</a></p>
+</blockquote>
+
+    
+  </div>
+
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/06/15/优雅的设计redux中的store的state树/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/06/16/emacs使用company-mode-ycmd-hippie-来完善你的补全功能-以及遇到的坑/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+<!-- Gitalk评论插件通用代码 -->
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: '277317290454635afa73',
+  clientSecret: '78223c859304da5e8d71bfce136d436c6ff95c37',
+  repo: 'blog-comment',
+  owner: 'forsigner',
+  // 在这里设置一下截取前50个字符串, 这是因为 github 对 label 的长度有了要求, 如果超过
+  // 50个字符串则会报错.
+  // id: location.pathname.split('/').pop().substring(0, 49),
+  id: md5(location.pathname),
+  admin: ['forsigner'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('gitalk-container')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

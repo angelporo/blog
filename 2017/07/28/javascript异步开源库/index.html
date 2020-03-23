@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>javascript中异步执行的方法以及异步的开源库介绍 | 李渊</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="javascript,js异步," />
+  
+
+  <meta name="description" content="异步执行方法写前端这么久,  也没有好好的梳理一下异步的一些东西, 今天就蹭着说异步开源库 也顺便简单说一下javascript中的异步 12345A: 嘿，哥们儿，快点！B: 我要三分钟，你先等着，完了叫你~A: 好的，记得叫我啊~ 你（C）也等着吧，完了叫你~C: 嗯！...">
+<meta name="keywords" content="javascript,js异步">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript中异步执行的方法以及异步的开源库介绍">
+<meta property="og:url" content="http://angely.me/2017/07/28/javascript异步开源库/index.html">
+<meta property="og:site_name" content="李渊">
+<meta property="og:description" content="异步执行方法写前端这么久,  也没有好好的梳理一下异步的一些东西, 今天就蹭着说异步开源库 也顺便简单说一下javascript中的异步 12345A: 嘿，哥们儿，快点！B: 我要三分钟，你先等着，完了叫你~A: 好的，记得叫我啊~ 你（C）也等着吧，完了叫你~C: 嗯！...">
+<meta property="og:image" content="http://angely.me/2017/07/28/javascript异步开源库/promise.png">
+<meta property="og:updated_time" content="2018-11-20T09:22:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="javascript中异步执行的方法以及异步的开源库介绍">
+<meta name="twitter:description" content="异步执行方法写前端这么久,  也没有好好的梳理一下异步的一些东西, 今天就蹭着说异步开源库 也顺便简单说一下javascript中的异步 12345A: 嘿，哥们儿，快点！B: 我要三分钟，你先等着，完了叫你~A: 好的，记得叫我啊~ 你（C）也等着吧，完了叫你~C: 嗯！...">
+<meta name="twitter:image" content="http://angely.me/2017/07/28/javascript异步开源库/promise.png">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-38189205-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#异步执行方法"><span class="toc-text">异步执行方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-回调函数"><span class="toc-text">1. 回调函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-事件监听"><span class="toc-text">2. 事件监听</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-发布-订阅"><span class="toc-text">3. 发布 / 订阅</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Promise"><span class="toc-text">4. Promise</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异步操作的流程控制"><span class="toc-text">异步操作的流程控制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-异步中的串行执行"><span class="toc-text">1. 异步中的串行执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-并行执行"><span class="toc-text">2. 并行执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-并行余串行的结合"><span class="toc-text">3. 并行余串行的结合</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Promise-对象"><span class="toc-text">4. Promise 对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#今天介绍3种javascript异步开源库"><span class="toc-text">今天介绍3种javascript异步开源库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#jQuery中的Deferred对象"><span class="toc-text">jQuery中的Deferred对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q-js"><span class="toc-text">Q.js</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Koajs"><span class="toc-text">Koajs</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-javascript异步开源库" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">javascript中异步执行的方法以及异步的开源库介绍</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.07.28</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>li yuan</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="异步执行方法"><a href="#异步执行方法" class="headerlink" title="异步执行方法"></a>异步执行方法</h2><p>写前端这么久,  也没有好好的梳理一下异步的一些东西, 今天就蹭着说异步开源库 也顺便简单说一下<code>javascript</code>中的异步</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">A: 嘿，哥们儿，快点！</div><div class="line">B: 我要三分钟，你先等着，完了叫你~</div><div class="line">A: 好的，记得叫我啊~ 你（C）也等着吧，完了叫你~</div><div class="line">C: 嗯！</div><div class="line">...</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>由于 <code>javascript</code> 的执行环境是单线程,  所以只能一次执行一个task, 所以后面的任务只能干等着.<br>好处是实现起来想对比较简单, 执行环境想对单纯; 坏处就是如果任务繁重, 那么后面会等候很长时间, 整个程序执行时间就会想对长 这样就会导致浏览器处于假死状态, 为了解决这个问题,  <code>javascirpt</code>执行模式分为两种: 同步 or 异步</p>
+<p>所以在js中异步执行是非常重要的,  应该在写的时候, 耗时的任务都应该异步执行, 这样可以避免浏览器假死, 和用户体验.</p>
+<p>比如我们经常用到的<code>ajax</code></p>
+<pre><code>接下来就说一下js中经常使用异步的几种方法
+</code></pre><h3 id="1-回调函数"><a href="#1-回调函数" class="headerlink" title="1. 回调函数"></a>1. 回调函数</h3><p>这是个最基本的方法就是吧方法通过回调函数来传入函数, </p>
+<p>假设这个有两个方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">f1();</div><div class="line">f2();</div></pre></td></tr></table></figure></p>
+<p>f1()是一个比较耗时的任务, 可以重构f1, 吧<code>f2</code>当做参数传入<code>f1</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params">callback</span>)</span>&#123;</div><div class="line">　　　　setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">　　　　　　<span class="comment">// f1的任务代码</span></div><div class="line">　　　　　　callback();</div><div class="line">　　　　&#125;, <span class="number">1000</span>);</div><div class="line">　　&#125;</div><div class="line"></div><div class="line">f1(f2); <span class="comment">//执行代码</span></div></pre></td></tr></table></figure>
+<p>上面这种方式就是吧同步转变成异步的执行,这种方法比较简单,  也更容易理解,  在开发过程中如果回调函数使用遍地开花, 就会引起回调地狱,  如果不对代码做很好的注释,  后期根本看不懂.</p>
+<h3 id="2-事件监听"><a href="#2-事件监听" class="headerlink" title="2. 事件监听"></a>2. 事件监听</h3><p>这种是采用事件驱动, 任务的执行不取决于代码的顺序, 而是取决于事件的触发. </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 这个jQuery的事件写法, 也是浏览器中的事件写法</span></div><div class="line">f1.on(<span class="string">'down'</span>, f2); <span class="comment">// 这里是f1绑定了事件, 回调是f2;</span></div><div class="line"><span class="comment">// 就是当f1发生`down`时间之后就执行f2方法</span></div></pre></td></tr></table></figure>
+<p>接着看监听时间<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> f1 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    setTimeout( <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">        f1.trigger(<span class="string">'down'</span>); <span class="comment">// 粗发`down`事件, 从而开始执行f2.</span></div><div class="line">    &#125;, <span class="number">1000</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这种方法的优点是可以绑定多个事件 , 也比较容易理解,  也有利于实现<a href="http://www.ruanyifeng.com/blog/2012/10/javascript_module.html" target="_blank" rel="external">模块化</a><br>缺点是整个程序都要变成事件驱动型，运行流程会变得很不清晰。</p>
+<h3 id="3-发布-订阅"><a href="#3-发布-订阅" class="headerlink" title="3. 发布 / 订阅"></a>3. 发布 / 订阅</h3><p>请移驾到这篇, 专门介绍观察者模式 <a href="http://angely.me/2017/07/26/js%E4%B8%AD%E7%9A%84%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F%E7%A4%BA%E4%BE%8B%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/">这里是发布订阅模式, 和事件驱动很相似, 应该说基本一样</a>(只不过粗发的一个是用户操作自动, 一个是使用代码手动触发)</p>
+<p>这个不多说,  放一个<code>jQuery</code>一个插件的栗子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">jQuery.subscribe(&quot;down&quot;, f2); // 订阅down事件</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">　　function f1()&#123;</div><div class="line">　　　　setTimeout(function () &#123;</div><div class="line">　　　　　　// f1的任务代码</div><div class="line">　　　　　　jQuery.publish(&quot;done&quot;); // 发布down事件</div><div class="line">　　　　&#125;, 1000);</div><div class="line">　　&#125;</div></pre></td></tr></table></figure>
+<h2 id="4-Promise"><a href="#4-Promise" class="headerlink" title="4. Promise"></a>4. Promise</h2><p><code>Promise</code>在js里面很重要,在promise之前需要看看异步的操作流程控制,<br>也就是异步操作多了,  我们应该怎么去处理他的流程;</p>
+<h2 id="异步操作的流程控制"><a href="#异步操作的流程控制" class="headerlink" title="异步操作的流程控制"></a>异步操作的流程控制</h2><p>如果很多个异步操作的时候, 就会存在一个流程控制的问题, 先执行那个, 后执行那个, 这个是需要我们在写的时候就必须规定好的, 也就是异步操作的同步化</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">async</span>(<span class="params">arg, callback</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">`参数为<span class="subst">$&#123;arg&#125;</span>, 2秒后反悔结果`</span>);</div><div class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123; callback(arg * <span class="number">2</span>); &#125;, <span class="number">2000</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>async</code>函数是个异步函数, 每次2秒后才能执行完毕.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">final</span> (<span class="params">value</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">`完成: <span class="subst">$&#123;value&#125;</span>`</span>);</div><div class="line">&#125;</div><div class="line"><span class="comment">// async函数全部执行完毕才能执行final</span></div></pre></td></tr></table></figure>
+<p>如果有好多个异步函数, 需要全部完成后, 才能执行之后的task.现在 就比如前面需要执行6次async才能执行final函数<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">async</span>(<span class="number">1</span>, <span class="function"><span class="keyword">function</span>(<span class="params">value</span>)</span>&#123;</div><div class="line">  <span class="keyword">async</span>(value, <span class="function"><span class="keyword">function</span>(<span class="params">value</span>)</span>&#123;</div><div class="line">    <span class="keyword">async</span>(value, <span class="function"><span class="keyword">function</span>(<span class="params">value</span>)</span>&#123;</div><div class="line">      <span class="keyword">async</span>(value, <span class="function"><span class="keyword">function</span>(<span class="params">value</span>)</span>&#123;</div><div class="line">          <span class="keyword">async</span>(value, <span class="function"><span class="keyword">function</span>(<span class="params">value</span>)</span>&#123;</div><div class="line">          <span class="comment">// 全部执行完了.</span></div><div class="line">          <span class="keyword">async</span>(value, final);</div><div class="line">        &#125;);</div><div class="line">      &#125;);</div><div class="line">    &#125;);</div><div class="line">  &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>全部在回调中执行….是不是狠难看明白, 之后会很难维护</p>
+<h3 id="1-异步中的串行执行"><a href="#1-异步中的串行执行" class="headerlink" title="1. 异步中的串行执行"></a>1. 异步中的串行执行</h3><p>我们可以编写一个流程控制函数，让它来控制异步任务，一个任务完成以后，再执行另一个。这就叫串行执行。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">let items = [ 1, 2, 3, 4, 5, 6 ];</div><div class="line">let results = [];</div><div class="line">function series(item) &#123;</div><div class="line">  if(item) &#123;</div><div class="line">    async( item, function(result) &#123;</div><div class="line">      results.push(result);</div><div class="line">      // 返回调用自身</div><div class="line">      return series(items.shift());</div><div class="line">    &#125;);</div><div class="line">  &#125; else &#123;</div><div class="line">    return final(results);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">// Array.prototype.shift() 方法从数组中删除第一个元素，并返回该元素的值。此方法更改数组的长度。</div><div class="line">series(items.shift());</div></pre></td></tr></table></figure></p>
+<p>上面代码中，函数series就是串行函数，它会依次执行异步任务，所有任务都完成后，才会执行final函数。items数组保存每一个异步任务的参数，results数组保存每一个异步任务的运行结果。</p>
+<h3 id="2-并行执行"><a href="#2-并行执行" class="headerlink" title="2. 并行执行"></a>2. 并行执行</h3><p>流程控制函数也可以是并行执行，即所有异步任务同时执行，等到全部完成以后，才执行final函数。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> items = [ <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span> ];</div><div class="line"><span class="keyword">let</span> results = [];</div><div class="line">items.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>) </span>&#123;</div><div class="line">  <span class="keyword">async</span>(item, <span class="function"><span class="keyword">function</span>(<span class="params">result</span>)</span>&#123;</div><div class="line">    results.push(result);</div><div class="line">    <span class="keyword">if</span>(results.length == items.length) &#123;</div><div class="line">      <span class="comment">// 全部执行完毕</span></div><div class="line">      final(results);</div><div class="line">    &#125;</div><div class="line">  &#125;)</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>上面代码中，forEach方法会同时发起6个异步任务，等到它们全部完成以后，才会执行final函数。</p>
+<p>并行执行的好处是效率较高，比起串行执行一次只能执行一个任务，较为节约时间。但是问题在于如果并行的任务较多，很容易耗尽系统资源，拖慢运行速度。因此有了第三种流程控制方式。</p>
+<h3 id="3-并行余串行的结合"><a href="#3-并行余串行的结合" class="headerlink" title="3. 并行余串行的结合"></a>3. 并行余串行的结合</h3><p>所谓并行与串行的结合，就是设置一个门槛，每次最多只能并行执行n个异步任务。这样就避免了过分占用系统资源。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> items = [ <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span> ];</div><div class="line"><span class="keyword">let</span> results = [];</div><div class="line"><span class="keyword">let</span> running = <span class="number">0</span>;</div><div class="line"><span class="keyword">let</span> limit = <span class="number">2</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">launcher</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">while</span>(running &lt; limit &amp;&amp; items.length &gt; <span class="number">0</span>) &#123;</div><div class="line">    <span class="keyword">let</span> item = items.shift();</div><div class="line">    <span class="keyword">async</span>(item, <span class="function"><span class="keyword">function</span>(<span class="params">result</span>) </span>&#123;</div><div class="line">      results.push(result);</div><div class="line">      running--;</div><div class="line">      <span class="keyword">if</span>(items.length &gt; <span class="number">0</span>) &#123;</div><div class="line">        launcher();</div><div class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span>(running == <span class="number">0</span>) &#123;</div><div class="line">        final(results);</div><div class="line">      &#125;</div><div class="line">    &#125;);</div><div class="line">    running++;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">launcher();</div></pre></td></tr></table></figure>
+<p>上面代码中，最多只能同时运行两个异步任务。变量running记录当前正在运行的任务数，只要低于门槛值，就再启动一个新的任务，如果等于0，就表示所有任务都执行完了，这时就执行final函数。</p>
+<p>并行和串行执行代码总汇</p>
+<p><a class="jsbin-embed" href="http://jsbin.com/fofopob/embed?js,console" target="_blank" rel="external">JS Bin on jsbin.com</a><script src="http://static.jsbin.com/js/embed.min.js?4.0.4"></script></p>
+<h2 id="4-Promise-对象"><a href="#4-Promise-对象" class="headerlink" title="4. Promise 对象"></a>4. Promise 对象</h2><p>这个比较复杂<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise" target="_blank" rel="external">先付上mdn地址</a></p>
+<img src="/2017/07/28/javascript异步开源库/promise.png" alt="官方的这个图我认识很容易看懂" title="官方的这个图我认识很容易看懂">
+<p>想了好久也不知道怎么描述它.(简单点说就是处理异步请求。。我们经常会做些承诺，如果我赢了你就嫁给我，如果输了我就嫁给你之类的诺言。这就是promise的中文含义。一个诺言，一个成功，一个失败。)</p>
+<p>不难看出, <code>promise</code> 类似一个协议.通过这个协议来操作你的业务逻辑代码,<br>promise 本质上是分离了异步数据获取和业务逻辑，从而让开发人员能专注于一个事物，而不必同时考虑业务和数据<br>它的链式调用可以让你的代码更容易阅读,</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">f1().then(f2)</div><div class="line">    .catch(f3)</div><div class="line"><span class="comment">// 这样写异步代码是不是觉得很优雅, 同样也很容易修改业务逻辑</span></div></pre></td></tr></table></figure>
+<p>修改f1代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">　　<span class="keyword">let</span> f1 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">　　　　<span class="keyword">var</span> dfd = $.Deferred();</div><div class="line">　　　　setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">　　　　　　<span class="comment">// f1的任务代码</span></div><div class="line">　　　　　　dfd.resolve();</div><div class="line">　　　　&#125;, <span class="number">500</span>);</div><div class="line">　　　　<span class="keyword">return</span> dfd.promise;</div><div class="line">　　&#125;</div></pre></td></tr></table></figure>
+<p>最终在<code>javascript</code>中异步函数使用<code>Async/Await</code> <a href="http://angely.me/2017/06/14/%E4%BD%93%E9%AA%8Ces7%E4%B8%AD%E7%9A%84Async-Await%E6%9D%A5%E5%A4%84%E7%90%86%E5%BC%82%E6%AD%A5/">请移驾到这篇</a></p>
+<h2 id="今天介绍3种javascript异步开源库"><a href="#今天介绍3种javascript异步开源库" class="headerlink" title="今天介绍3种javascript异步开源库"></a>今天介绍3种<code>javascript</code>异步开源库</h2><ul>
+<li>jQuery Deferred</li>
+<li>Q.js</li>
+<li>Koajs</li>
+</ul>
+<h3 id="jQuery中的Deferred对象"><a href="#jQuery中的Deferred对象" class="headerlink" title="jQuery中的Deferred对象"></a>jQuery中的<code>Deferred</code>对象</h3><p>因为现在很少使用jQuery, 所以不怎么使用这个, <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html" target="_blank" rel="external">阮老师写的文章</a></p>
+<p><code>jQuery</code>版本在1.5.0以上就可以使用这个对象了</p>
+<h3 id="Q-js"><a href="#Q-js" class="headerlink" title="Q.js"></a>Q.js</h3><p><a href="http://documentup.com/kriskowal/q/" target="_blank" rel="external">附上文档</a><br>同样支持遵循 <a href="https://promisesaplus.com/#point-1" target="_blank" rel="external">Promises/A+</a><br><code>q.js</code>比其他两个相对要成熟一点, 因为他出现的时间较早, 代码也很稳健</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 看看这个回调地狱</span></div><div class="line">step1(<span class="function"><span class="keyword">function</span> (<span class="params">value1</span>) </span>&#123;</div><div class="line">    step2(value1, <span class="function"><span class="keyword">function</span>(<span class="params">value2</span>) </span>&#123;</div><div class="line">        step3(value2, <span class="function"><span class="keyword">function</span>(<span class="params">value3</span>) </span>&#123;</div><div class="line">            step4(value3, <span class="function"><span class="keyword">function</span>(<span class="params">value4</span>) </span>&#123;</div><div class="line">                <span class="comment">// Do something with value4</span></div><div class="line">            &#125;);</div><div class="line">        &#125;);</div><div class="line">    &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>使用<code>Qjs</code>之后的代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Q.fcall(promisedStep1)</div><div class="line">.then(promisedStep2)</div><div class="line">.then(promisedStep3)</div><div class="line">.then(promisedStep4)</div><div class="line">.then(<span class="function"><span class="keyword">function</span> (<span class="params">value4</span>) </span>&#123;</div><div class="line">    <span class="comment">// Do something with value4</span></div><div class="line">&#125;)</div><div class="line">.catch(<span class="function"><span class="keyword">function</span> (<span class="params">error</span>) </span>&#123;</div><div class="line">    <span class="comment">// Handle any error from all above steps</span></div><div class="line">&#125;)</div><div class="line">.done();</div></pre></td></tr></table></figure>
+<h3 id="Koajs"><a href="#Koajs" class="headerlink" title="Koajs"></a><code>Koajs</code></h3><p><a href="https://github.com/koajs/koa" target="_blank" rel="external">github</a><br><a href="http://koa.bootcss.com/" target="_blank" rel="external">中文官网</a></p>
+
+    
+  </div>
+
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/07/27/git常用的命令/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/07/29/使用autojump一键到达你要得路径/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+<!-- Gitalk评论插件通用代码 -->
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: '277317290454635afa73',
+  clientSecret: '78223c859304da5e8d71bfce136d436c6ff95c37',
+  repo: 'blog-comment',
+  owner: 'forsigner',
+  // 在这里设置一下截取前50个字符串, 这是因为 github 对 label 的长度有了要求, 如果超过
+  // 50个字符串则会报错.
+  // id: location.pathname.split('/').pop().substring(0, 49),
+  id: md5(location.pathname),
+  admin: ['forsigner'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('gitalk-container')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
