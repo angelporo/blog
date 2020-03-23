@@ -19,7 +19,7 @@ tag:
 
 至于它是做什么的,  这个不难知道,  百度下就可以了,  我常用他来做api接口的调试
 
-这里安装使用python的包管理器
+这里安装使用`python`的包管理器
 
 `pip install httpie`
 
@@ -73,3 +73,9 @@ http --proxy=http:http://user:pass@192.168.1.100:8060 yhz.me
 它比curl返回的数据更有好, 代码高亮很喜欢, 使用起来也简单很多
 
 > [写的更详细的在这里](https://xin053.github.io/2016/08/15/httpie%E4%BA%BA%E6%80%A7%E5%8C%96curl%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/)
+
+
+## blog update `2020-03-23`
+
+
+`postman` 真香! 不过偶尔还是会使用到`httpie`
