@@ -12,11 +12,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="js异步,javascript," />
+    <meta name="keywords" content="javascript,js异步," />
   
 
   <meta name="description" content="异步执行方法写前端这么久,  也没有好好的梳理一下异步的一些东西, 今天就蹭着说异步开源库 也顺便简单说一下javascript中的异步 12345A: 嘿，哥们儿，快点！B: 我要三分钟，你先等着，完了叫你~A: 好的，记得叫我啊~ 你（C）也等着吧，完了叫你~C: 嗯！...">
-<meta name="keywords" content="js异步,javascript">
+<meta name="keywords" content="javascript,js异步">
 <meta property="og:type" content="article">
 <meta property="og:title" content="javascript中异步执行的方法以及异步的开源库介绍">
 <meta property="og:url" content="http://angely.me/2017/07/28/javascript异步开源库/index.html">
@@ -196,7 +196,7 @@ ga('send', 'pageview');
 
 
   <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
+    <strong class="toc-title">Posts List</strong>
     <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#异步执行方法"><span class="toc-text">异步执行方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-回调函数"><span class="toc-text">1. 回调函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-事件监听"><span class="toc-text">2. 事件监听</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-发布-订阅"><span class="toc-text">3. 发布 / 订阅</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Promise"><span class="toc-text">4. Promise</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异步操作的流程控制"><span class="toc-text">异步操作的流程控制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-异步中的串行执行"><span class="toc-text">1. 异步中的串行执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-并行执行"><span class="toc-text">2. 并行执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-并行余串行的结合"><span class="toc-text">3. 并行余串行的结合</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Promise-对象"><span class="toc-text">4. Promise 对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#今天介绍3种javascript异步开源库"><span class="toc-text">今天介绍3种javascript异步开源库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#jQuery中的Deferred对象"><span class="toc-text">jQuery中的Deferred对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Q-js"><span class="toc-text">Q.js</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Koajs"><span class="toc-text">Koajs</span></a></li></ol></li></ol>
   </div>
 
@@ -336,7 +336,7 @@ ga('send', 'pageview');
   <span id="cover" class="cover hide"></span>
   <div id="modal-dialog" class="modal-dialog hide-dialog">
     <div class="modal-header">
-      <span id="close" class="btn-close">关闭</span>
+      <span id="close" class="btn-close">Close</span>
     </div>
     <hr>
     <div class="modal-body">
