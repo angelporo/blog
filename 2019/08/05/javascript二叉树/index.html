@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>javascript二叉树 | 会上树的猪</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="二叉树创建,二叉树排序," />
+  
+
+  <meta name="description" content="引言:  二叉树是非常基础又非常重要的数据结构，在一些场合有着非常重要的作用。掌握二叉树对编写高质量代码、减少代码量有很大的帮助！ 二叉树是一种特殊的树， 非常适合计算机处理数据， 所以对于程序员来说掌握二叉树是非常有必要的。 二叉树的前序遍历可以用来显示目录结构等；中序遍历可以实现表达式树，在编译器底层很有用；后序遍历可以用来实现计算目录内的文件及其信息等。二叉树是非常重要的数据结构， 其中二叉">
+<meta name="keywords" content="二叉树创建,二叉树排序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript二叉树">
+<meta property="og:url" content="http://angely.me/2019/08/05/javascript二叉树/index.html">
+<meta property="og:site_name" content="会上树的猪">
+<meta property="og:description" content="引言:  二叉树是非常基础又非常重要的数据结构，在一些场合有着非常重要的作用。掌握二叉树对编写高质量代码、减少代码量有很大的帮助！ 二叉树是一种特殊的树， 非常适合计算机处理数据， 所以对于程序员来说掌握二叉树是非常有必要的。 二叉树的前序遍历可以用来显示目录结构等；中序遍历可以实现表达式树，在编译器底层很有用；后序遍历可以用来实现计算目录内的文件及其信息等。二叉树是非常重要的数据结构， 其中二叉">
+<meta property="og:image" content="http://angely.me/2019/08/05/javascript二叉树/1.png">
+<meta property="og:image" content="http://angely.me/2019/08/05/javascript二叉树/2.png">
+<meta property="og:updated_time" content="2020-03-24T13:43:30.007Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="javascript二叉树">
+<meta name="twitter:description" content="引言:  二叉树是非常基础又非常重要的数据结构，在一些场合有着非常重要的作用。掌握二叉树对编写高质量代码、减少代码量有很大的帮助！ 二叉树是一种特殊的树， 非常适合计算机处理数据， 所以对于程序员来说掌握二叉树是非常有必要的。 二叉树的前序遍历可以用来显示目录结构等；中序遍历可以实现表达式树，在编译器底层很有用；后序遍历可以用来实现计算目录内的文件及其信息等。二叉树是非常重要的数据结构， 其中二叉">
+<meta name="twitter:image" content="http://angely.me/2019/08/05/javascript二叉树/1.png">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-38189205-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-text">引言:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#javascript-实现二叉树"><span class="toc-text">javascript 实现二叉树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建"><span class="toc-text">创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#遍历"><span class="toc-text">遍历</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用中序递归-推到出-堆栈非递归遍历"><span class="toc-text">利用中序递归 推到出 堆栈非递归遍历</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-text">总结:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码实现"><span class="toc-text">代码实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#中序非递归排序"><span class="toc-text">中序非递归排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#后序排序"><span class="toc-text">后序排序</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-javascript二叉树" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">javascript二叉树</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2019.08.05</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>li yuan</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="引言"><a href="#引言" class="headerlink" title="引言:"></a>引言:</h2><blockquote>
+<ul>
+<li>二叉树是非常基础又非常重要的数据结构，在一些场合有着非常重要的作用。掌握二叉树对编写高质量代码、减少代码量有很大的帮助！</li>
+<li>二叉树是一种特殊的树， 非常适合计算机处理数据， 所以对于程序员来说掌握二叉树是非常有必要的。</li>
+<li>二叉树的前序遍历可以用来显示目录结构等；中序遍历可以实现表达式树，在编译器底层很有用；后序遍历可以用来实现计算目录内的文件及其信息等。二叉树是非常重要的数据结构， 其中二叉树的遍历要使用到栈和队列还有递归等，很多其它数据结构也都是基于二叉树的基础演变而来的。熟练使用二叉树在很多时候可以提升程序的运行效率，减少代码量，使程序更易读。</li>
+</ul>
+</blockquote>
+<h2 id="javascript-实现二叉树"><a href="#javascript-实现二叉树" class="headerlink" title="javascript 实现二叉树"></a>javascript 实现二叉树</h2><p>上图:<br><img src="/2019/08/05/javascript二叉树/1.png" alt="二叉树" title="二叉树"></p>
+<h2 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">var tree = &#123;</div><div class="line">    value: &quot;-&quot;,</div><div class="line">    left: &#123;</div><div class="line">        value: &apos;+&apos;,</div><div class="line">        left: &#123;</div><div class="line">            value: &apos;a&apos;,</div><div class="line">        &#125;,</div><div class="line">        right: &#123;</div><div class="line">            value: &apos;*&apos;,</div><div class="line">            left: &#123;</div><div class="line">                value: &apos;b&apos;,</div><div class="line">            &#125;,</div><div class="line">            right: &#123;</div><div class="line">                value: &apos;c&apos;,</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    right: &#123;</div><div class="line">        value: &apos;/&apos;,</div><div class="line">        left: &#123;</div><div class="line">            value: &apos;d&apos;,</div><div class="line">        &#125;,</div><div class="line">        right: &#123;</div><div class="line">            value: &apos;e&apos;,</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h2><blockquote>
+<p>二叉树有深度遍历和广度遍历， 深度遍历有前序、 中序和后序三种遍历方法。 广度遍历就是层次遍历。 因为树的定义本身就是递归定义， 因此采用递归的方法实现树的三种遍历容易理解而且代码比较简洁。<br>有时对一段代码来说， 可读性有时比代码本身的效率要重要的多。</p>
+</blockquote>
+<p>四种遍历的主要思想：</p>
+<blockquote>
+<ul>
+<li>前序遍历：访问根–&gt;遍历左子树–&gt;遍历右子树;</li>
+<li>中序遍历：遍历左子树 –&gt; 访问根 –&gt; 遍历右子树;</li>
+<li>后序遍历：遍历左子树 –&gt; 遍历右子树 –&gt; 访问根;</li>
+<li>广度遍历：按照层次一层层遍历;</li>
+</ul>
+</blockquote>
+<ol>
+<li><strong><code>前中后</code></strong> 序 <strong>递归</strong> 遍历<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 前序递归</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">recursionTree</span>(<span class="params">tree</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span>(tree) &#123;</div><div class="line">        <span class="comment">// 前序递归</span></div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'当前根节点'</span>, tree.value) <span class="comment">// 访问前序</span></div><div class="line">        recursionTree(tree.left) <span class="comment">// 递归左子树</span></div><div class="line">        recursionTree(tree.right) <span class="comment">// 递归右子树</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// 前序输出 - + a * b c / d e</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">// 中序递归排序</span></div><div class="line"><span class="comment">// 前序和中序递归只是换了下位置</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">recursionTree</span>(<span class="params">tree</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span>(tree) &#123;</div><div class="line">        <span class="comment">// 中序递归</span></div><div class="line">        recursionTree(tree.left) <span class="comment">// 递归左子树</span></div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'当前根节点'</span>, tree.value) <span class="comment">// 访问中序</span></div><div class="line">        recursionTree(tree.right) <span class="comment">// 递归右子树</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// 递归顺序: "a", "+", "b", "*", "c",(这个位置左子数已经遍历完成) "-"(获取根节点),(开始遍历右子数) "d", "/", "e"</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">// 后序递归</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">recursionTree</span>(<span class="params">tree</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span>(tree) &#123;</div><div class="line">        <span class="comment">// 后序递归</span></div><div class="line">        recursionTree(tree.left) <span class="comment">// 递归左子树</span></div><div class="line">        recursionTree(tree.right) <span class="comment">// 递归右子树</span></div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'当前根节点'</span>, tree.value) <span class="comment">// 访问根节点</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// 递归顺序: "a", "b", "c", "*", "+",(左子树遍历完成) "d", "e", "/",(右子树遍历完成) "-"(最后获取根节点)</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>通过上面遍历可以看出, 遍历路径是相同的  唯一不同的是访问的顺序,<br><img src="/2019/08/05/javascript二叉树/2.png" alt="二叉树遍历路径" title="二叉树遍历路径"></p>
+<h2 id="利用中序递归-推到出-堆栈非递归遍历"><a href="#利用中序递归-推到出-堆栈非递归遍历" class="headerlink" title="利用中序递归 推到出 堆栈非递归遍历"></a>利用中序递归 推到出 堆栈非递归遍历</h2><p>上面明白了 <strong>中序</strong> 递归访问节点路线后, 我们就可以看出来, 在递归完左子树后后回头访问中间的节点, 然后访问右子树, 依次类推, 遍历路线就成了 <code>左 -&gt; 中 -&gt; 右</code></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结:"></a><strong>总结</strong>:</h3><ul>
+<li>遇到一个<code>节点</code>, 就把它<code>压栈</code>, 并去遍历他的<code>左子树</code>;</li>
+<li>当左子树遍历结束后, 从栈顶弹出这个节点并访问它;</li>
+<li>然后按照其右指针再去遍历该节点的<code>右子树</code></li>
+</ul>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">// 前序非递归遍历</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">inOrderTrversalTree</span>(<span class="params">tree</span>) </span>&#123;</div><div class="line">  <span class="keyword">let</span> result = [], <span class="comment">// 输出结果</span></div><div class="line">      arr = []; <span class="comment">// 创建堆栈</span></div><div class="line">  <span class="keyword">if</span>(root!=<span class="literal">null</span>)&#123;</div><div class="line">    arr.push(root);</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">while</span>(arr.length != <span class="number">0</span>)&#123;</div><div class="line">    <span class="keyword">const</span> temp=arr.pop();</div><div class="line">    res.push(temp.value);</div><div class="line">    <span class="comment">// 这里先放右边再放左边是因为取出来的顺序相反</span></div><div class="line">    <span class="keyword">if</span>( temp.right != <span class="literal">null</span>)&#123;</div><div class="line">      arr.push(temp.right);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(temp.left != <span class="literal">null</span>)&#123;</div><div class="line">      arr.push(temp.left);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> res;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="中序非递归排序"><a href="#中序非递归排序" class="headerlink" title="中序非递归排序"></a>中序非递归排序</h3><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">function inOrderTrversalTree(tree) &#123;</div><div class="line">  let dock = [], // 创建安全栈 用来入栈出栈</div><div class="line">      T = tree,  // 创建树</div><div class="line">      result = [];</div><div class="line">  while(T || !!tree)&#123;</div><div class="line">    while(T)&#123;   // 当前树</div><div class="line">      dock.push(T)</div><div class="line">      T = T.left // 修改循环条件 来 循环左子树</div><div class="line">    &#125;</div><div class="line">    if(dock.length !== 0)&#123; // 如果栈中右数据 这出栈, 并切换循环右子树</div><div class="line">      T = dock.pop() // 出栈</div><div class="line">      result.push(T.value) //</div><div class="line">      T = T.right // 修改循环条件 来 循环右子树</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  return result;</div><div class="line">&#125;</div><div class="line">const result = inOrderTrversalTree(tree)</div><div class="line">console.log(result) // &quot;a&quot;, &quot;+&quot;, &quot;b&quot;, &quot;*&quot;, &quot;c&quot;, &quot;-&quot;, &quot;d&quot;, &quot;/&quot;, &quot;e&quot; 和上面递归排序是一样的</div></pre></td></tr></table></figure>
+<h3 id="后序排序"><a href="#后序排序" class="headerlink" title="后序排序"></a>后序排序</h3><hr>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 后序排序</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">inOrderTrversalTree</span>(<span class="params">root</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> arr=[],res=[];</div><div class="line">  arr.push(root);</div><div class="line">  <span class="keyword">while</span>(arr.length!=<span class="number">0</span>)&#123;</div><div class="line">    <span class="keyword">var</span> p=arr.pop();</div><div class="line">    res.push(p.val);</div><div class="line">    <span class="keyword">if</span>(p.left!=<span class="literal">null</span>)&#123;</div><div class="line">      arr.push(p.left);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(p.right!=<span class="literal">null</span>)&#123;</div><div class="line">      arr.push(p.right);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> res.reverse();</div><div class="line">&#125;</div><div class="line">inOrderTrversalTree(root)</div></pre></td></tr></table></figure>
+<blockquote>
+<p><a href="https://juejin.im/entry/5847c17a128fe10058bcf2c5" target="_blank" rel="external">图片来源和原文</a></p>
+</blockquote>
+
+    
+  </div>
+
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2019/07/03/根据树节点获取当前节点所有父节点/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2019/09/24/javascript中的new操作符/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+<!-- Gitalk评论插件通用代码 -->
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+const gitalk = new Gitalk({
+  clientID: '277317290454635afa73',
+  clientSecret: '78223c859304da5e8d71bfce136d436c6ff95c37',
+  repo: 'blog-comment',
+  owner: 'forsigner',
+  // 在这里设置一下截取前50个字符串, 这是因为 github 对 label 的长度有了要求, 如果超过
+  // 50个字符串则会报错.
+  // id: location.pathname.split('/').pop().substring(0, 49),
+  id: md5(location.pathname),
+  admin: ['forsigner'],
+  // facebook-like distraction free mode
+  distractionFreeMode: false
+})
+gitalk.render('gitalk-container')
+</script>
+<!-- Gitalk代码结束 -->
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
