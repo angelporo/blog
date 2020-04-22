@@ -7,26 +7,26 @@
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
-  <title>���������� | 会上树的猪</title>
+  <title>搜索二叉树 | 会上树的猪</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="������,">
+    <meta name="keywords" content="搜索二叉树,">
   
 
-  <meta name="description" content="��С�Ҵ�Ķ��������Ƕ��������� ��ѯҲ����С�Ҵ����εݹ� ѭ������ʵ��   ��ѯЧ�ʺ����ĸ߶��й���Ϻ�˴ǰ�˷����޸ķ�������Ŀչʾ���⡣���ӹ����ಿ�ִ���  �������������� ���ɺܼ�, ��ǰ�ڵ�������ֵ������ǰ�ڵ�С�������� ���� 12345678910left arra">
-<meta name="keywords" content="������">
+  <meta name="description" content="多动态图详细讲解二叉搜索树原文 12345678910left arrary = [];function btree2array(tree, index) &amp;#123;    if(!tree) &amp;#123;        array(index) = empty    &amp;#125;    arrary[index] = tree.value    btree2array(tree.left, i">
+<meta name="keywords" content="搜索二叉树">
 <meta property="og:type" content="article">
-<meta property="og:title" content="����������">
+<meta property="og:title" content="搜索二叉树">
 <meta property="og:url" content="http://angely.me/2020/03/26/二叉搜索树/index.html">
 <meta property="og:site_name" content="会上树的猪">
-<meta property="og:description" content="��С�Ҵ�Ķ��������Ƕ��������� ��ѯҲ����С�Ҵ����εݹ� ѭ������ʵ��   ��ѯЧ�ʺ����ĸ߶��й���Ϻ�˴ǰ�˷����޸ķ�������Ŀչʾ���⡣���ӹ����ಿ�ִ���  �������������� ���ɺܼ�, ��ǰ�ڵ�������ֵ������ǰ�ڵ�С�������� ���� 12345678910left arra">
+<meta property="og:description" content="多动态图详细讲解二叉搜索树原文 12345678910left arrary = [];function btree2array(tree, index) &amp;#123;    if(!tree) &amp;#123;        array(index) = empty    &amp;#125;    arrary[index] = tree.value    btree2array(tree.left, i">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-03-27T03:03:36.110Z">
+<meta property="og:updated_time" content="2020-04-22T11:38:31.634Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="����������">
-<meta name="twitter:description" content="��С�Ҵ�Ķ��������Ƕ��������� ��ѯҲ����С�Ҵ����εݹ� ѭ������ʵ��   ��ѯЧ�ʺ����ĸ߶��й���Ϻ�˴ǰ�˷����޸ķ�������Ŀչʾ���⡣���ӹ����ಿ�ִ���  �������������� ���ɺܼ�, ��ǰ�ڵ�������ֵ������ǰ�ڵ�С�������� ���� 12345678910left arra">
+<meta name="twitter:title" content="搜索二叉树">
+<meta name="twitter:description" content="多动态图详细讲解二叉搜索树原文 12345678910left arrary = [];function btree2array(tree, index) &amp;#123;    if(!tree) &amp;#123;        array(index) = empty    &amp;#125;    arrary[index] = tree.value    btree2array(tree.left, i">
 
   
 
@@ -196,7 +196,7 @@ ga('send', 'pageview');
 
   <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#����"><span class="toc-text">����</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#多动态图详细讲解二叉搜索树"><span class="toc-text">多动态图详细讲解二叉搜索树</span></a></li></ol>
   </div>
 
 
@@ -204,7 +204,7 @@ ga('send', 'pageview');
 <div class="content content-post CENTER">
    <article id="post-二叉搜索树" class="article article-type-post" itemprop="blogPost">
   <header class="article-header">
-    <h1 class="post-title">����������</h1>
+    <h1 class="post-title">搜索二叉树</h1>
 
     <div class="article-meta">
       <span>
@@ -237,14 +237,7 @@ ga('send', 'pageview');
 
   <div class="article-content">
     
-      <p>��С�Ҵ�Ķ��������Ƕ��������� <strong>��ѯ</strong>Ҳ����С�Ҵ����εݹ�</p>
-<p>ѭ������ʵ��</p>
-
-<blockquote>
-<p>��ѯЧ�ʺ����ĸ߶��й�<br>��Ϻ�˴ǰ�˷����޸ķ�������Ŀչʾ���⡣���ӹ����ಿ�ִ���</p>
-</blockquote>
-<h2 id="����"><a href="#����" class="headerlink" title="����"></a>����</h2><p>���������� ���ɺܼ�, ��ǰ�ڵ�������ֵ<strong>����</strong>��ǰ�ڵ�<strong>С��</strong>������</p>
-<p><a href="https://lufficc.com/blog/binary-search-tree" target="_blank" rel="noopener">����</a></p>
+      <h1 id="多动态图详细讲解二叉搜索树"><a href="#多动态图详细讲解二叉搜索树" class="headerlink" title="多动态图详细讲解二叉搜索树"></a>多动态图详细讲解二叉搜索树</h1><p><a href="https://lufficc.com/blog/binary-search-tree" target="_blank" rel="noopener">原文</a></p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">left arrary = [];</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">btree2array</span>(<span class="params">tree, index</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!tree) &#123;</span><br><span class="line">        array(index) = empty</span><br><span class="line">    &#125;</span><br><span class="line">    arrary[index] = tree.value</span><br><span class="line">    btree2array(tree.left, index * <span class="number">2</span> + <span class="number">1</span>)</span><br><span class="line">    btree2array(node.right, index * <span class="number">2</span> + <span class="number">2</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     
