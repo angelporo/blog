@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>vim转移emacs的艰辛路程 | 会上树的猪</title>
@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="emacs,vim," />
+    <meta name="keywords" content="emacs,vim,">
   
 
   <meta name="description" content="工欲善其事, 必先利其器 大道理不用多讲">
@@ -22,6 +22,7 @@
 <meta property="og:url" content="http://angely.me/2017/06/04/vim转移emacs的艰辛路程/index.html">
 <meta property="og:site_name" content="会上树的猪">
 <meta property="og:description" content="工欲善其事, 必先利其器 大道理不用多讲">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://angely.me/2017/06/04/vim转移emacs的艰辛路程/vim_key_help.png">
 <meta property="og:updated_time" content="2018-11-20T09:22:51.000Z">
 <meta name="twitter:card" content="summary">
@@ -93,7 +94,7 @@ ga('send', 'pageview');
   
 
 </head>
-
+</html>
 <body>
 
 
@@ -264,24 +265,24 @@ ga('send', 'pageview');
 <h2 id="vim简单介绍"><a href="#vim简单介绍" class="headerlink" title="vim简单介绍"></a>vim简单介绍</h2><blockquote>
 <p>Vim是一个类似于Vi的文本编辑器，不过在Vi的基础上增加了很多新的特性，Vim普遍被推崇为类Vi编辑器中最好的一个，事实上真正的劲敌来自Emacs的不同变体。1999年Emacs被选为Linuxworld文本编辑分类的优胜者，Vim屈居第二。但在2000年2月Vim赢得了Slashdot Beanie的最佳开放源代码文本编辑器大奖，又将Emacs推至二线， 总的来看， Vim和Emacs同样都是非常优秀的文本编辑器。Vim(和Vi)一个最大的优势在于它最常用的命令都是简单的字符，这比起使用复杂的控制组合键要快得多，而且也解放了手指的大量工作，学习使用这些命令的时间很快。</p>
 </blockquote>
-<h2 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h2><p><a href="https://github.com/SpaceVim/SpaceVim" target="_blank" rel="external">推荐配置</a></p>
+<h2 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h2><p><a href="https://github.com/SpaceVim/SpaceVim" target="_blank" rel="noopener">推荐配置</a></p>
 <p>vim有3中模式,</p>
 <ul>
 <li><code>normal</code>所有快捷键发出指令需要在normal模式下, 除非自己添加<code>insert</code>模式配置</li>
 <li><code>inster</code>插入模式, 编写代码</li>
 <li><code>visual</code> 模式, 文本的选择</li>
 </ul>
-<p><a href="http://www.cnblogs.com/Zjmainstay/articles/vim_quickkey.html" target="_blank" rel="external">懒人,别人写的快捷键博客</a>;<br><img src="/2017/06/04/vim转移emacs的艰辛路程/vim_key_help.png" alt="vim键位查询" title="vim键位查询"></p>
+<p><a href="http://www.cnblogs.com/Zjmainstay/articles/vim_quickkey.html" target="_blank" rel="noopener">懒人,别人写的快捷键博客</a>;<br><img src="/2017/06/04/vim转移emacs的艰辛路程/vim_key_help.png" title="vim键位查询"></p>
 <h3 id="vim使用python来写你的vim插件"><a href="#vim使用python来写你的vim插件" class="headerlink" title="vim使用python来写你的vim插件"></a>vim使用<code>python</code>来写你的vim插件</h3><blockquote>
 <p>注意!!! python电脑版本一定要和vim支持的版本相同<code>:h python</code> 查看vim支持版本 <code>:!command</code> 用来执行base命令</p>
 </blockquote>
 <p>vim执行python命令直接<code>:python print &quot;这里是输入内容&quot;</code></p>
 <p>如果在<code>vimrc</code>里面使用python来扩展功能.下面是格式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">py[thon] &lt;&lt; &#123;endmarker&#125;</div><div class="line">&#123;script&#125;</div><div class="line">&#123;endmarker&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">py[thon] &lt;&lt; &#123;endmarker&#125;</span><br><span class="line">&#123;script&#125;</span><br><span class="line">&#123;endmarker&#125;</span><br></pre></td></tr></table></figure>
 <p>demo:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function! Foo()</div><div class="line">python &lt;&lt; EOF</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo_demo</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">print</span> <span class="string">'Foo_demo init'</span></div><div class="line">Foo_demo()</div><div class="line">EOF</div><div class="line">endfunction</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function! Foo()</span><br><span class="line">python &lt;&lt; EOF</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo_demo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">'Foo_demo init'</span></span><br><span class="line">Foo_demo()</span><br><span class="line">EOF</span><br><span class="line">endfunction</span><br></pre></td></tr></table></figure>
 <p>想要在vim内部使用上面的函数, 需要在在vim内把需要执行的文件导入, 然后才能使用<code>:source path_to_script/script_demo.vim</code> 然后<code>:call Foo()</code>来执行</p>
-<p><a href="https://segmentfault.com/a/1190000000756107" target="_blank" rel="external">python扩展vim插件原文</a></p>
+<p><a href="https://segmentfault.com/a/1190000000756107" target="_blank" rel="noopener">python扩展vim插件原文</a></p>
 <h2 id="emacs简单介绍"><a href="#emacs简单介绍" class="headerlink" title="emacs简单介绍"></a>emacs简单介绍</h2><blockquote>
 <p>Emacs，著名的集成开发环境和文本编辑器。Emacs被公认为是最受专业程序员喜爱的代码编辑器之一，另外一个vim。<br>EMACS，即Editor MACroS（编辑器宏）的缩写，最初由Richard Stallman(理查德·马修·斯托曼)于1975年在MIT协同Guy Steele共同完成。这一创意的灵感来源于TECMAC和TMACS，它们是由Guy Steele、Dave Moon、Richard Greenblatt、Charles Frankston等人编写的宏文本编辑器。<br>自诞生以来，Emacs演化出了众多分支，其中使用最广泛的两种是：1984年由Richard Stallman发起并由他维护至今的GNU Emacs，以及1991年发起的XEmacs。XEmacs是GNU Emacs的分支，至今仍保持着相当的兼容性。</p>
 </blockquote>
@@ -296,12 +297,12 @@ ga('send', 'pageview');
 <li>相比vim不需要切换模式</li>
 <li>每个buffer可以选用单个mode, 互相不冲突</li>
 </ul>
-<p><a href="https://github.com/syl20bnr/spacemacs" target="_blank" rel="external">推荐使用配置(容易上手些)</a></p>
-<p><a href="https://github.com/angelporo/emacs.d" target="_blank" rel="external">个人使用配置</a></p>
+<p><a href="https://github.com/syl20bnr/spacemacs" target="_blank" rel="noopener">推荐使用配置(容易上手些)</a></p>
+<p><a href="https://github.com/angelporo/emacs.d" target="_blank" rel="noopener">个人使用配置</a></p>
 <p>emacs使用介绍就比vim简单多了,<br>如果你折腾过vim, 使用meacs来说前期会很好受, 但是, emacs的学习曲线越来越难,</p>
 <p>emacs只有一种inster模式,相比vim来说, 所以, emacs所有的快捷键只能在插入下来完成, 那么, 快捷键数量就多了要比vim多一点,</p>
 <p>具体使用查看手册<code>C-h k f b</code></p>
-<p><a href="http://blog.csdn.net/CherylNatsu/article/details/6536959" target="_blank" rel="external">常用快捷键,</a></p>
+<p><a href="http://blog.csdn.net/CherylNatsu/article/details/6536959" target="_blank" rel="noopener">常用快捷键,</a></p>
 <p>内置帮助手册</p>
 <p><code>Ctrl-h i m emacs</code>就可以调出详细的Emacs使用手册;<br><code>Ctrl-h i m emacs lisp intro</code> 可以调出Emacs Lisp入门教程；<br><code>Ctrl-h i m elisp</code> 可以调出完整的elisp编程手册。</p>
 <h2 id="vim和emacs使用上感受以及不同"><a href="#vim和emacs使用上感受以及不同" class="headerlink" title="vim和emacs使用上感受以及不同"></a>vim和emacs使用上感受以及不同</h2><p>在使用vim和emacs之前一直用的<code>sublime text</code> 这里说下感受,<br>相率确实高了不少, 因为sublime底层使用python写的,当时对python也不是很了解,更没有时间来学习另一种语言 而且对自己<code>sublime</code>配置不满意, 自己设置了一些快捷键还是没有达到预期的效果, 之后一气之下就卸载了.</p>

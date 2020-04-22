@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>console.log在终端输出漂亮的颜色 | 会上树的猪</title>
@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="terminal color," />
+    <meta name="keywords" content="terminal color,">
   
 
   <meta name="description" content="12345678910111213141516171819202122232425Reset = &amp;quot;\x1b[0m&amp;quot;Bright = &amp;quot;\x1b[1m&amp;quot;Dim = &amp;quot;\x1b[2m&amp;quot;Underscore = &amp;quot;\x1b[4m&amp;quot;Blink = &amp;quot;\x1b[5m&amp;quot;Reverse = &amp;quot;\x1b">
@@ -22,6 +22,7 @@
 <meta property="og:url" content="http://angely.me/2018/03/29/console-log在终端输出漂亮的颜色/index.html">
 <meta property="og:site_name" content="会上树的猪">
 <meta property="og:description" content="12345678910111213141516171819202122232425Reset = &amp;quot;\x1b[0m&amp;quot;Bright = &amp;quot;\x1b[1m&amp;quot;Dim = &amp;quot;\x1b[2m&amp;quot;Underscore = &amp;quot;\x1b[4m&amp;quot;Blink = &amp;quot;\x1b[5m&amp;quot;Reverse = &amp;quot;\x1b">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2020-03-23T02:21:44.086Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="console.log在终端输出漂亮的颜色">
@@ -91,7 +92,7 @@ ga('send', 'pageview');
   
 
 </head>
-
+</html>
 <body>
 
 
@@ -231,8 +232,8 @@ ga('send', 'pageview');
 
   <div class="article-content">
     
-      <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">Reset = &quot;\x1b[0m&quot;</div><div class="line">Bright = &quot;\x1b[1m&quot;</div><div class="line">Dim = &quot;\x1b[2m&quot;</div><div class="line">Underscore = &quot;\x1b[4m&quot;</div><div class="line">Blink = &quot;\x1b[5m&quot;</div><div class="line">Reverse = &quot;\x1b[7m&quot;</div><div class="line">Hidden = &quot;\x1b[8m&quot;</div><div class="line"></div><div class="line">FgBlack = &quot;\x1b[30m&quot;</div><div class="line">FgRed = &quot;\x1b[31m&quot;</div><div class="line">FgGreen = &quot;\x1b[32m&quot;</div><div class="line">FgYellow = &quot;\x1b[33m&quot;</div><div class="line">FgBlue = &quot;\x1b[34m&quot;</div><div class="line">FgMagenta = &quot;\x1b[35m&quot;</div><div class="line">FgCyan = &quot;\x1b[36m&quot;</div><div class="line">FgWhite = &quot;\x1b[37m&quot;</div><div class="line"></div><div class="line">BgBlack = &quot;\x1b[40m&quot;</div><div class="line">BgRed = &quot;\x1b[41m&quot;</div><div class="line">BgGreen = &quot;\x1b[42m&quot;</div><div class="line">BgYellow = &quot;\x1b[43m&quot;</div><div class="line">BgBlue = &quot;\x1b[44m&quot;</div><div class="line">BgMagenta = &quot;\x1b[45m&quot;</div><div class="line">BgCyan = &quot;\x1b[46m&quot;</div><div class="line">BgWhite = &quot;\x1b[47m&quot;</div></pre></td></tr></table></figure>
-<p>use<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="string">'\x1b[36m%s\x1b[0m'</span>, <span class="string">'I am cyan'</span>);  <span class="comment">//cyan</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'\x1b[33m%s\x1b[0m'</span>, stringToMakeYellow);  <span class="comment">//yellow</span></div></pre></td></tr></table></figure></p>
+      <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">Reset = &quot;\x1b[0m&quot;</span><br><span class="line">Bright = &quot;\x1b[1m&quot;</span><br><span class="line">Dim = &quot;\x1b[2m&quot;</span><br><span class="line">Underscore = &quot;\x1b[4m&quot;</span><br><span class="line">Blink = &quot;\x1b[5m&quot;</span><br><span class="line">Reverse = &quot;\x1b[7m&quot;</span><br><span class="line">Hidden = &quot;\x1b[8m&quot;</span><br><span class="line"></span><br><span class="line">FgBlack = &quot;\x1b[30m&quot;</span><br><span class="line">FgRed = &quot;\x1b[31m&quot;</span><br><span class="line">FgGreen = &quot;\x1b[32m&quot;</span><br><span class="line">FgYellow = &quot;\x1b[33m&quot;</span><br><span class="line">FgBlue = &quot;\x1b[34m&quot;</span><br><span class="line">FgMagenta = &quot;\x1b[35m&quot;</span><br><span class="line">FgCyan = &quot;\x1b[36m&quot;</span><br><span class="line">FgWhite = &quot;\x1b[37m&quot;</span><br><span class="line"></span><br><span class="line">BgBlack = &quot;\x1b[40m&quot;</span><br><span class="line">BgRed = &quot;\x1b[41m&quot;</span><br><span class="line">BgGreen = &quot;\x1b[42m&quot;</span><br><span class="line">BgYellow = &quot;\x1b[43m&quot;</span><br><span class="line">BgBlue = &quot;\x1b[44m&quot;</span><br><span class="line">BgMagenta = &quot;\x1b[45m&quot;</span><br><span class="line">BgCyan = &quot;\x1b[46m&quot;</span><br><span class="line">BgWhite = &quot;\x1b[47m&quot;</span><br></pre></td></tr></table></figure>
+<p>use<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">'\x1b[36m%s\x1b[0m'</span>, <span class="string">'I am cyan'</span>);  <span class="comment">//cyan</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'\x1b[33m%s\x1b[0m'</span>, stringToMakeYellow);  <span class="comment">//yellow</span></span><br></pre></td></tr></table></figure></p>
 
     
   </div>

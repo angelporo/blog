@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>javascript中的new操作符 | 会上树的猪</title>
@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="new," />
+    <meta name="keywords" content="new,">
   
 
   <meta name="description" content="温故而知新: new一个对象到底发生了什么!《JavaScript高级程序设计（第三版）》 P145是这么写的：  要创建 Person 的新实例，必须使用new操作符。以这种方式调用构造函数实际上会经历以下4个步骤： （1）创建一个新对象； （2）将构造函数的作用域赋给新对象（因此this就指向了这个对象）； （3）执行构造函数中的代码（为这个新对象添加属性）； （4）返回新对象。  按照上面的">
@@ -22,6 +22,7 @@
 <meta property="og:url" content="http://angely.me/2019/09/24/javascript中的new操作符/index.html">
 <meta property="og:site_name" content="会上树的猪">
 <meta property="og:description" content="温故而知新: new一个对象到底发生了什么!《JavaScript高级程序设计（第三版）》 P145是这么写的：  要创建 Person 的新实例，必须使用new操作符。以这种方式调用构造函数实际上会经历以下4个步骤： （1）创建一个新对象； （2）将构造函数的作用域赋给新对象（因此this就指向了这个对象）； （3）执行构造函数中的代码（为这个新对象添加属性）； （4）返回新对象。  按照上面的">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://angely.me/2019/09/24/javascript中的new操作符/1.png">
 <meta property="og:updated_time" content="2020-03-24T07:08:23.855Z">
 <meta name="twitter:card" content="summary">
@@ -93,7 +94,7 @@ ga('send', 'pageview');
   
 
 </head>
-
+</html>
 <body>
 
 
@@ -242,11 +243,11 @@ ga('send', 'pageview');
 <blockquote>
 <p>要创建 <code>Person</code> 的新实例，必须使用<code>new</code>操作符。以这种方式调用构造函数实际上会经历以下4个步骤：<br> （1）创建一个新对象；<br> （2）将构造函数的作用域赋给新对象（因此this就指向了这个对象）；<br> （3）执行构造函数中的代码（为这个新对象添加属性）；<br> （4）返回新对象。</p>
 </blockquote>
-<h2 id="按照上面的说法-我们来创建一个对象"><a href="#按照上面的说法-我们来创建一个对象" class="headerlink" title="按照上面的说法, 我们来创建一个对象"></a>按照上面的说法, 我们来<em>创建</em>一个对象</h2><p>构造函数:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span> (<span class="params">name</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.name = name;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>接下来我们创建一个<code>Person</code>:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">newPerson</span> (<span class="params">name</span>)  </span>&#123;</div><div class="line">    <span class="keyword">let</span> O = &#123;&#125;; <span class="comment">// 创建一个空对象, 用来存放</span></div><div class="line">    Person.call(O, name) <span class="comment">// 使用 `Function` 原型下的 `call` 方法来绑定 `this`</span></div><div class="line">    <span class="keyword">return</span> O;  <span class="comment">//方法返回`O`</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> person1 = newPerson(<span class="string">'小李'</span>);</div><div class="line"><span class="keyword">const</span> person2 = <span class="keyword">new</span> Person(<span class="string">'小李'</span>);</div><div class="line"></div><div class="line">person1 <span class="keyword">instanceof</span> Person <span class="comment">// false</span></div></pre></td></tr></table></figure></p>
+<h2 id="按照上面的说法-我们来创建一个对象"><a href="#按照上面的说法-我们来创建一个对象" class="headerlink" title="按照上面的说法, 我们来创建一个对象"></a>按照上面的说法, 我们来<em>创建</em>一个对象</h2><p>构造函数:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span> (<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>接下来我们创建一个<code>Person</code>:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">newPerson</span> (<span class="params">name</span>)  </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> O = &#123;&#125;; <span class="comment">// 创建一个空对象, 用来存放</span></span><br><span class="line">    Person.call(O, name) <span class="comment">// 使用 `Function` 原型下的 `call` 方法来绑定 `this`</span></span><br><span class="line">    <span class="keyword">return</span> O;  <span class="comment">//方法返回`O`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> person1 = newPerson(<span class="string">'小李'</span>);</span><br><span class="line"><span class="keyword">const</span> person2 = <span class="keyword">new</span> Person(<span class="string">'小李'</span>);</span><br><span class="line"></span><br><span class="line">person1 <span class="keyword">instanceof</span> Person <span class="comment">// false</span></span><br></pre></td></tr></table></figure></p>
 <p><em><code>person1 instanceof Person</code></em> 这个尽然是 <code>false</code>, 仔细观察. 原来我们这个<code>call</code>方法只是指定了<code>this</code> 并没有 绑定原型, 那好办,<br>我们把<code>O.__proto__ = Person.prototype</code> 手动赋值的形式来绑定<code>prototype</code></p>
-<p>然后我们的<code>new</code>方法就成了下面的样子:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">newPerson</span> (<span class="params">name</span>)  </span>&#123;</div><div class="line">    <span class="keyword">let</span> O = &#123;&#125;; <span class="comment">// 创建一个空对象, 用来存放</span></div><div class="line">    <span class="comment">// let O = &#123; __proto__: P.prototype &#125;; 或者一次操作</span></div><div class="line">    O.__proto__ = Person.prototype; <span class="comment">// 手动绑定原型链</span></div><div class="line">    Person.call(O, name) <span class="comment">// 使用 `Function` 原型下的 `call` 方法来绑定 `this`</span></div><div class="line">    <span class="keyword">return</span> O;  <span class="comment">//方法返回`O`</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="FBI-WARNING-⚠️"><a href="#FBI-WARNING-⚠️" class="headerlink" title="FBI WARNING ⚠️"></a>FBI WARNING ⚠️</h2><img src="/2019/09/24/javascript中的new操作符/1.png" alt="关于直接设置`__proto__`属性的⚠️" title="关于直接设置`__proto__`属性的⚠️">
+<p>然后我们的<code>new</code>方法就成了下面的样子:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">newPerson</span> (<span class="params">name</span>)  </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> O = &#123;&#125;; <span class="comment">// 创建一个空对象, 用来存放</span></span><br><span class="line">    <span class="comment">// let O = &#123; __proto__: P.prototype &#125;; 或者一次操作</span></span><br><span class="line">    O.__proto__ = Person.prototype; <span class="comment">// 手动绑定原型链</span></span><br><span class="line">    Person.call(O, name) <span class="comment">// 使用 `Function` 原型下的 `call` 方法来绑定 `this`</span></span><br><span class="line">    <span class="keyword">return</span> O;  <span class="comment">//方法返回`O`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="FBI-WARNING-⚠️"><a href="#FBI-WARNING-⚠️" class="headerlink" title="FBI WARNING ⚠️"></a>FBI WARNING ⚠️</h2><img src="/2019/09/24/javascript中的new操作符/1.png" title="关于直接设置`__proto__`属性的⚠️">
 <blockquote>
 <p>有点牛头不对马尾, 还是提醒下把</p>
 </blockquote>

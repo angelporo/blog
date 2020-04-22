@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>优雅的设计redux中的store的state树 | 会上树的猪</title>
@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="react,redux,react-nativem," />
+    <meta name="keywords" content="react,redux,react-nativem,">
   
 
   <meta name="description" content="如何优雅的设计redux的store中的state树使用redux几个月的时间, 估计最大的问题就是怎么设计store才是合理的?是这个问题估计让我思考了好就才想到问题的关键处.state树按页面规划 还是按照数据库中的表划分">
@@ -22,6 +22,7 @@
 <meta property="og:url" content="http://angely.me/2017/06/15/优雅的设计redux中的store的state树/index.html">
 <meta property="og:site_name" content="会上树的猪">
 <meta property="og:description" content="如何优雅的设计redux的store中的state树使用redux几个月的时间, 估计最大的问题就是怎么设计store才是合理的?是这个问题估计让我思考了好就才想到问题的关键处.state树按页面规划 还是按照数据库中的表划分">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2018-11-20T09:22:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="优雅的设计redux中的store的state树">
@@ -91,7 +92,7 @@ ga('send', 'pageview');
   
 
 </head>
-
+</html>
 <body>
 
 
@@ -244,7 +245,7 @@ ga('send', 'pageview');
       <h2 id="如何优雅的设计redux的store中的state树"><a href="#如何优雅的设计redux的store中的state树" class="headerlink" title="如何优雅的设计redux的store中的state树"></a>如何优雅的设计redux的store中的state树</h2><p>使用redux几个月的时间, 估计最大的问题就是怎么设计store才是合理的?<br>是这个问题估计让我思考了好就才想到问题的关键处.<br>state树按页面规划 还是按照数据库中的表划分</p>
 <a id="more"></a>
 <h3 id="按照页面划分"><a href="#按照页面划分" class="headerlink" title="按照页面划分"></a>按照页面划分</h3><p>是把每个页面当成一个业务模块, 实际上这也是非常流行的一种做法, 很多公司就是这样子做的, 可以像下面这样初始化你的store, 适合多页面开发使用.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    <span class="attr">common</span>: &#123;</div><div class="line">      <span class="attr">isFetching</span>: <span class="literal">false</span></div><div class="line">    &#125;,</div><div class="line">　　 <span class="attr">profile</span>: &#123;</div><div class="line">　　 &#125;,</div><div class="line">    <span class="attr">list</span>: &#123;</div><div class="line">    &#125;,</div><div class="line">　　 <span class="attr">edit</span>: &#123;</div><div class="line">　　 &#125;,</div><div class="line">    <span class="attr">home</span>: &#123;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    common: &#123;</span><br><span class="line">      isFetching: <span class="literal">false</span></span><br><span class="line">    &#125;,</span><br><span class="line">　　 profile: &#123;</span><br><span class="line">　　 &#125;,</span><br><span class="line">    list: &#123;</span><br><span class="line">    &#125;,</span><br><span class="line">　　 edit: &#123;</span><br><span class="line">　　 &#125;,</span><br><span class="line">    home: &#123;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>优点</li>
 </ul>
@@ -261,9 +262,9 @@ ga('send', 'pageview');
 <p> 具体操作:  当数据源保存成功后<code>发布</code>一个全局事件, 在依赖这个数据源的地方<code>订阅</code>这个事件, 在订阅的函数里面指定一个保存store的action</p>
 </li>
 <li><p>编辑完后除了更新数据库中的数据，在前端这边什么都不做，返回列表页，先取出缓存数据展示，等到页面DidMount之后悄悄发一个请求，不要出loading图，检查一下数据是否被更新过，如果是，拉取最新数据并更新store，如果不是，那就不变</p>
-<p>可以看看<a href="https://github.com/Reactive-Extensions/RxJS" target="_blank" rel="external">RxJS</a></p>
+<p>可以看看<a href="https://github.com/Reactive-Extensions/RxJS" target="_blank" rel="noopener">RxJS</a></p>
 </li>
-<li><p>列表页和编辑页共用一个state数据节点，列表页只存必要显示的字段，点击进入编辑页，根据列表页的记录id读取更详细的信息，编辑保存完成后，更新到这个state节点（这种方法其实采用的就是按数据库表划分的办法，统一数据源，关于统一数据源格式，可以看一看列表页和编辑页共用一个state数据节点，列表页只存必要显示的字段，点击进入编辑页，根据列表页的记录id读取更详细的信息，编辑保存完成后，更新到这个state节点（这种方法其实采用的就是按数据库表划分的办法，统一数据源，关于统一数据源格式，可以看一看<a href="https://github.com/paularmstrong/normalizr" target="_blank" rel="external">normalizr</a></p>
+<li><p>列表页和编辑页共用一个state数据节点，列表页只存必要显示的字段，点击进入编辑页，根据列表页的记录id读取更详细的信息，编辑保存完成后，更新到这个state节点（这种方法其实采用的就是按数据库表划分的办法，统一数据源，关于统一数据源格式，可以看一看列表页和编辑页共用一个state数据节点，列表页只存必要显示的字段，点击进入编辑页，根据列表页的记录id读取更详细的信息，编辑保存完成后，更新到这个state节点（这种方法其实采用的就是按数据库表划分的办法，统一数据源，关于统一数据源格式，可以看一看<a href="https://github.com/paularmstrong/normalizr" target="_blank" rel="noopener">normalizr</a></p>
 </li>
 </ol>
 </li>
@@ -271,7 +272,7 @@ ga('send', 'pageview');
 <h4 id="同时使用react组件中的state和redux中store中的state"><a href="#同时使用react组件中的state和redux中store中的state" class="headerlink" title="同时使用react组件中的state和redux中store中的state"></a>同时使用react组件中的state和redux中store中的state</h4><blockquote>
 <p>注意：没有人告诉过你，用了redux必须通篇要用store中的state，redux作者也没有这么讲过，比较好的做法是结合react组件自己的state和store中的state一起使用。</p>
 </blockquote>
-<h3 id="按照数据库中的表划分-比如想下面这样init-你的store"><a href="#按照数据库中的表划分-比如想下面这样init-你的store" class="headerlink" title="按照数据库中的表划分,比如想下面这样init 你的store"></a>按照数据库中的表划分,比如想下面这样init 你的store</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    <span class="attr">common</span>: &#123;</div><div class="line">      <span class="attr">isFetching</span>: <span class="literal">false</span></div><div class="line">    &#125;,</div><div class="line">　  <span class="attr">companies</span>: &#123;</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">users</span>: &#123;</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">events</span>: &#123;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="按照数据库中的表划分-比如想下面这样init-你的store"><a href="#按照数据库中的表划分-比如想下面这样init-你的store" class="headerlink" title="按照数据库中的表划分,比如想下面这样init 你的store"></a>按照数据库中的表划分,比如想下面这样init 你的store</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    common: &#123;</span><br><span class="line">      isFetching: <span class="literal">false</span></span><br><span class="line">    &#125;,</span><br><span class="line">　  companies: &#123;</span><br><span class="line">    &#125;,</span><br><span class="line">    users: &#123;</span><br><span class="line">    &#125;,</span><br><span class="line">    events: &#123;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>这种方法可能比较适合单页应用，把store当成数据库使，增删改查都维护这一个store，作为前端数据源，保证前端数据源和后端数据库同步，并且保证了操作的及时反馈，适合对用户体验要求较高的场景，缺点就是前端不像后端，除了model数据，还有业务数据，临时状态数据，不能简单的用数据库的思路去设计store，如果是这样，那么为什么不用前端数据库呢？为啥还要用redux来多此一举，redux本质上是用来管理数据状态的。</p>
 </blockquote>
@@ -282,9 +283,13 @@ ga('send', 'pageview');
 <p>redux作者的意思大概就是，对于store中的state树，躺着用，站着用，跪着用，想怎么用怎么用，并没有明确规定必须怎么用，只要自己用的舒服，解决你自己的特殊场景就可以了。</p>
 <p>参考:</p>
 <blockquote>
-<p><a href="http://www.jianshu.com/p/f3911358ebcb" target="_blank" rel="external">http://www.jianshu.com/p/f3911358ebcb</a></p>
-<p><a href="https://www.zhihu.com/question/47995437?sort=created" target="_blank" rel="external">https://www.zhihu.com/question/47995437?sort=created</a></p>
-<p><a href="https://www.zhihu.com/question/50888321" target="_blank" rel="external">https://www.zhihu.com/question/50888321</a></p>
+<p><a href="http://www.jianshu.com/p/f3911358ebcb" target="_blank" rel="noopener">http://www.jianshu.com/p/f3911358ebcb</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.zhihu.com/question/47995437?sort=created" target="_blank" rel="noopener">https://www.zhihu.com/question/47995437?sort=created</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.zhihu.com/question/50888321" target="_blank" rel="noopener">https://www.zhihu.com/question/50888321</a></p>
 </blockquote>
 
     

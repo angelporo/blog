@@ -4,7 +4,7 @@
   <html class="light page-js中的source">
 
 
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>JavaScript Source Map详解 | 会上树的猪</title>
@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="js," />
+    <meta name="keywords" content="js,">
   
 
   <meta name="description" content="前言接触source map是在使用autoprefixer来自动给css添加前缀的时候发现底部有段代码123456body&amp;#123;    border-radius: 10px;    display: flex;&amp;#125;/*# sourceMappingURL=all.css.map */ 上面是css中的 js中的//@ sourceMappingURL=jquery.min.map">
@@ -22,6 +22,7 @@
 <meta property="og:url" content="http://angely.me/2018/05/04/Map详解/index.html">
 <meta property="og:site_name" content="会上树的猪">
 <meta property="og:description" content="前言接触source map是在使用autoprefixer来自动给css添加前缀的时候发现底部有段代码123456body&amp;#123;    border-radius: 10px;    display: flex;&amp;#125;/*# sourceMappingURL=all.css.map */ 上面是css中的 js中的//@ sourceMappingURL=jquery.min.map">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2020-03-23T02:21:44.085Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript Source Map详解">
@@ -91,7 +92,7 @@ ga('send', 'pageview');
   
 
 </head>
-
+</html>
 <body>
 
 
@@ -236,10 +237,10 @@ ga('send', 'pageview');
 
   <div class="article-content">
     
-      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>接触source map是在使用<code>autoprefixer</code>来自动给css添加前缀的时候发现底部有段代码<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">body</span>&#123;</div><div class="line">    <span class="attribute">border-radius</span>: <span class="number">10px</span>;</div><div class="line">    <span class="attribute">display</span>: flex;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/*# sourceMappingURL=all.css.map */</span></div></pre></td></tr></table></figure></p>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>接触source map是在使用<code>autoprefixer</code>来自动给css添加前缀的时候发现底部有段代码<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span>&#123;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*# sourceMappingURL=all.css.map */</span></span><br></pre></td></tr></table></figure></p>
 <p>上面是css中的</p>
-<p>js中的<code>//@ sourceMappingURL=jquery.min.map``jquery</code>中有使用</p>
-<p>上面指定的map是一个独立的map文件, 与源码在同一个目录下, 上面css中的文件是这样子的:<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;<span class="attr">"version"</span>:<span class="number">3</span>,<span class="attr">"sources"</span>:[<span class="string">"test.css"</span>],<span class="attr">"names"</span>:[],<span class="attr">"mappings"</span>:<span class="string">"AAAA;IACI,oBAAoB;IACpB,cAAc;CACjB"</span>,<span class="attr">"file"</span>:<span class="string">"all.css"</span>,<span class="attr">"sourcesContent"</span>:[<span class="string">"body&#123;\n    border-radius: 10px;\n    display: flex;\n&#125;\n"</span>]&#125;</div></pre></td></tr></table></figure></p>
+<p>js中的<code>//@ sourceMappingURL=jquery.min.map`</code>jquery`中有使用</p>
+<p>上面指定的map是一个独立的map文件, 与源码在同一个目录下, 上面css中的文件是这样子的:<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attr">"version"</span>:<span class="number">3</span>,<span class="attr">"sources"</span>:[<span class="string">"test.css"</span>],<span class="attr">"names"</span>:[],<span class="attr">"mappings"</span>:<span class="string">"AAAA;IACI,oBAAoB;IACpB,cAAc;CACjB"</span>,<span class="attr">"file"</span>:<span class="string">"all.css"</span>,<span class="attr">"sourcesContent"</span>:[<span class="string">"body&#123;\n    border-radius: 10px;\n    display: flex;\n&#125;\n"</span>]&#125;</span><br></pre></td></tr></table></figure></p>
 <h2 id="从源码转换讲起"><a href="#从源码转换讲起" class="headerlink" title="从源码转换讲起"></a>从源码转换讲起</h2><p>JavaScript脚本正变得越来越复杂。大部分源码（尤其是各种函数库和框架）都要经过转换，才能投入生产环境。</p>
 <p>其中postcss也是需要转换才能投入生产</p>
 <p>常见的源码转换，主要是以下三种情况：</p>
@@ -255,16 +256,16 @@ ga('send', 'pageview');
 <h2 id="什么是Source-map"><a href="#什么是Source-map" class="headerlink" title="什么是Source map"></a>什么是Source map</h2><p>简单说，Source map就是一个信息文件，里面储存着位置信息。也就是说，转换后的代码的每一个位置，所对应的转换前的位置。</p>
 <p>有了它，出错的时候，除错工具将直接显示原始代码，而不是转换后的代码。这无疑给开发者带来了很大方便。</p>
 <p>目前，暂时只有Chrome浏览器支持这个功能。在Developer Tools的Setting设置中，确认选中”Enable source maps”。</p>
-<h2 id="如何启动Source-map详解"><a href="#如何启动Source-map详解" class="headerlink" title="如何启动Source map详解"></a>如何启动Source map详解</h2><p>正如前文所提到的，只要在转换后的代码尾部，加上一行就可以了。<br>js:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//@ sourceMappingURL=/path/to/file.js.map</span></div></pre></td></tr></table></figure></p>
-<p>css:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*# sourceMappingURL=all.css.map */</span></div></pre></td></tr></table></figure></p>
+<h2 id="如何启动Source-map详解"><a href="#如何启动Source-map详解" class="headerlink" title="如何启动Source map详解"></a>如何启动Source map详解</h2><p>正如前文所提到的，只要在转换后的代码尾部，加上一行就可以了。<br>js:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//@ sourceMappingURL=/path/to/file.js.map</span></span><br></pre></td></tr></table></figure></p>
+<p>css:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*# sourceMappingURL=all.css.map */</span></span><br></pre></td></tr></table></figure></p>
 <p>map文件可以放在网络上，也可以放在本地文件系统。</p>
-<h2 id="如何生产Source-map"><a href="#如何生产Source-map" class="headerlink" title="如何生产Source map"></a>如何生产Source map</h2><p>常用方式使用Goolge的<a href="https://developers.google.com/closure/compiler/" target="_blank" rel="external">Closure Compiler</a></p>
-<p>生成命令的格式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">java -jar compiler.jar \ </div><div class="line">　　　　--js script.js \</div><div class="line">　　　　--create_source_map ./script-min.js.map \</div><div class="line">　　　　--source_map_format=V3 \</div><div class="line">　　　　--js_output_file script-min.js</div></pre></td></tr></table></figure></p>
-<p>各个参数的意义如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">js： 转换前的代码文件</div><div class="line">　　- create_source_map： 生成的source map文件</div><div class="line">　　- source_map_format：source map的版本，目前一律采用V3。</div><div class="line">　　- js_output_file： 转换后的代码文件。</div></pre></td></tr></table></figure></p>
-<h2 id="Source-map的格式"><a href="#Source-map的格式" class="headerlink" title="Source map的格式"></a>Source map的格式</h2><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">　　　　version : 3,</div><div class="line">　　　　file: "out.js",</div><div class="line">　　　　sourceRoot : "",</div><div class="line">　　　　sources: ["foo.js", "bar.js"],</div><div class="line">　　　　names: ["src", "maps", "are", "fun"],</div><div class="line">　　　　mappings: "AAgBC,SAAQ,CAAEA"</div><div class="line">　　&#125;</div></pre></td></tr></table></figure>
-<p>整个文件就是一个JavaScript对象，可以被解释器读取。它主要有以下几个属性：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">- version：Source map的版本，目前为3。</div><div class="line"></div><div class="line">　　- file：转换后的文件名。</div><div class="line"></div><div class="line">　　- sourceRoot：转换前的文件所在的目录。如果与转换前的文件在同一目录，该项为空。</div><div class="line"></div><div class="line">　　- sources：转换前的文件。该项是一个数组，表示可能存在多个文件合并。</div><div class="line"></div><div class="line">　　- names：转换前的所有变量名和属性名。</div><div class="line"></div><div class="line">　　- mappings：记录位置信息的字符串，下文详细介绍。</div></pre></td></tr></table></figure></p>
+<h2 id="如何生产Source-map"><a href="#如何生产Source-map" class="headerlink" title="如何生产Source map"></a>如何生产Source map</h2><p>常用方式使用Goolge的<a href="https://developers.google.com/closure/compiler/" target="_blank" rel="noopener">Closure Compiler</a></p>
+<p>生成命令的格式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">java -jar compiler.jar \ </span><br><span class="line">　　　　--js script.js \</span><br><span class="line">　　　　--create_source_map ./script-min.js.map \</span><br><span class="line">　　　　--source_map_format=V3 \</span><br><span class="line">　　　　--js_output_file script-min.js</span><br></pre></td></tr></table></figure></p>
+<p>各个参数的意义如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">js： 转换前的代码文件</span><br><span class="line">　　- create_source_map： 生成的source map文件</span><br><span class="line">　　- source_map_format：source map的版本，目前一律采用V3。</span><br><span class="line">　　- js_output_file： 转换后的代码文件。</span><br></pre></td></tr></table></figure></p>
+<h2 id="Source-map的格式"><a href="#Source-map的格式" class="headerlink" title="Source map的格式"></a>Source map的格式</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">　　　　version : 3,</span><br><span class="line">　　　　file: "out.js",</span><br><span class="line">　　　　sourceRoot : "",</span><br><span class="line">　　　　sources: ["foo.js", "bar.js"],</span><br><span class="line">　　　　names: ["src", "maps", "are", "fun"],</span><br><span class="line">　　　　mappings: "AAgBC,SAAQ,CAAEA"</span><br><span class="line">　　&#125;</span><br></pre></td></tr></table></figure>
+<p>整个文件就是一个JavaScript对象，可以被解释器读取。它主要有以下几个属性：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">- version：Source map的版本，目前为3。</span><br><span class="line"></span><br><span class="line">　　- file：转换后的文件名。</span><br><span class="line"></span><br><span class="line">　　- sourceRoot：转换前的文件所在的目录。如果与转换前的文件在同一目录，该项为空。</span><br><span class="line"></span><br><span class="line">　　- sources：转换前的文件。该项是一个数组，表示可能存在多个文件合并。</span><br><span class="line"></span><br><span class="line">　　- names：转换前的所有变量名和属性名。</span><br><span class="line"></span><br><span class="line">　　- mappings：记录位置信息的字符串，下文详细介绍。</span><br></pre></td></tr></table></figure></p>
 <blockquote>
-<p>转自<a href="http://www.ruanyifeng.com/blog/2013/01/javascript_source_map.html" target="_blank" rel="external">阮一峰大大的blog</a></p>
+<p>转自<a href="http://www.ruanyifeng.com/blog/2013/01/javascript_source_map.html" target="_blank" rel="noopener">阮一峰大大的blog</a></p>
 </blockquote>
 
     

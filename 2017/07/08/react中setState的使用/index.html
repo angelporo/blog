@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>react中setState的使用 | 会上树的猪</title>
@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="react,setState," />
+    <meta name="keywords" content="react,setState,">
   
 
   <meta name="description" content="我认为this.setState是react中最常用的API了.如果不明白this.setState是什么, 请移驾官网查看具体api">
@@ -22,6 +22,7 @@
 <meta property="og:url" content="http://angely.me/2017/07/08/react中setState的使用/index.html">
 <meta property="og:site_name" content="会上树的猪">
 <meta property="og:description" content="我认为this.setState是react中最常用的API了.如果不明白this.setState是什么, 请移驾官网查看具体api">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://angely.me/2017/07/08/react中setState的使用/this.setState.png">
 <meta property="og:updated_time" content="2018-11-20T09:22:51.000Z">
 <meta name="twitter:card" content="summary">
@@ -93,7 +94,7 @@ ga('send', 'pageview');
   
 
 </head>
-
+</html>
 <body>
 
 
@@ -238,11 +239,11 @@ ga('send', 'pageview');
 
   <div class="article-content">
     
-      <h2 id="我认为this-setState是react中最常用的API了"><a href="#我认为this-setState是react中最常用的API了" class="headerlink" title="我认为this.setState是react中最常用的API了."></a>我认为<code>this.setState</code>是react中最常用的API了.</h2><p>如果不明白<code>this.setState</code>是什么, <a href="https://facebook.github.io/react/" target="_blank" rel="external">请移驾官网查看具体api</a></p>
+      <h2 id="我认为this-setState是react中最常用的API了"><a href="#我认为this-setState是react中最常用的API了" class="headerlink" title="我认为this.setState是react中最常用的API了."></a>我认为<code>this.setState</code>是react中最常用的API了.</h2><p>如果不明白<code>this.setState</code>是什么, <a href="https://facebook.github.io/react/" target="_blank" rel="noopener">请移驾官网查看具体api</a></p>
 <a id="more"></a>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Timer</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(props) &#123;</div><div class="line">    <span class="keyword">super</span>(props);</div><div class="line">    <span class="keyword">this</span>.state = &#123;<span class="attr">secondsElapsed</span>: <span class="number">0</span>&#125;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  tick() &#123;</div><div class="line">    <span class="keyword">this</span>.setState(<span class="function">(<span class="params">prevState</span>) =&gt;</span> (&#123;</div><div class="line">      <span class="attr">secondsElapsed</span>: prevState.secondsElapsed + <span class="number">1</span></div><div class="line">    &#125;));</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  componentDidMount() &#123;</div><div class="line">    <span class="keyword">this</span>.interval = setInterval(<span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">this</span>.tick(), <span class="number">1000</span>);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  componentWillUnmount() &#123;</div><div class="line">    clearInterval(<span class="keyword">this</span>.interval);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>Seconds Elapsed: &#123;this.state.secondsElapsed&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">ReactDOM.render(<span class="xml"><span class="tag">&lt;<span class="name">Timer</span> /&gt;</span>, mountNode);</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Timer</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="keyword">this</span>.state = &#123;<span class="attr">secondsElapsed</span>: <span class="number">0</span>&#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  tick() &#123;</span><br><span class="line">    <span class="keyword">this</span>.setState(<span class="function">(<span class="params">prevState</span>) =&gt;</span> (&#123;</span><br><span class="line">      secondsElapsed: prevState.secondsElapsed + <span class="number">1</span></span><br><span class="line">    &#125;));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  componentDidMount() &#123;</span><br><span class="line">    <span class="keyword">this</span>.interval = setInterval(<span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">this</span>.tick(), <span class="number">1000</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  componentWillUnmount() &#123;</span><br><span class="line">    clearInterval(<span class="keyword">this</span>.interval);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;Seconds Elapsed: &#123;<span class="keyword">this</span>.state.secondsElapsed&#125;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">ReactDOM.render(&lt;Timer /</span>&gt;, mountNode);</span><br></pre></td></tr></table></figure>
 <p>先看看<code>this.setState</code>是干什么的</p>
-<img src="/2017/07/08/react中setState的使用/this.setState.png" alt="setState流程图" title="setState流程图">
+<img src="/2017/07/08/react中setState的使用/this.setState.png" title="setState流程图">
 <p>这里有必要说一下, <code>this.setState</code>是异步调用,<br>如果想要使用不同执行, 它的第二个参数是回调函数, 列队到达执行完修改state中状态后执行回调函数</p>
 
     

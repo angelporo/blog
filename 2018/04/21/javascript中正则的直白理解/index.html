@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>javascript中正则的直白理解 | 会上树的猪</title>
@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="RegExp,js正则," />
+    <meta name="keywords" content="RegExp,js正则,">
   
 
   <meta name="description" content="创建方法 构造函数方式 正则表达式直接量方式  正则表达式直接量方式var expression=/pattern/flags正则表达式的模式（pattern）部分： 构造函数方式var pattern = new RegExp(&amp;quot;&amp;quot;) 由此可见创建一个正则表达式是很容易的,  较为困难的任务是用正则表达式描述字符的模式, 也就是上面pattern部分 目前就以直接量方式介绍.">
@@ -22,6 +22,7 @@
 <meta property="og:url" content="http://angely.me/2018/04/21/javascript中正则的直白理解/index.html">
 <meta property="og:site_name" content="会上树的猪">
 <meta property="og:description" content="创建方法 构造函数方式 正则表达式直接量方式  正则表达式直接量方式var expression=/pattern/flags正则表达式的模式（pattern）部分： 构造函数方式var pattern = new RegExp(&amp;quot;&amp;quot;) 由此可见创建一个正则表达式是很容易的,  较为困难的任务是用正则表达式描述字符的模式, 也就是上面pattern部分 目前就以直接量方式介绍.">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2020-03-23T02:21:44.097Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="javascript中正则的直白理解">
@@ -91,7 +92,7 @@ ga('send', 'pageview');
   
 
 </head>
-
+</html>
 <body>
 
 
@@ -254,7 +255,7 @@ ga('send', 'pageview');
 <li>g（表示匹配全局）</li>
 <li>m（表示多行匹配）</li>
 </ul>
-<p>例子<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"a"</span>,<span class="string">"i"</span>);<span class="comment">//以忽略字母大小写的形式进行匹配</span></div><div class="line"><span class="keyword">var</span> reg2 = <span class="regexp">/a/i</span>;<span class="comment">//以忽略字母大小写的形式进行匹配</span></div></pre></td></tr></table></figure></p>
+<p>例子<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"a"</span>,<span class="string">"i"</span>);<span class="comment">//以忽略字母大小写的形式进行匹配</span></span><br><span class="line"><span class="keyword">var</span> reg2 = <span class="regexp">/a/i</span>;<span class="comment">//以忽略字母大小写的形式进行匹配</span></span><br></pre></td></tr></table></figure></p>
 <p>这里不具体介绍RegExp对象下的方法, 如果有需求请查阅mdn</p>
 <p>遇到元字符需转义</p>
 <p>js正则表达式中的元字符有：( [ { \ ^ $ | ) ? * + .  当要用到这些字符时要在前面加“ \ “</p>

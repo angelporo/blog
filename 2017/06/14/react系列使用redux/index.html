@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>react系列使用redux | 会上树的猪</title>
@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="react,redux," />
+    <meta name="keywords" content="react,redux,">
   
 
   <meta name="description" content="redux附上中文文档  Redux 是 JavaScript 状态容器，提供可预测化的状态管理,redux 出现是时间并不长, 是有flux发展而来  设计动机目前单页面应用越来越多, 而且需要维护的状态也越来越复杂，诸如维护数据更新、UI更新、本地数据存储等这些都是我们在js应用常常需要处理的情景，当然这里多数都会涉及到异步处理。而redux本身就是为了解决这些问题，而是将所有的变化进行统一流">
@@ -22,6 +22,7 @@
 <meta property="og:url" content="http://angely.me/2017/06/14/react系列使用redux/index.html">
 <meta property="og:site_name" content="会上树的猪">
 <meta property="og:description" content="redux附上中文文档  Redux 是 JavaScript 状态容器，提供可预测化的状态管理,redux 出现是时间并不长, 是有flux发展而来  设计动机目前单页面应用越来越多, 而且需要维护的状态也越来越复杂，诸如维护数据更新、UI更新、本地数据存储等这些都是我们在js应用常常需要处理的情景，当然这里多数都会涉及到异步处理。而redux本身就是为了解决这些问题，而是将所有的变化进行统一流">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://angely.me/2017/06/14/react系列使用redux/redux-thing-image1.png">
 <meta property="og:image" content="http://angely.me/2017/06/14/react系列使用redux/redux-thing-image2.png">
 <meta property="og:updated_time" content="2020-03-23T02:21:44.126Z">
@@ -94,7 +95,7 @@ ga('send', 'pageview');
   
 
 </head>
-
+</html>
 <body>
 
 
@@ -244,7 +245,7 @@ ga('send', 'pageview');
 
   <div class="article-content">
     
-      <h2 id="redux"><a href="#redux" class="headerlink" title="redux"></a>redux</h2><p>附上<a href="http://cn.redux.js.org/index.html" target="_blank" rel="external">中文文档</a></p>
+      <h2 id="redux"><a href="#redux" class="headerlink" title="redux"></a>redux</h2><p>附上<a href="http://cn.redux.js.org/index.html" target="_blank" rel="noopener">中文文档</a></p>
 <blockquote>
 <p>Redux 是 JavaScript 状态容器，提供可预测化的状态管理,<br>redux 出现是时间并不长, 是有flux发展而来</p>
 </blockquote>
@@ -268,7 +269,7 @@ ga('send', 'pageview');
 <blockquote>
 <p>附上官网经典案例 counter</p>
 </blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; createStore &#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 这是一个 reducer，形式为 (state, action) =&gt; state 的纯函数。</div><div class="line"> * 描述了 action 如何把 state 转变成下一个 state。</div><div class="line"> *</div><div class="line"> * state 的形式取决于你，可以是基本类型、数组、对象、</div><div class="line"> * 甚至是 Immutable.js 生成的数据结构。惟一的要点是</div><div class="line"> * 当 state 变化时需要返回全新的对象，而不是修改传入的参数。</div><div class="line"> *</div><div class="line"> * 下面例子使用 `switch` 语句和字符串来做判断，但你可以写帮助类(helper)</div><div class="line"> * 根据不同的约定（如方法映射）来判断，只要适用你的项目即可。</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">counter</span>(<span class="params">state = <span class="number">0</span>, action</span>) </span>&#123;</div><div class="line">  <span class="keyword">switch</span> (action.type) &#123;</div><div class="line">  <span class="keyword">case</span> <span class="string">'INCREMENT'</span>:</div><div class="line">    <span class="keyword">return</span> state + <span class="number">1</span>;</div><div class="line">  <span class="keyword">case</span> <span class="string">'DECREMENT'</span>:</div><div class="line">    <span class="keyword">return</span> state - <span class="number">1</span>;</div><div class="line">  <span class="keyword">default</span>:</div><div class="line">    <span class="keyword">return</span> state;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 创建 Redux store 来存放应用的状态。</span></div><div class="line"><span class="comment">// API 是 &#123; subscribe, dispatch, getState &#125;。</span></div><div class="line"><span class="keyword">let</span> store = createStore(counter);</div><div class="line"></div><div class="line"><span class="comment">// 可以手动订阅更新，也可以事件绑定到视图层。</span></div><div class="line">store.subscribe(<span class="function"><span class="params">()</span> =&gt;</span></div><div class="line">  <span class="built_in">console</span>.log(store.getState())</div><div class="line">);</div><div class="line"></div><div class="line"><span class="comment">// 改变内部 state 惟一方法是 dispatch 一个 action。</span></div><div class="line"><span class="comment">// action 可以被序列化，用日记记录和储存下来，后期还可以以回放的方式执行</span></div><div class="line">store.dispatch(&#123; <span class="attr">type</span>: <span class="string">'INCREMENT'</span> &#125;);</div><div class="line"><span class="comment">// 1</span></div><div class="line">store.dispatch(&#123; <span class="attr">type</span>: <span class="string">'INCREMENT'</span> &#125;);</div><div class="line"><span class="comment">// 2</span></div><div class="line">store.dispatch(&#123; <span class="attr">type</span>: <span class="string">'DECREMENT'</span> &#125;);</div><div class="line"><span class="comment">// 1</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createStore &#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 这是一个 reducer，形式为 (state, action) =&gt; state 的纯函数。</span></span><br><span class="line"><span class="comment"> * 描述了 action 如何把 state 转变成下一个 state。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * state 的形式取决于你，可以是基本类型、数组、对象、</span></span><br><span class="line"><span class="comment"> * 甚至是 Immutable.js 生成的数据结构。惟一的要点是</span></span><br><span class="line"><span class="comment"> * 当 state 变化时需要返回全新的对象，而不是修改传入的参数。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 下面例子使用 `switch` 语句和字符串来做判断，但你可以写帮助类(helper)</span></span><br><span class="line"><span class="comment"> * 根据不同的约定（如方法映射）来判断，只要适用你的项目即可。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">counter</span>(<span class="params">state = <span class="number">0</span>, action</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">switch</span> (action.type) &#123;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">'INCREMENT'</span>:</span><br><span class="line">    <span class="keyword">return</span> state + <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">'DECREMENT'</span>:</span><br><span class="line">    <span class="keyword">return</span> state - <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">default</span>:</span><br><span class="line">    <span class="keyword">return</span> state;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建 Redux store 来存放应用的状态。</span></span><br><span class="line"><span class="comment">// API 是 &#123; subscribe, dispatch, getState &#125;。</span></span><br><span class="line"><span class="keyword">let</span> store = createStore(counter);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 可以手动订阅更新，也可以事件绑定到视图层。</span></span><br><span class="line">store.subscribe(<span class="function"><span class="params">()</span> =&gt;</span></span><br><span class="line">  <span class="built_in">console</span>.log(store.getState())</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 改变内部 state 惟一方法是 dispatch 一个 action。</span></span><br><span class="line"><span class="comment">// action 可以被序列化，用日记记录和储存下来，后期还可以以回放的方式执行</span></span><br><span class="line">store.dispatch(&#123; <span class="attr">type</span>: <span class="string">'INCREMENT'</span> &#125;);</span><br><span class="line"><span class="comment">// 1</span></span><br><span class="line">store.dispatch(&#123; <span class="attr">type</span>: <span class="string">'INCREMENT'</span> &#125;);</span><br><span class="line"><span class="comment">// 2</span></span><br><span class="line">store.dispatch(&#123; <span class="attr">type</span>: <span class="string">'DECREMENT'</span> &#125;);</span><br><span class="line"><span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
 <p>在上面的三原则中，我们看到了store, action, reducer这些词，那就先说说redux是怎么进行应用状态(state)维护管理的呢。</p>
 <h2 id="redux-状态管理的流程"><a href="#redux-状态管理的流程" class="headerlink" title="redux 状态管理的流程"></a>redux 状态管理的流程</h2><ul>
 <li><p>action是用户触发或程序触发的一个普通对象</p>
@@ -278,13 +279,13 @@ ga('send', 'pageview');
 <li><p>store 最终的值就是有reducers来确定的 . (一个store是一个对象, reducer会改变tore中的某些值)</p>
 </li>
 </ul>
-<img src="/2017/06/14/react系列使用redux/redux-thing-image1.png" alt="redux流程" title="redux流程">
+<img src="/2017/06/14/react系列使用redux/redux-thing-image1.png" title="redux流程">
 <p>上图可以简单的看出redux的改变 状态 . action -&gt; reducer -&gt; 新store -&gt; ui更新</p>
 <p>下面是具体的实例:</p>
-<img src="/2017/06/14/react系列使用redux/redux-thing-image2.png" alt="redux登录具体流程" title="redux登录具体流程">
+<img src="/2017/06/14/react系列使用redux/redux-thing-image2.png" title="redux登录具体流程">
 <p>store用于维护状态的容器，包括了应用的多个状态，比如说用户是否登录、用户信息、用户任务等等。action是一个普通对象，用于指明是哪种操作，这样才能在reducers中进行识别。而众多reducer是负责返回新的state的函数。在实际应用中，你需要将store或store的某个值绑定到界面，这样更新store的时候，该页面可以监听到值的更新，然后进行一些页面更新操作/跳转操作等。</p>
 <blockquote>
-<p><a href="http://www.jianshu.com/p/2c43860b0532" target="_blank" rel="external">原文地址</a></p>
+<p><a href="http://www.jianshu.com/p/2c43860b0532" target="_blank" rel="noopener">原文地址</a></p>
 </blockquote>
 <h3 id="推荐两个react和redux的调试小工具"><a href="#推荐两个react和redux的调试小工具" class="headerlink" title="推荐两个react和redux的调试小工具"></a>推荐两个react和redux的调试小工具</h3><pre><code>[React Developer Tools Chrome](http://www.cnplugins.com/devtool/react-developer-tools/)
 [Redux Dev Tools Chrome](http://www.cnplugins.com/devtool/redux-devtools/)

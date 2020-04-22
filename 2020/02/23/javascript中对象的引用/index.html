@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>javascript中对象的引用 | 会上树的猪</title>
@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="javascript," />
+    <meta name="keywords" content="javascript,">
   
 
   <meta name="description" content="温习一下js中的对象引用与基本数据赋值的不同基本数据类型123456• 空值(null)• 未定义(undefined)• 布尔值( boolean)• 数字(number)• 字符串(string)• 符号(symbol，ES6 中新增) 对于基本类型，赋值（=）是值的拷贝，比较（===）的是实际的值，而对于引用类型（Array也是一种Object），赋值（=）是引用地址的拷贝，比较（===）的">
@@ -22,6 +22,7 @@
 <meta property="og:url" content="http://angely.me/2020/02/23/javascript中对象的引用/index.html">
 <meta property="og:site_name" content="会上树的猪">
 <meta property="og:description" content="温习一下js中的对象引用与基本数据赋值的不同基本数据类型123456• 空值(null)• 未定义(undefined)• 布尔值( boolean)• 数字(number)• 字符串(string)• 符号(symbol，ES6 中新增) 对于基本类型，赋值（=）是值的拷贝，比较（===）的是实际的值，而对于引用类型（Array也是一种Object），赋值（=）是引用地址的拷贝，比较（===）的">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2020-03-24T07:08:56.811Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="javascript中对象的引用">
@@ -91,7 +92,7 @@ ga('send', 'pageview');
   
 
 </head>
-
+</html>
 <body>
 
 
@@ -236,15 +237,15 @@ ga('send', 'pageview');
 
   <div class="article-content">
     
-      <h1 id="温习一下js中的对象引用与基本数据赋值的不同"><a href="#温习一下js中的对象引用与基本数据赋值的不同" class="headerlink" title="温习一下js中的对象引用与基本数据赋值的不同"></a>温习一下js中的对象引用与基本数据赋值的不同</h1><h2 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">• 空值(null)</div><div class="line">• 未定义(undefined)</div><div class="line">• 布尔值( boolean)</div><div class="line">• 数字(number)</div><div class="line">• 字符串(string)</div><div class="line">• 符号(symbol，ES6 中新增)</div></pre></td></tr></table></figure>
+      <h1 id="温习一下js中的对象引用与基本数据赋值的不同"><a href="#温习一下js中的对象引用与基本数据赋值的不同" class="headerlink" title="温习一下js中的对象引用与基本数据赋值的不同"></a>温习一下js中的对象引用与基本数据赋值的不同</h1><h2 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">• 空值(null)</span><br><span class="line">• 未定义(undefined)</span><br><span class="line">• 布尔值( boolean)</span><br><span class="line">• 数字(number)</span><br><span class="line">• 字符串(string)</span><br><span class="line">• 符号(symbol，ES6 中新增)</span><br></pre></td></tr></table></figure>
 <p>对于基本类型，赋值（=）是值的拷贝，比较（===）的是实际的值，而对于引用类型（Array也是一种Object），赋值（=）是引用地址的拷贝，比较（===）的是引用地址：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">const</span> a = <span class="string">'哈哈'</span></div><div class="line"><span class="keyword">const</span> b = <span class="string">'哈哈'</span></div><div class="line"><span class="built_in">console</span>.log(a === b) <span class="comment">// true 基本数据类型 栈中存放的就是这个变量本身</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> c = &#123;&#125;  <span class="comment">// 对象</span></div><div class="line"><span class="keyword">const</span> d = &#123;&#125;  <span class="comment">// 对象</span></div><div class="line"><span class="built_in">console</span>.log(c === d) <span class="comment">// false 由于栈中使对象的引用, 其实就是一个 二进制 转 十六进制 的堆内存地址 , c和d分别指向不同的堆地址所以不同(就是一个不同的指针) 其中在 golang 中又指针的概念理解这个还是很容易的 .</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> a = <span class="string">'哈哈'</span></span><br><span class="line"><span class="keyword">const</span> b = <span class="string">'哈哈'</span></span><br><span class="line"><span class="built_in">console</span>.log(a === b) <span class="comment">// true 基本数据类型 栈中存放的就是这个变量本身</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> c = &#123;&#125;  <span class="comment">// 对象</span></span><br><span class="line"><span class="keyword">const</span> d = &#123;&#125;  <span class="comment">// 对象</span></span><br><span class="line"><span class="built_in">console</span>.log(c === d) <span class="comment">// false 由于栈中使对象的引用, 其实就是一个 二进制 转 十六进制 的堆内存地址 , c和d分别指向不同的堆地址所以不同(就是一个不同的指针) 其中在 golang 中又指针的概念理解这个还是很容易的 .</span></span><br></pre></td></tr></table></figure>
 <p>备注:<br>js 中引用对象分别有:<code>object、Array、RegExp、Date、Function</code></p>
 <ul>
 <li>上面所有对象 内存分配都是在堆中, 栈中只是存放了指向堆的指针</li>
-<li>因为内存分配有 指针 和 直接存放 区别所有 对象拷贝的时候会有<code>深拷贝</code>和<code>浅拷贝</code>之分 ,  想要了解<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/assign" target="_blank" rel="external">javascript mdn 深浅拷贝之分</a></li>
+<li>因为内存分配有 指针 和 直接存放 区别所有 对象拷贝的时候会有<code>深拷贝</code>和<code>浅拷贝</code>之分 ,  想要了解<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/assign" target="_blank" rel="noopener">javascript mdn 深浅拷贝之分</a></li>
 </ul>
-<p><a href="https://segmentfault.com/a/1190000014724227" target="_blank" rel="external">更多案例</a></p>
+<p><a href="https://segmentfault.com/a/1190000014724227" target="_blank" rel="noopener">更多案例</a></p>
 
     
   </div>
@@ -259,7 +260,7 @@ ga('send', 'pageview');
     <a class="show pull-left" href="/2019/09/24/javascript中的new操作符/">
         <i class="icon icon-angle-left"></i>
     </a>
-    <a class="hide pull-right" href="/">
+    <a class="show pull-right" href="/2020/03/26/二叉搜索树/">
         <i class="icon icon-angle-right"></i>
     </a>
   </div>

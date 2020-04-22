@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>深入理解es7中的decorators | 会上树的猪</title>
@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="es7,装饰者," />
+    <meta name="keywords" content="es7,装饰者,">
   
 
   <meta name="description" content="背后原理ES7中的Decorators让我们能够在设计是对类, 属性等进行标注和修改成为了可能, Decorators是利用了es5中的1Object.defineProperty(target, name, descriptor); 如果对Object.defineProperty不够了解, 请查阅Mdn文档首先我们来考虑一个es6中的类:12345class Person &amp;#123;">
@@ -22,6 +22,7 @@
 <meta property="og:url" content="http://angely.me/2017/08/11/深入理解es7中的decorators/index.html">
 <meta property="og:site_name" content="会上树的猪">
 <meta property="og:description" content="背后原理ES7中的Decorators让我们能够在设计是对类, 属性等进行标注和修改成为了可能, Decorators是利用了es5中的1Object.defineProperty(target, name, descriptor); 如果对Object.defineProperty不够了解, 请查阅Mdn文档首先我们来考虑一个es6中的类:12345class Person &amp;#123;">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2020-03-23T02:21:44.153Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入理解es7中的decorators">
@@ -91,7 +92,7 @@ ga('send', 'pageview');
   
 
 </head>
-
+</html>
 <body>
 
 
@@ -241,11 +242,11 @@ ga('send', 'pageview');
 
   <div class="article-content">
     
-      <h2 id="背后原理"><a href="#背后原理" class="headerlink" title="背后原理"></a>背后原理</h2><p>ES7中的<code>Decorators</code>让我们能够在设计是对类, 属性等进行标注和修改成为了可能, <code>Decorators</code>是利用了es5中的<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Object</span>.defineProperty(target, name, descriptor);</div></pre></td></tr></table></figure></p>
-<p>如果对<code>Object.defineProperty</code>不够了解, 请查阅<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty" target="_blank" rel="external">Mdn文档</a>首先我们来考虑一个es6中的类:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</div><div class="line">    name() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123; <span class="keyword">this</span>.first &#125;</span> <span class="subst">$&#123; <span class="keyword">this</span>.last &#125;</span>`</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>运行上面class, 给<code>Person.prototype</code>注册一个name属性, 粗略的和下面代码相似:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Object.defineProperty(Person.prototype, &apos;name&apos;, &#123;</div><div class="line">  value: specifiedFunction,</div><div class="line">  enumerable: false,</div><div class="line">  configurable: true,</div><div class="line">  writable: true</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>如果利用装饰器来标注一个属性呢?<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</div><div class="line">  $readonly</div><div class="line">  name() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="keyword">this</span>.first&#125;</span> <span class="subst">$&#123;<span class="keyword">this</span>.last&#125;</span>`</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// 其实就是一种语法糖</span></div></pre></td></tr></table></figure></p>
-<p>上面代码展开类似下面代码<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> descriptor = &#123;</div><div class="line">  <span class="attr">value</span>: specifiedFunction,</div><div class="line">  <span class="attr">enumerable</span>: <span class="literal">false</span>,</div><div class="line">  <span class="attr">configurable</span>: <span class="literal">true</span>,</div><div class="line">  <span class="attr">writable</span>: <span class="literal">true</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line">descriptor = readonly( Person.prototype, <span class="string">'name'</span>, descriptor ) || descriptor;</div><div class="line"><span class="built_in">Object</span>.defineProperty(Person.prototype, <span class="string">'name'</span>, descriptor);</div></pre></td></tr></table></figure></p>
+      <h2 id="背后原理"><a href="#背后原理" class="headerlink" title="背后原理"></a>背后原理</h2><p>ES7中的<code>Decorators</code>让我们能够在设计是对类, 属性等进行标注和修改成为了可能, <code>Decorators</code>是利用了es5中的<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.defineProperty(target, name, descriptor);</span><br></pre></td></tr></table></figure></p>
+<p>如果对<code>Object.defineProperty</code>不够了解, 请查阅<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty" target="_blank" rel="noopener">Mdn文档</a>首先我们来考虑一个es6中的类:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    name() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123; <span class="keyword">this</span>.first &#125;</span> <span class="subst">$&#123; <span class="keyword">this</span>.last &#125;</span>`</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行上面class, 给<code>Person.prototype</code>注册一个name属性, 粗略的和下面代码相似:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Object.defineProperty(Person.prototype, &apos;name&apos;, &#123;</span><br><span class="line">  value: specifiedFunction,</span><br><span class="line">  enumerable: false,</span><br><span class="line">  configurable: true,</span><br><span class="line">  writable: true</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>如果利用装饰器来标注一个属性呢?<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">  $readonly</span><br><span class="line">  name() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="keyword">this</span>.first&#125;</span> <span class="subst">$&#123;<span class="keyword">this</span>.last&#125;</span>`</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 其实就是一种语法糖</span></span><br></pre></td></tr></table></figure></p>
+<p>上面代码展开类似下面代码<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> descriptor = &#123;</span><br><span class="line">  value: specifiedFunction,</span><br><span class="line">  enumerable: <span class="literal">false</span>,</span><br><span class="line">  configurable: <span class="literal">true</span>,</span><br><span class="line">  writable: <span class="literal">true</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">descriptor = readonly( Person.prototype, <span class="string">'name'</span>, descriptor ) || descriptor;</span><br><span class="line"><span class="built_in">Object</span>.defineProperty(Person.prototype, <span class="string">'name'</span>, descriptor);</span><br></pre></td></tr></table></figure></p>
 <p>上面的代码中, 我们能看出, 装饰器只是在Object.defineProperty为Person.prototype注册属性之前, 执行一个装饰函数, 其属于一类对Object.defineProperty的拦截.所以它和Object.defineProperty具有一致的方法签名, 他们的三个参数分别为:</p>
 <pre><code>- obj: 需要被操作的对象
 - prop: 被操作对象定义或修改的属性的名称

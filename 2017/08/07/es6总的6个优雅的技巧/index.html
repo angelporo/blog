@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>es6总的6个优雅的技巧 | 会上树的猪</title>
@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="es6," />
+    <meta name="keywords" content="es6,">
   
 
   <meta name="description" content="12345678910/*** Called if a parameter is missing and* the default value is evaluated.*/function mandatory() &amp;#123;    throw new Error(&apos;Missing parameter&apos;);&amp;#125;function foo(mustBeProvided = mandatory">
@@ -22,6 +22,7 @@
 <meta property="og:url" content="http://angely.me/2017/08/07/es6总的6个优雅的技巧/index.html">
 <meta property="og:site_name" content="会上树的猪">
 <meta property="og:description" content="12345678910/*** Called if a parameter is missing and* the default value is evaluated.*/function mandatory() &amp;#123;    throw new Error(&apos;Missing parameter&apos;);&amp;#125;function foo(mustBeProvided = mandatory">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2020-03-23T02:21:44.087Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="es6总的6个优雅的技巧">
@@ -91,7 +92,7 @@ ga('send', 'pageview');
   
 
 </head>
-
+</html>
 <body>
 
 
@@ -236,15 +237,15 @@ ga('send', 'pageview');
 
   <div class="article-content">
     
-      <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">* Called if a parameter is missing and</div><div class="line">* the default value is evaluated.</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">mandatory</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Missing parameter'</span>);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">mustBeProvided = mandatory(</span>)) </span>&#123;</div><div class="line">    <span class="keyword">return</span> mustBeProvided;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Called if a parameter is missing and</span></span><br><span class="line"><span class="comment">* the default value is evaluated.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mandatory</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Missing parameter'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">mustBeProvided = mandatory(</span>)) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> mustBeProvided;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>使用默认参数来检测函数中的错误!</p>
 <p>函数调用 <code>mandatory()</code> 只有在参数 <code>mustBeProvided</code> 缺失的时候才会被执行。</p>
 <p>通过 <code>for-of</code> 循环来遍历数组元素和索引<br>方法 <code>forEach()</code> 允许你遍历一个数组的元素和索引：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>];</div><div class="line">arr.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">elem, index</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'index = '</span>+index+<span class="string">', elem = '</span>+elem);</div><div class="line">&#125;);</div><div class="line"><span class="comment">// Output:</span></div><div class="line"><span class="comment">// index = 0, elem = a</span></div><div class="line"><span class="comment">// index = 1, elem = b</span></div><div class="line"><span class="comment">// index = 2, elem = c</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>];</span><br><span class="line">arr.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">elem, index</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'index = '</span>+index+<span class="string">', elem = '</span>+elem);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// Output:</span></span><br><span class="line"><span class="comment">// index = 0, elem = a</span></span><br><span class="line"><span class="comment">// index = 1, elem = b</span></span><br><span class="line"><span class="comment">// index = 2, elem = c</span></span><br></pre></td></tr></table></figure>
 <h3 id="通过子类工厂实现简单的合成器"><a href="#通过子类工厂实现简单的合成器" class="headerlink" title="通过子类工厂实现简单的合成器"></a>通过子类工厂实现简单的合成器</h3><p>当 ES6 类继承另一个类，被继承的类可以是通过任意表达式创建的动态类：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Function id() simply returns its parameter</span></div><div class="line"><span class="keyword">const</span> id = <span class="function"><span class="params">x</span> =&gt;</span> x;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> <span class="keyword">extends</span> <span class="title">id</span>(<span class="title">Object</span>) </span>&#123;&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Function id() simply returns its parameter</span></span><br><span class="line"><span class="keyword">const</span> id = <span class="function"><span class="params">x</span> =&gt;</span> x;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> <span class="keyword">extends</span> <span class="title">id</span>(<span class="title">Object</span>) </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p><a href="http://www.zcfy.cc/article/346" target="_blank" rel="external">转载原文</a></p>
+<p><a href="http://www.zcfy.cc/article/346" target="_blank" rel="noopener">转载原文</a></p>
 </blockquote>
 
     

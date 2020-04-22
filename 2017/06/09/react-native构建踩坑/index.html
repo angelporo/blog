@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>react-native构建踩坑 | 会上树的猪</title>
@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="react-native," />
+    <meta name="keywords" content="react-native,">
   
 
   <meta name="description" content="react-native run-ios 构建失败 记得昨天项目好好的,  今天run-ios的时候就不行了,  然后重新init之后还是不行.在网上各种查找相似的问题,  最终无果, 自己猜想估计是版本问题">
@@ -22,6 +22,7 @@
 <meta property="og:url" content="http://angely.me/2017/06/09/react-native构建踩坑/index.html">
 <meta property="og:site_name" content="会上树的猪">
 <meta property="og:description" content="react-native run-ios 构建失败 记得昨天项目好好的,  今天run-ios的时候就不行了,  然后重新init之后还是不行.在网上各种查找相似的问题,  最终无果, 自己猜想估计是版本问题">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2018-11-20T09:22:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="react-native构建踩坑">
@@ -91,7 +92,7 @@ ga('send', 'pageview');
   
 
 </head>
-
+</html>
 <body>
 
 
@@ -246,16 +247,16 @@ ga('send', 'pageview');
 </blockquote>
 <a id="more"></a>
 <p>构建错误信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">** BUILD FAILED **</div><div class="line"></div><div class="line"></div><div class="line">The following commands produced analyzer issues:</div><div class="line"></div><div class="line">    Analyze /Users/lcz/workspace/APP/temp/node_modules/react-native/ReactCommon/yoga/yoga/YGNodeList.c</div><div class="line">    Analyze /Users/lcz/workspace/APP/temp/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.c</div><div class="line">(2 commands with analyzer issues)</div><div class="line"></div><div class="line">The following build commands failed:</div><div class="line">    PhaseScriptExecution Install\ Third\ Party /Users/lcz/workspace/APP/temp/ios/build/Build/Intermediates/React.build/Debug-iphonesimulator/double-conversion.build/Script-190EE32F1E6A43DE00A8543A.sh</div><div class="line">(1 failure)</div><div class="line"></div><div class="line">Installing build/Build/Products/Debug-iphonesimulator/temp.app</div><div class="line">An error was encountered processing the command (domain=NSPOSIXErrorDomain, code=2):</div><div class="line">Failed to install the requested application</div><div class="line">An application bundle was not found at the provided path.</div><div class="line">Provide a valid path to the desired application bundle.</div><div class="line">Print: Entry, &quot;:CFBundleIdentifier&quot;, Does Not Exist</div><div class="line"></div><div class="line">Command failed: /usr/libexec/PlistBuddy -c Print:CFBundleIdentifier build/Build/Products/Debug-iphonesimulator/temp.app/Info.plist</div><div class="line">Print: Entry, &quot;:CFBundleIdentifier&quot;, Does Not Exist</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">** BUILD FAILED **</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">The following commands produced analyzer issues:</span><br><span class="line"></span><br><span class="line">    Analyze /Users/lcz/workspace/APP/temp/node_modules/react-native/ReactCommon/yoga/yoga/YGNodeList.c</span><br><span class="line">    Analyze /Users/lcz/workspace/APP/temp/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.c</span><br><span class="line">(2 commands with analyzer issues)</span><br><span class="line"></span><br><span class="line">The following build commands failed:</span><br><span class="line">    PhaseScriptExecution Install\ Third\ Party /Users/lcz/workspace/APP/temp/ios/build/Build/Intermediates/React.build/Debug-iphonesimulator/double-conversion.build/Script-190EE32F1E6A43DE00A8543A.sh</span><br><span class="line">(1 failure)</span><br><span class="line"></span><br><span class="line">Installing build/Build/Products/Debug-iphonesimulator/temp.app</span><br><span class="line">An error was encountered processing the command (domain=NSPOSIXErrorDomain, code=2):</span><br><span class="line">Failed to install the requested application</span><br><span class="line">An application bundle was not found at the provided path.</span><br><span class="line">Provide a valid path to the desired application bundle.</span><br><span class="line">Print: Entry, &quot;:CFBundleIdentifier&quot;, Does Not Exist</span><br><span class="line"></span><br><span class="line">Command failed: /usr/libexec/PlistBuddy -c Print:CFBundleIdentifier build/Build/Products/Debug-iphonesimulator/temp.app/Info.plist</span><br><span class="line">Print: Entry, &quot;:CFBundleIdentifier&quot;, Does Not Exist</span><br></pre></td></tr></table></figure>
 <p>当前版本</p>
 <blockquote>
 <p>查看package.jsonn</p>
 </blockquote>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">"react": "16.0.0-alpha.12",</div><div class="line">"react-native": "0.45.0"</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">"react": "16.0.0-alpha.12",</span><br><span class="line">"react-native": "0.45.0"</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>把node-modules rm之后 把package.json改成下面版本就可以了</p>
 </blockquote>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">"dependencies": &#123;</div><div class="line">    "react": "16.0.0-alpha.6",</div><div class="line">    "react-native": "0.44.3"</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">"dependencies": &#123;</span><br><span class="line">    "react": "16.0.0-alpha.6",</span><br><span class="line">    "react-native": "0.44.3"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>之后再<code>yarn install</code></p>
 
     

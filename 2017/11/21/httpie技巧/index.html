@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>httpie嵌套json和发送数组 | 会上树的猪</title>
@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="httpie,接口测试json," />
+    <meta name="keywords" content="httpie,接口测试json,">
   
 
   <meta name="description" content="今天遇到一个需求是这样子的,  由于不好查,  所以这里贴出来.官网结果: 1➜ imClientServer git:(login) http POST http://localhost:8080/sendmsg target_type=users target:=&amp;apos;[&amp;quot;u1&amp;quot;, &amp;quot;u2&amp;quot;, &amp;quot;u3&amp;quot;]&amp;apos; from=">
@@ -22,6 +22,7 @@
 <meta property="og:url" content="http://angely.me/2017/11/21/httpie技巧/index.html">
 <meta property="og:site_name" content="会上树的猪">
 <meta property="og:description" content="今天遇到一个需求是这样子的,  由于不好查,  所以这里贴出来.官网结果: 1➜ imClientServer git:(login) http POST http://localhost:8080/sendmsg target_type=users target:=&amp;apos;[&amp;quot;u1&amp;quot;, &amp;quot;u2&amp;quot;, &amp;quot;u3&amp;quot;]&amp;apos; from=">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://angely.me/2017/11/21/httpie技巧/httpie.png">
 <meta property="og:updated_time" content="2020-03-23T02:21:44.091Z">
 <meta name="twitter:card" content="summary">
@@ -93,7 +94,7 @@ ga('send', 'pageview');
   
 
 </head>
-
+</html>
 <body>
 
 
@@ -239,10 +240,10 @@ ga('send', 'pageview');
   <div class="article-content">
     
       <p>今天遇到一个需求是这样子的,</p>
-<img src="/2017/11/21/httpie技巧/httpie.png" alt="httpie结构需求" title="httpie结构需求">
+<img src="/2017/11/21/httpie技巧/httpie.png" title="httpie结构需求">
 <p>由于不好查,  所以这里贴出来.<br>官网结果:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">➜ imClientServer git:(login) http POST http://localhost:8080/sendmsg target_type=users target:=&apos;[&quot;u1&quot;, &quot;u2&quot;, &quot;u3&quot;]&apos; from=admin msg:=&apos;&#123;&quot;type&quot;:&quot;txt&quot;,&quot;msg&quot;:&quot;这才是消息内容&quot;&#125;&apos;</div></pre></td></tr></table></figure>
-<p>后台接受到的结果映射json<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&quot;content&quot;: &#123;</div><div class="line">    &quot;from&quot;: &quot;admin&quot;,</div><div class="line">    &quot;msg&quot;: &#123;</div><div class="line">        &quot;msg&quot;: &quot;这才是消息内容&quot;,</div><div class="line">        &quot;type&quot;: &quot;txt&quot;</div><div class="line">    &#125;,</div><div class="line">    &quot;target&quot;: [</div><div class="line">        &quot;u1&quot;,</div><div class="line">        &quot;u2&quot;,</div><div class="line">        &quot;u3&quot;</div><div class="line">    ],</div><div class="line">    &quot;target_type&quot;: &quot;users&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜ imClientServer git:(login) http POST http://localhost:8080/sendmsg target_type=users target:=&apos;[&quot;u1&quot;, &quot;u2&quot;, &quot;u3&quot;]&apos; from=admin msg:=&apos;&#123;&quot;type&quot;:&quot;txt&quot;,&quot;msg&quot;:&quot;这才是消息内容&quot;&#125;&apos;</span><br></pre></td></tr></table></figure>
+<p>后台接受到的结果映射json<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&quot;content&quot;: &#123;</span><br><span class="line">    &quot;from&quot;: &quot;admin&quot;,</span><br><span class="line">    &quot;msg&quot;: &#123;</span><br><span class="line">        &quot;msg&quot;: &quot;这才是消息内容&quot;,</span><br><span class="line">        &quot;type&quot;: &quot;txt&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;target&quot;: [</span><br><span class="line">        &quot;u1&quot;,</span><br><span class="line">        &quot;u2&quot;,</span><br><span class="line">        &quot;u3&quot;</span><br><span class="line">    ],</span><br><span class="line">    &quot;target_type&quot;: &quot;users&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
     
   </div>

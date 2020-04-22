@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>react-native中android环境问题 | 会上树的猪</title>
@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="react-native,RN-android," />
+    <meta name="keywords" content="react-native,RN-android,">
   
 
   <meta name="description" content="react-native 中android环境总是报错记得之前使用linux的时候搭建android环境就不太好弄, PATH里面总是会有版本差别问题, 这次使用mac也没有避免, 只是这次问题貌似比上次复制">
@@ -22,6 +22,7 @@
 <meta property="og:url" content="http://angely.me/2017/06/13/react-native中android环境问题/index.html">
 <meta property="og:site_name" content="会上树的猪">
 <meta property="og:description" content="react-native 中android环境总是报错记得之前使用linux的时候搭建android环境就不太好弄, PATH里面总是会有版本差别问题, 这次使用mac也没有避免, 只是这次问题貌似比上次复制">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2018-11-20T09:22:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="react-native中android环境问题">
@@ -91,7 +92,7 @@ ga('send', 'pageview');
   
 
 </head>
-
+</html>
 <body>
 
 
@@ -244,11 +245,11 @@ ga('send', 'pageview');
       <h3 id="react-native-中android环境总是报错"><a href="#react-native-中android环境总是报错" class="headerlink" title="react-native 中android环境总是报错"></a>react-native 中android环境总是报错</h3><p>记得之前使用linux的时候搭建android环境就不太好弄, PATH里面总是会有版本差别问题, 这次使用mac也没有避免, 只是这次问题貌似比上次复制</p>
 <a id="more"></a>
 <p>具体问题之后解释</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">* What went wrong:</div><div class="line">A problem occurred evaluating project &apos;:app&apos;.</div><div class="line">&gt; java.lang.UnsupportedClassVersionError: com/android/build/gradle/AppPlugin : Unsupported major.minor version 52.0</div><div class="line"></div><div class="line">* Try:</div><div class="line">Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output.</div><div class="line"></div><div class="line">BUILD FAILED</div><div class="line"></div><div class="line">Total time: 11.564 secs</div><div class="line">Could not install the app on the device, read the error above for details.</div><div class="line">Make sure you have an Android emulator running or a device connected and have</div><div class="line">set up your Android development environment:</div><div class="line">https://facebook.github.io/react-native/docs/android-setup.html</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">* What went wrong:</span><br><span class="line">A problem occurred evaluating project &apos;:app&apos;.</span><br><span class="line">&gt; java.lang.UnsupportedClassVersionError: com/android/build/gradle/AppPlugin : Unsupported major.minor version 52.0</span><br><span class="line"></span><br><span class="line">* Try:</span><br><span class="line">Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output.</span><br><span class="line"></span><br><span class="line">BUILD FAILED</span><br><span class="line"></span><br><span class="line">Total time: 11.564 secs</span><br><span class="line">Could not install the app on the device, read the error above for details.</span><br><span class="line">Make sure you have an Android emulator running or a device connected and have</span><br><span class="line">set up your Android development environment:</span><br><span class="line">https://facebook.github.io/react-native/docs/android-setup.html</span><br></pre></td></tr></table></figure>
 <h3 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h3><blockquote>
 <p>项目主要针对自己环境解决对应bug, 如果不知道, 请run <code>react-native run-android debug</code>来查看具体出错原因<br>由于环境中使用的java8 , 可能在build的时候buildToolsVersion版本使用之前的23不行, 所以修改成下面的样子就可以运行了</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">android: &#123;</div><div class="line">    compileSdkVersion 23</div><div class="line">    buildToolsVersion &quot;25.0.0&quot;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">android: &#123;</span><br><span class="line">    compileSdkVersion 23</span><br><span class="line">    buildToolsVersion &quot;25.0.0&quot;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     
   </div>
