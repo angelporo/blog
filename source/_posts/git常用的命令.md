@@ -8,6 +8,10 @@ tags:
 
 好记性不如一个烂笔头
 
+## 先看看`git` 提交的本质
+
+[写的很不错,容易理解](https://segmentfault.com/a/1190000013747500)
+
 使用`git`快两年了, 一些命令依然是记不住!!!这就尴尬了
 
 想这些个来来回回使用,  但是还都的不好记的,  还是写下来比较好.
@@ -22,7 +26,7 @@ tags:
 拉取远程仓库：$ git pull [remoteName] [localBranchName]
 推送远程仓库：$ git push [remoteName] [localBranchName]
 
-如果想把本地的某个分支test提交到远程仓库，并作为远程仓库的master分支，或者作为另外一个名叫test的分支，如下：
+如果想把本地的某个分支 `test` 提交到远程仓库，并作为远程仓库的master分支，或者作为另外一个名叫test的分支，如下：
 
 ```base
 $git push origin test:master         // 提交本地test分支作为远程的master分支
@@ -38,14 +42,14 @@ $git push origin test:test              // 提交本地test分支作为远程的
 删除分支：$ git branch -d [name] ---- -d选项只能删除已经参与了合并的分支，对于未有合并的分支是无法删除的。如果想强制删除一个分支，可以使用-D选项
 合并分支：$ git merge [name] ----将名称为[name]的分支与当前分支合并
 创建远程分支(本地分支push到远程)：$ git push origin [name]
-删除远程分支：$ git push origin :heads/[name] 或 $ gitpush origin :[name] 
+删除远程分支：$ git push origin :heads/[name] 或 $ gitpush origin :[name]
 
 ### 创建空的分支：(执行命令之前记得先提交你当前分支的修改，否则会被强制删干净没得后悔)
 $git symbolic-ref HEAD refs/heads/[name]
 $rm .git/index
 $git clean -fdx
 
-### 版本`tag`相关操作
+### 版本 `tag` 相关操作
 查看版本：$ git tag
 创建版本：$ git tag [name]
 删除版本：$ git tag -d [name]
@@ -58,16 +62,16 @@ $git clean -fdx
 
 ### Git 常用命令
 git branch 查看本地所有分支
-git status 查看当前状态 
-git commit 提交 
+git status 查看当前状态
+git commit 提交
 git branch -a 查看所有的分支
 git branch -r 查看本地所有分支
-git commit -am "init" 提交并且加注释 
+git commit -am "init" 提交并且加注释
 git remote add origin git@192.168.1.119:ndshow
-git push origin master 将文件给推到服务器上 
-git remote show origin 显示远程库origin里的资源 
+git push origin master 将文件给推到服务器上
+git remote show origin 显示远程库origin里的资源
 git push origin master:develop
-git push origin master:hb-dev 将本地库与服务器上的库进行关联 
+git push origin master:hb-dev 将本地库与服务器上的库进行关联
 git checkout --track origin/dev 切换到远程dev分支
 git branch -D master develop 删除本地库develop
 git checkout -b dev 建立一个新的本地分支dev
@@ -109,3 +113,4 @@ git commit -a -m "log_message" (-a是提交所有改动，-m是加入log信息) 
 git branch branch_0.1 master 从主分支master创建branch_0.1分支
 git branch -m branch_0.1 branch_1.0 将branch_0.1重命名为branch_1.0
 git checkout branch_1.0/master 切换到branch_1.0/master分支
+git filter-branch --prune-empty --subdirectory-filter  master *有时，你可能需要将 Git 仓库中某个特定的目录转换为一个全新的仓库。这可以通过 git filter-branch 来实现*

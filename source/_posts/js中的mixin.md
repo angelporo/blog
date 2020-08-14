@@ -131,4 +131,4 @@ mixin(Employee.prototype, new Serializable(Employee, {
     })
 );
 ```
-> [好的文章是直的保留下来的](https://www.h5jun.com/post/mixin-in-es6.html)
+> [好的文章是值得保留下来的](https://www.h5jun.com/post/mixin-in-es6.html)
